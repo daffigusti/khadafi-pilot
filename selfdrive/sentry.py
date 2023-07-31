@@ -18,10 +18,9 @@ from datetime import datetime
 
 class SentryProject(Enum):
   # python project
-  SELFDRIVE = "https://7e3be9bfcfe04c9abe58bd25fe290d1a@o1138119.ingest.sentry.io/6191481"
+  SELFDRIVE = "https://6d7702eeff19493d84dd4204555bce96@o1183464.ingest.sentry.io/4505590718922752"
   # native project
-  SELFDRIVE_NATIVE = "https://7e3be9bfcfe04c9abe58bd25fe290d1a@o1138119.ingest.sentry.io/6191481"
-
+  SELFDRIVE_NATIVE = "https://6d7702eeff19493d84dd4204555bce96@o1183464.ingest.sentry.io/4505590718922752"
 
 CRASHES_DIR = '/data/community/crashes/'
 ret = car.CarParams.new_message()

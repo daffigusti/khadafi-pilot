@@ -200,6 +200,9 @@ class Controls:
     self.live_torque = self.params.get_bool("LiveTorque")
     self.custom_torque = self.params.get_bool("CustomTorqueLateral")
 
+    self.params_check_last_t = 0.0
+    self.params_check_freq = 0.3
+    self.op_params_override_lateral = True
     # TODO: no longer necessary, aside from process replay
     self.sm['liveParameters'].valid = True
     self.can_log_mono_time = 0
@@ -277,6 +280,12 @@ class Controls:
       self.events.add_from_msg(self.sm['driverMonitoringState'].events)
       self.events.add_from_msg(self.sm['longitudinalPlan'].eventsDEPRECATED)
 
+    if self.CP.lateralTuning.which() == 'pid':
+      t = sec_since_boot()
+      if t - self.params_check_last_t > self.params_check_freq:
+        if self.op_params_override_lateral:
+          self.LaC.update_op_params()
+        self.params_check_last_t = t
     # Add car events, ignore if CAN isn't valid
     if CS.canValid:
       self.events.add_from_msg(CS.events)

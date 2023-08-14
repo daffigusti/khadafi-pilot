@@ -136,7 +136,7 @@ class CarState(CarStateBase):
     ret.cruiseState.standstill = ret.cruiseState.enabled == 0 and ret.cruiseState.available != 0
     self.lkas_status = 0
     self.crz_btns_counter = pt_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
-    ret.brakeLightsDEPRECATED = bool(ret.brakePressed or ret.brakeHoldActive)
+    ret.brakeLights = bool(ret.brakePressed or ret.brakeHoldActive)
 
     # self.steeringTorqueSamples.append(ret.steeringTorque)
     # if ret.steeringPressed:

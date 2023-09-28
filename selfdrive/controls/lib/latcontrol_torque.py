@@ -5,6 +5,7 @@ from openpilot.common.numpy_fast import interp
 from openpilot.selfdrive.controls.lib.latcontrol import LatControl
 from openpilot.selfdrive.controls.lib.pid import PIDController
 from openpilot.selfdrive.controls.lib.vehicle_model import ACCELERATION_DUE_TO_GRAVITY
+from common.op_params import opParams
 
 # At higher speeds (25+mph) we can assume:
 # Lateral acceleration achieved by a specific car correlates to
@@ -30,13 +31,48 @@ class LatControlTorque(LatControl):
     self.torque_from_lateral_accel = CI.torque_from_lateral_accel()
     self.use_steering_angle = self.torque_params.useSteeringAngle
     self.steering_angle_deadzone_deg = self.torque_params.steeringAngleDeadzoneDeg
+    
+    # add params
+    self.friction = self.torque_params.friction
+    self._op_params = opParams(calling_function="latcontrol_torque.py")
+    self.live_tune_enabled = False
+    self.lt_timer = 0
+    self.mpc_frame = 0
+    self.tune_torque_param = self._op_params.get("TuneTorqueParam");
+    self.lat_accel = self._op_params.get("TORQUE_LAT_ACCEL");
 
+  def live_tune(self):
+    self.mpc_frame += 1
+    if self.mpc_frame % 300 == 0:
+      self.lat_accel = self._op_params.get('TORQUE_LAT_ACCEL', force_update=True)
+      self.friction = self._op_params.get('TORQUE_FRICTION', force_update=True)
+      self.mpc_frame = 0
+      print("torque_params.friction : %d", self.torque_params.friction)
+      print("torque_params.latAccelFactor : %d", self.torque_params.latAccelFactor)
+      
+  # def update_live_torque_params(self, latAccelFactor, latAccelOffset, friction):
+  #   self.torque_params.latAccelFactor = latAccelFactor
+  #   self.torque_params.latAccelOffset = latAccelOffset
+  #   self.torque_params.friction = friction
   def update_live_torque_params(self, latAccelFactor, latAccelOffset, friction):
-    self.torque_params.latAccelFactor = latAccelFactor
-    self.torque_params.latAccelOffset = latAccelOffset
-    self.torque_params.friction = friction
+    if not self.tune_torque_param:
+        self.torque_params.friction = friction
+        self.torque_params.latAccelFactor = latAccelFactor
+        self.torque_params.latAccelOffset = latAccelOffset
+    else:
+      self.torque_params.friction = self.friction
+      self.torque_params.latAccelFactor = self.lat_accel
+      self.torque_params.latAccelOffset = latAccelOffset
 
   def update(self, active, CS, VM, params, last_actuators, steer_limited, desired_curvature, desired_curvature_rate, llk):
+    # add params
+    self.lt_timer += 1
+    if self.lt_timer > 100:
+      self.lt_timer = 0
+      self.live_tune_enabled = self._op_params.get("LiveTuneTorque")
+    if self.live_tune_enabled:
+      self.live_tune()
+      
     pid_log = log.ControlsState.LateralTorqueState.new_message()
 
     if not active:

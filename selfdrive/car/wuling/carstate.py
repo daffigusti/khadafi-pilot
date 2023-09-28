@@ -135,7 +135,7 @@ class CarState(CarStateBase):
 
     ret.genericToggle = bool(pt_cp.vl["BCMTurnSignals"]["HighBeamsActive"])
 
-    ret.cruiseState.standstill = ret.cruiseState.enabled == 0 and ret.cruiseState.available != 0
+    # ret.cruiseState.standstill = ret.cruiseState.enabled == 0 and ret.cruiseState.available != 0
     self.lkas_status = 0
     self.crz_btns_counter = pt_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
     ret.brakeLightsDEPRECATED = bool(ret.brakePressed or ret.brakeHoldActive)

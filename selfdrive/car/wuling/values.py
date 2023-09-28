@@ -16,8 +16,8 @@ class CarControllerParams:
 
   STEER_MAX = 150  # Safety limit, not LKA max. Trucks use 600.
   STEER_STEP = 2  # control frames per command
-  STEER_DELTA_UP = 1      # 3 is stock. 100 is fine. 200 is too much it seems
-  STEER_DELTA_DOWN = 2    # no faults on the way down it seems
+  STEER_DELTA_UP = 3      # 3 is stock. 100 is fine. 200 is too much it seems
+  STEER_DELTA_DOWN = 4    # no faults on the way down it seems
   STEER_ERROR_MAX = 80
   MIN_STEER_SPEED = 3.  # m/s
 

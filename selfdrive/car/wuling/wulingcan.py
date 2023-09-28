@@ -2,6 +2,7 @@ import copy
 from cereal import car
 from common.numpy_fast import clip
 from selfdrive.car import make_can_msg
+from openpilot.selfdrive.car.wuling.values import CruiseButtons
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
@@ -14,7 +15,7 @@ def create_steering_control(packer, apply_steer, frame, steer_req):
   idx = (apply_steer) % 255
   # apply_steer  = clip(apply_steer,-100,100);
   values = {
-      "STEER_TORQUE_CMD": apply_steer,
+      "STEER_TORQUE_CMD": -apply_steer,
       "SET_ME_X0": 0x00,
       "COUNTER": (frame/2) % 4,
       "STEER_REQUEST": steer_req,
@@ -83,17 +84,53 @@ def create_acc_dashboard_command(packer, acc_engaged, idx, target_speed_kph, res
 
   return packer.make_can_msg("ASCMActiveCruiseControlStatus", 0, values)
 
-
-def create_resume_cmd(packer, idx, resume):
+def create_buttons(packer, idx, button):
+  resume = 0;
+  acc_btn_2 = button;
+  if (button == CruiseButtons.RES_ACCEL): 
+    resume = 1;
+    acc_btn_2 = CruiseButtons.MAIN
+  
   values = {
     "RESUME_BTN_2" : resume,
-    "ACC_BTN_1" : 2,
-    "ACC_BTN_2" : 4,
-    "COUNTER_1" : idx % 0x11,
-    "COUNTER_2" : idx % 0x11,
+    "ACC_BTN_1" : button,
+    "ACC_BTN_2" : acc_btn_2,
+    "COUNTER_1" : (idx+1) % 0x11,
+    "COUNTER_2" : (idx+1) % 0x11,
   }
 
   return packer.make_can_msg("STEER_BTN", 0, values)
+
+
+def create_lkas_hud(packer, bus, lkas_hud_stock_values, steer_warning=0):
+  values = {s: lkas_hud_stock_values[s] for s in [
+    "LKA_ACTIVE",
+    "LKAS_STATE",
+    "LKA_LINE",
+    "LKA_LINE_2",
+    "ALERT_DEPART1",
+    "STEER_WARNING",
+    "COUNTER_1",
+    "COUNTER_2",
+    "NEW_SIGNAL_1",
+    "NEW_SIGNAL_2",
+    "NEW_SIGNAL_3",
+    "NEW_SIGNAL_4",
+    "NEW_SIGNAL_6",
+    "NEW_SIGNAL_7",
+    "NEW_SIGNAL_8",
+    "NEW_SIGNAL_9",
+  ]}
+
+  # print('Send to Lkas');
+  # print(values)
+  values.update({
+    "COUNTER_1": (lkas_hud_stock_values["COUNTER_1"] + 1) % 0x11,
+    "COUNTER_2": (lkas_hud_stock_values["COUNTER_2"] + 1) % 0x11,
+    "STEER_WARNING": steer_warning,
+  })
+
+  return packer.make_can_msg("LkasHud", bus, values)
 
 def create_adas_time_status(bus, tt, idx):
   dat = [(tt >> 20) & 0xff, (tt >> 12) & 0xff, (tt >> 4) & 0xff,

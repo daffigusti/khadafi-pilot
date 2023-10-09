@@ -60,6 +60,7 @@ HYUNDAI AZERA 6TH GEN: [1.8, 1.8, 0.1]
 KIA K8 HYBRID 1ST GEN: [2.5, 2.5, 0.1]
 TOYOTA RAV4 2023: [2.5, 2.5, 0.1]
 TOYOTA RAV4 HYBRID 2023: [2.5, 2.5, 0.1]
+WULING ALMAZ RS PRO 2022: [2.7, 2.5, 0.1]
 
 # Dashcam or fallback configured as ideal car
 mock: [10.0, 10, 0.0]

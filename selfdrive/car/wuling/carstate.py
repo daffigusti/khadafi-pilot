@@ -25,7 +25,8 @@ class CarState(CarStateBase):
     self.is_cruise_latch = False
 
     self.lka_steering_cmd_counter = 0
-
+    self.lfa_enabled = False
+    self.prev_lfa_enabled = False
     self.loopback_lka_steering_cmd_updated = False
     self.loopback_lka_steering_cmd_ts_nanos = 0
     self.pt_lka_steering_cmd_counter = 0
@@ -34,6 +35,7 @@ class CarState(CarStateBase):
     self.engineRPM = 0
     self.cruise_speed = 30 * CV.KPH_TO_MS
     self.resume_alert = False
+    self.follow_distance = 0
 
     self.lkas_enabled = False
     self.prev_lkas_enabled = False
@@ -41,19 +43,22 @@ class CarState(CarStateBase):
     self.crz_btns_counter = 0
     self.is_cruise_latch = False
     self.params = CarControllerParams(CP)
+    self.is_metric = True
 
 
 
   def update(self, pt_cp, cam_cp, loopback_cp):
     ret = car.CarState.new_message()
-
+    self.prev_mads_enabled = self.mads_enabled
+    self.prev_lkas_enabled = self.lkas_enabled
+    self.prev_lta_status = self.lta_status
+    self.prev_gap_dist_button = self.gap_dist_button
+    
     self.prev_cruise_buttons = self.cruise_buttons
     self.cruise_buttons = pt_cp.vl["STEER_BTN"]["ACC_BTN_1"]
     self.buttons_counter = pt_cp.vl["STEER_BTN"]["COUNTER_1"]
 
     self.engineRPM = pt_cp.vl["ECMEngineStatus"]['EngineRPM']
-    # self.prev_mads_enabled = self.mads_enabled
-    # self.prev_lkas_enabled = self.lkas_enabled
 
    # Variables used for avoiding LKAS faults
     self.loopback_lka_steering_cmd_updated = len(loopback_cp.vl_all["STEERING_LKA"]["COUNTER"]) > 0
@@ -140,6 +145,8 @@ class CarState(CarStateBase):
     self.crz_btns_counter = pt_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
     ret.brakeLights = bool(ret.brakePressed or ret.brakeHoldActive)
     self.lkas_status = pt_cp.vl["STEER_STATUS"]["STEER_STATUS"]
+    self.cruise_gap = pt_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
+    self.gap_dist_button = self.cruise_gap
     # ret.steerFaultTemporary = self.lkas_status == 0
     # ret.steerFaultTemporary = pt_cp.vl["PSCMSteeringAngle"]["STEER_STATUS"] != 0
 
@@ -153,6 +160,10 @@ class CarState(CarStateBase):
     # print('Steering Torque EPS :  %d' %  ret.steeringTorqueEps)
     # print('Steering Statud EPS :  %d' %  self.lkas_status)
     #trans state 15 "PARKING" 1 "DRIVE" 14 "BACKWARD" 13 "NORMAL"
+    self.prev_mads_enabled = self.mads_enabled
+    self.prev_lfa_enabled = self.lfa_enabled
+    self.mads_enabled = False if not self.control_initialized else ret.cruiseState.available
+
     return ret
 
   @staticmethod

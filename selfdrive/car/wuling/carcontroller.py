@@ -1,13 +1,14 @@
 from cereal import car
-from common.conversions import Conversions as CV
-from common.numpy_fast import interp
-from common.realtime import DT_CTRL
-from opendbc.can.packer import CANPacker
-from selfdrive.car import apply_driver_steer_torque_limits
-from selfdrive.car.wuling import wulingcan
-from selfdrive.car.wuling.values import DBC, CanBus, PREGLOBAL_CARS,CruiseButtons, CarControllerParams
 import cereal.messaging as messaging
-from common.params import Params
+from openpilot.common.conversions import Conversions as CV
+from openpilot.common.numpy_fast import clip
+from openpilot.common.realtime import DT_CTRL
+from openpilot.common.params import Params, put_bool_nonblocking
+from opendbc.can.packer import CANPacker
+from openpilot.selfdrive.car import apply_driver_steer_torque_limits, common_fault_avoidance
+from openpilot.selfdrive.car.wuling import wulingcan
+from openpilot.selfdrive.car.wuling.values import DBC, CruiseButtons, CanBus, PREGLOBAL_CARS,CruiseButtons, CarControllerParams
+from openpilot.selfdrive.controls.lib.drive_helpers import HYUNDAI_V_CRUISE_MIN
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 NetworkLocation = car.CarParams.NetworkLocation
@@ -41,7 +42,11 @@ class CarController:
     self.packer_pt = CANPacker(DBC[self.CP.carFingerprint]['pt'])
     self.param_s = Params()
 
-    self.sm = messaging.SubMaster(['longitudinalPlan'])
+    self.disengage_blink = 0.
+    self.lat_disengage_init = False
+    self.lat_active_last = False
+    
+    self.sm = messaging.SubMaster(['longitudinalPlan', 'longitudinalPlanSP'])
     self.is_metric = self.param_s.get_bool("IsMetric")
     self.speed_limit_control_enabled = False
     self.last_speed_limit_sign_tap = False
@@ -69,54 +74,80 @@ class CarController:
     self.v_tsc = 0
     self.m_tsc = 0
     self.steady_speed = 0
+    self.speeds = 0
+
     self.opkr_autoresume = True
     self.standstill_status = 0
     self.standstill_status_timer = 0
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
+    self.v_target_plan = 0
 
     self.last_resume_frame = 0
+    self.custom_planner_speed = self.param_s.get_bool("CustomStockLongPlanner")
+
 
   def update(self, CC, CS, now_nanos):
+    
+    if not self.CP.pcmCruiseSpeed:
+      self.sm.update(0)
+
+      if self.sm.updated['longitudinalPlan']:
+        _speeds = self.sm['longitudinalPlan'].speeds
+        self.speeds = _speeds[-1] if len(_speeds) else 0
+
+      if self.sm.updated['longitudinalPlanSP']:
+        self.v_tsc_state = self.sm['longitudinalPlanSP'].visionTurnControllerState
+        self.slc_state = self.sm['longitudinalPlanSP'].speedLimitControlState
+        self.m_tsc_state = self.sm['longitudinalPlanSP'].turnSpeedControlState
+        self.speed_limit = self.sm['longitudinalPlanSP'].speedLimit
+        self.speed_limit_offset = self.sm['longitudinalPlanSP'].speedLimitOffset
+        self.v_tsc = self.sm['longitudinalPlanSP'].visionTurnSpeed
+        self.m_tsc = self.sm['longitudinalPlanSP'].turnSpeed
+
+      if self.frame % 200 == 0:
+        self.speed_limit_control_enabled = self.param_s.get_bool("SpeedLimitControl")
+        self.is_metric = self.param_s.get_bool("IsMetric")
+        self.custom_planner_speed = self.param_s.get_bool("CustomStockLongPlanner")
+      self.last_speed_limit_sign_tap = self.param_s.get_bool("LastSpeedLimitSignTap")
+      self.v_cruise_min = HYUNDAI_V_CRUISE_MIN[self.is_metric] * (CV.KPH_TO_MPH if not self.is_metric else 1)
+      self.v_target_plan = min(CC.vCruise * CV.KPH_TO_MS, self.speeds)
+
     actuators = CC.actuators
     hud_control = CC.hudControl
     hud_alert = hud_control.visualAlert
     hud_v_cruise = hud_control.setSpeed
+    set_speed_in_units = hud_control.setSpeed * (CV.MS_TO_KPH if CS.is_metric else CV.MS_TO_MPH)
 
-    # if not self.CP.pcmCruiseSpeed:
-    #   self.sm.update(0)
+   # show LFA "white_wheel" and LKAS "White car + lanes" when not CC.latActive
+    lateral_paused = CS.madsEnabled and not CC.latActive
+    if CC.latActive:
+      self.lat_disengage_init = False
+    elif self.lat_active_last:
+      self.lat_disengage_init = True
 
-    #   if self.sm.updated['longitudinalPlan']:
-    #     self.v_tsc_state = self.sm['longitudinalPlan'].visionTurnControllerState
-    #     self.slc_state = self.sm['longitudinalPlan'].speedLimitControlState
-    #     self.m_tsc_state = self.sm['longitudinalPlan'].turnSpeedControlState
-    #     self.speed_limit = self.sm['longitudinalPlan'].speedLimit
-    #     self.speed_limit_offset = self.sm['longitudinalPlan'].speedLimitOffset
-    #     self.v_tsc = self.sm['longitudinalPlan'].visionTurnSpeed
-    #     self.m_tsc = self.sm['longitudinalPlan'].turnSpeed
+    if not self.lat_disengage_init:
+      self.disengage_blink = self.frame
 
-    #   if self.frame % 200 == 0:
-    #     self.speed_limit_control_enabled = self.param_s.get_bool("SpeedLimitControl")
-    #     self.is_metric = self.param_s.get_bool("IsMetric")
-    #   self.last_speed_limit_sign_tap = self.param_s.get_bool("LastSpeedLimitSignTap")
-    #   self.v_cruise_min = MAZDA_V_CRUISE_MIN[self.is_metric] * (CV.KPH_TO_MPH if not self.is_metric else 1)
+    blinking_icon = (self.frame - self.disengage_blink) * DT_CTRL < 1.0 if self.lat_disengage_init else False
 
+    if not self.CP.pcmCruiseSpeed:
+      if not self.last_speed_limit_sign_tap_prev and self.last_speed_limit_sign_tap:
+        self.sl_force_active_timer = self.frame
+        put_bool_nonblocking("LastSpeedLimitSignTap", False)
+      self.last_speed_limit_sign_tap_prev = self.last_speed_limit_sign_tap
+
+      sl_force_active = self.speed_limit_control_enabled and (self.frame < (self.sl_force_active_timer * DT_CTRL + 2.0))
+      sl_inactive = not sl_force_active and (not self.speed_limit_control_enabled or (True if self.slc_state == 0 else False))
+      sl_temp_inactive = not sl_force_active and (self.speed_limit_control_enabled and (True if self.slc_state == 1 else False))
+      slc_active = not sl_inactive and not sl_temp_inactive
+
+      self.slc_active_stock = slc_active
+
+    self.lat_active_last = CC.latActive
     # Send CAN commands.
     can_sends = []
-
-    # if not self.CP.pcmCruiseSpeed:
-    #       if not self.last_speed_limit_sign_tap_prev and self.last_speed_limit_sign_tap:
-    #         self.sl_force_active_timer = self.frame
-    #         put_bool_nonblocking("LastSpeedLimitSignTap", False)
-    #       self.last_speed_limit_sign_tap_prev = self.last_speed_limit_sign_tap
-
-    #       sl_force_active = self.speed_limit_control_enabled and (self.frame < (self.sl_force_active_timer * DT_CTRL + 2.0))
-    #       sl_inactive = not sl_force_active and (not self.speed_limit_control_enabled or (True if self.slc_state == 0 else False))
-    #       sl_temp_inactive = not sl_force_active and (self.speed_limit_control_enabled and (True if self.slc_state == 1 else False))
-    #       slc_active = not sl_inactive and not sl_temp_inactive
-
-    #       self.slc_active_stock = slc_active
 
     if CC.cruiseControl.cancel:
       # If brake is pressed, let us wait >70ms before trying to disable crz to avoid
@@ -179,67 +210,6 @@ class CarController:
     lka_critical = lka_active and abs(actuators.steer) > 0.9
     lka_icon_status = (lka_active, lka_critical)
 
-    # # SW_GMLAN not yet on cam harness, no HUD alerts
-    # if self.CP.networkLocation != NetworkLocation.fwdCamera and (self.frame % self.params.CAMERA_KEEPALIVE_STEP == 0 or lka_icon_status != self.lka_icon_status_last):
-    #   steer_alert = hud_alert in (VisualAlert.steerRequired, VisualAlert.ldw)
-    #   can_sends.append(wulingcan.create_lka_icon_command(CanBus.SW_GMLAN, lka_active, lka_critical, steer_alert))
-    #   self.lka_icon_status_last = lka_icon_status
-
-
-    # if CS.out.cruiseState.standstill:
-    #     self.standstill_status = 1
-    #     if self.opkr_autoresume:
-    #       # run only first time when the car stopped
-    #       if self.last_lead_distance == 0:
-    #         # get the lead distance from the Radar
-    #         self.last_lead_distance = CS.lead_distance
-    #         self.resume_cnt = 0
-    #         self.switch_timer = 0
-    #         self.standstill_fault_reduce_timer += 1
-    #       elif self.switch_timer > 0:
-    #         self.switch_timer -= 1
-    #         self.standstill_fault_reduce_timer += 1
-    #       # at least 0.1 sec delay after entering the standstill
-    #       elif 10 < self.standstill_fault_reduce_timer and CS.lead_distance != self.last_lead_distance and abs(CS.lead_distance - self.last_lead_distance) > 0.1:
-    #         self.acc_standstill_timer = 0
-    #         self.acc_standstill = False
-    #         if self.standstill_resume_alt: # for D.Fyffe, code from neokii
-    #           self.standstill_res_button = True
-    #           # can_sends.append(hyundaican.create_clu11(self.packer, self.resume_cnt, CS.clu11, Buttons.RES_ACCEL, clu11_speed, self.CP.sccBus))
-    #           self.resume_cnt += 1
-    #           if self.resume_cnt >= int(randint(4, 5) * 2):
-    #             self.resume_cnt = 0
-    #             self.switch_timer = int(randint(20, 25) * 2)
-    #         else:
-    #           if (self.frame - self.last_resume_frame) * DT_CTRL > 0.1:
-    #             self.standstill_res_button = True
-    #             # send 25 messages at a time to increases the likelihood of resume being accepted, value 25 is not acceptable at some cars.
-    #             # can_sends.extend([hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.RES_ACCEL)] * self.standstill_res_count) if not self.longcontrol \
-    #             # else can_sends.extend([hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.RES_ACCEL, clu11_speed, self.CP.sccBus)] * self.standstill_res_count)
-    #             self.last_resume_frame = self.frame
-    #         self.standstill_fault_reduce_timer += 1
-    #       # gap save after 1sec
-    #       elif 100 < self.standstill_fault_reduce_timer and self.cruise_gap_prev == 0 and CS.cruiseGapSet != 1.0 and self.opkr_autoresume and self.opkr_cruisegap_auto_adj and not self.gap_by_spd_on: 
-    #         self.cruise_gap_prev = CS.cruiseGapSet
-    #         self.cruise_gap_set_init = True
-    #       # gap adjust to 1 for fast start
-    #       elif 110 < self.standstill_fault_reduce_timer and CS.cruiseGapSet != 1.0 and self.opkr_autoresume and self.opkr_cruisegap_auto_adj and not self.gap_by_spd_on:
-    #         # can_sends.append(hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.GAP_DIST)) if not self.longcontrol \
-    #         #   else can_sends.append(hyundaican.create_clu11(self.packer, self.frame, CS.clu11, Buttons.GAP_DIST, clu11_speed, self.CP.sccBus))
-    #         self.resume_cnt += 1
-    #         if self.resume_cnt >= int(randint(4, 5) * 2):
-    #           self.resume_cnt = 0
-    #           self.switch_timer = int(randint(20, 25) * 2)
-    #         self.cruise_gap_adjusting = True
-    #       elif self.opkr_autoresume:
-    #         self.cruise_gap_adjusting = False
-    #         self.standstill_res_button = False
-    #         self.standstill_fault_reduce_timer += 1
-    #   # reset lead distnce after the car starts moving
-    # elif self.last_lead_distance != 0:
-    #     self.last_lead_distance = 0
-    #     self.standstill_res_button = False
-        
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.params.STEER_MAX
     new_actuators.steerOutputCan = self.apply_steer_last
@@ -272,3 +242,56 @@ class CarController:
       map_v_cruise_kph = 255
     curve_speed = self.curve_speed_hysteresis(min(vision_v_cruise_kph, map_v_cruise_kph) + 2 * CV.MPH_TO_KPH)
     return min(target_speed_kph, curve_speed)
+
+
+  def get_button_type(self, button_type):
+    self.type_status = "type_" + str(button_type)
+    self.button_picker = getattr(self, self.type_status, lambda: "default")
+    return self.button_picker()
+
+  def reset_button(self):
+    if self.button_type != 3:
+      self.button_type = 0
+
+  def type_default(self):
+    self.button_type = 0
+    return None
+
+  def type_0(self):
+    self.button_count = 0
+    self.target_speed = self.init_speed
+    self.speed_diff = self.target_speed - self.v_set_dis
+    if self.target_speed > self.v_set_dis:
+      self.button_type = 1
+    elif self.target_speed < self.v_set_dis and self.v_set_dis > self.v_cruise_min:
+      self.button_type = 2
+    return None
+
+  def type_1(self):
+    cruise_button = CruiseButtons.RES_ACCEL
+    self.button_count += 1
+    if self.target_speed <= self.v_set_dis:
+      self.button_count = 0
+      self.button_type = 3
+    elif self.button_count > 5:
+      self.button_count = 0
+      self.button_type = 3
+    return cruise_button
+
+  def type_2(self):
+    cruise_button = CruiseButtons.SET_DECEL
+    self.button_count += 1
+    if self.target_speed >= self.v_set_dis or self.v_set_dis <= self.v_cruise_min:
+      self.button_count = 0
+      self.button_type = 3
+    elif self.button_count > 5:
+      self.button_count = 0
+      self.button_type = 3
+    return cruise_button
+
+  def type_3(self):
+    cruise_button = None
+    self.button_count += 1
+    if self.button_count > self.t_interval:
+      self.button_type = 0
+    return cruise_button

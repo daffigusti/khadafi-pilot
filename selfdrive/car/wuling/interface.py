@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 from cereal import car
 from panda import Panda
-from common.conversions import Conversions as CV
+from openpilot.common.conversions import Conversions as CV
 
-from selfdrive.car import STD_CARGO_KG,scale_tire_stiffness,create_button_events, get_safety_config
-from selfdrive.car.interfaces import CarInterfaceBase
-from selfdrive.car.wuling.values import CAR, CruiseButtons, PREGLOBAL_CARS, CarControllerParams, CanBus
+from openpilot.selfdrive.car import create_button_events, get_safety_config, create_mads_event
+from openpilot.selfdrive.car.interfaces import CarInterfaceBase
+from openpilot.selfdrive.car.wuling.values import CAR, CruiseButtons, PREGLOBAL_CARS, CarControllerParams, CanBus
 from common.params import Params
 from common.op_params import opParams
 
@@ -13,8 +13,12 @@ ButtonType = car.CarState.ButtonEvent.Type
 TransmissionType = car.CarParams.TransmissionType
 GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
+ENABLE_BUTTONS = (CruiseButtons.RES_ACCEL, CruiseButtons.DECEL_SET, CruiseButtons.CANCEL)
+
 BUTTONS_DICT = {CruiseButtons.RES_ACCEL: ButtonType.accelCruise, CruiseButtons.DECEL_SET: ButtonType.decelCruise,
-                CruiseButtons.MAIN: ButtonType.altButton3, CruiseButtons.CANCEL: ButtonType.cancel}
+                CruiseButtons.MAIN: ButtonType.setCruise, CruiseButtons.RES_ACCEL: ButtonType.resumeCruise,
+                CruiseButtons.GAP_UP: ButtonType.gapAdjustCruise, CruiseButtons.GAP_DOWN: ButtonType.gapAdjustCruise,
+                CruiseButtons.CANCEL: ButtonType.cancel}
 
 CRUISE_OVERRIDE_SPEED_MIN = 5 * CV.KPH_TO_MS
 
@@ -41,7 +45,7 @@ class CarInterface(CarInterfaceBase):
     tire_stiffness_factor = 0.444
     
     ret.steerLimitTimer = 0.4
-    ret.steerActuatorDelay = 0.2
+    ret.steerActuatorDelay = 0.25
     
     ret.mass = 1950.
     ret.wheelbase = 2.75
@@ -57,93 +61,94 @@ class CarInterface(CarInterfaceBase):
     CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     ret.pcmCruise = not ret.openpilotLongitudinalControl
+    ret.customStockLongAvailable = True
+    ret.stoppingControl = True
+    ret.startingState = True
     
     return ret
 
+ 
   # returns a car.CarState
   def _update(self, c):
-
     ret = self.CS.update(self.cp, self.cp_cam, self.cp_loopback)
-    # self.CS = self.sp_update_params(self.CS)
-    
+    self.CS = self.sp_update_params(self.CS)
+
+    buttonEvents = []
+
     # Don't add event if transitioning from INIT, unless it's to an actual button
     if self.CS.cruise_buttons != CruiseButtons.UNPRESS or self.CS.prev_cruise_buttons != CruiseButtons.INIT:
-      ret.buttonEvents = create_button_events(self.CS.cruise_buttons, self.CS.prev_cruise_buttons, BUTTONS_DICT,
-                                              unpressed_btn=CruiseButtons.UNPRESS)
+      buttonEvents = create_button_events(self.CS.cruise_buttons, self.CS.prev_cruise_buttons, BUTTONS_DICT,
+                                          unpressed_btn=CruiseButtons.UNPRESS)
+    self.CS.mads_enabled = self.get_sp_cruise_main_state(ret, self.CS)
 
-    ret.engineRpm = self.CS.engineRPM
-    
-    # if self.CS.cruise_buttons != self.CS.prev_cruise_buttons and self.CS.prev_cruise_buttons != CruiseButtons.INIT:
-    #   buttonEvents.append(create_button_event(self.CS.cruise_buttons, self.CS.prev_cruise_buttons, BUTTONS_DICT, CruiseButtons.UNPRESS))
-    #   # Handle ACCButtons changing buttons mid-press
-    #   if self.CS.cruise_buttons != CruiseButtons.UNPRESS and self.CS.prev_cruise_buttons != CruiseButtons.UNPRESS:
-    #     buttonEvents.append(create_button_event(CruiseButtons.UNPRESS, self.CS.prev_cruise_buttons, BUTTONS_DICT, CruiseButtons.UNPRESS))
+    if not self.CP.pcmCruise:
+      if any(b.type == ButtonType.accelCruise and b.pressed for b in buttonEvents):
+        self.CS.accEnabled = True
 
-    # # self.CS.mads_enabled = self.get_sp_cruise_main_state(ret, self.CS)
+    self.CS.accEnabled, buttonEvents = self.get_sp_v_cruise_non_pcm_state(ret, self.CS.accEnabled,
+                                                                          buttonEvents, c.vCruise,
+                                                                          enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
 
-    # if not self.CP.pcmCruise:
-    #   if any(b.type == ButtonType.accelCruise and b.pressed for b in buttonEvents):
-    #     self.CS.accEnabled = True
+    if ret.cruiseState.available:
+      if self.enable_mads:
+        if not self.CS.prev_mads_enabled and self.CS.mads_enabled:
+          self.CS.madsEnabled = True
+        if self.CS.prev_lkas_enabled != 1 and self.CS.lkas_enabled == 1:
+          self.CS.madsEnabled = not self.CS.madsEnabled
+        self.CS.madsEnabled = self.get_acc_mads(ret.cruiseState.enabled, self.CS.accEnabled, self.CS.madsEnabled)
+      ret, self.CS = self.toggle_gac(ret, self.CS, bool(self.CS.gap_dist_button), 0, 6, 6, "+")
+    else:
+      self.CS.madsEnabled = False
 
-    # self.CS.accEnabled, buttonEvents = self.get_sp_v_cruise_non_pcm_state(ret, self.CS.accEnabled,
-    #                                                                       buttonEvents, c.vCruise)
+    if not self.CP.pcmCruise or (self.CP.pcmCruise and self.CP.minEnableSpeed > 0):
+      if any(b.type == ButtonType.cancel for b in buttonEvents):
+        self.CS.madsEnabled, self.CS.accEnabled = self.get_sp_cancel_cruise_state(self.CS.madsEnabled)
+    if self.get_sp_pedal_disengage(ret):
+      self.CS.madsEnabled, self.CS.accEnabled = self.get_sp_cancel_cruise_state(self.CS.madsEnabled)
+      ret.cruiseState.enabled = False if self.CP.pcmCruise else self.CS.accEnabled
 
-    # if ret.cruiseState.available:
-    #   if self.enable_mads:
-    #     if not self.CS.prev_mads_enabled and self.CS.mads_enabled:
-    #       self.CS.madsEnabled = True
-    #     if self.CS.prev_lkas_enabled != 1 and self.CS.lkas_enabled == 1:
-    #       self.CS.madsEnabled = not self.CS.madsEnabled
-    #     self.CS.madsEnabled = self.get_acc_mads(ret.cruiseState.enabled, self.CS.accEnabled, self.CS.madsEnabled)
-    #   self.toggle_gac(ret, self.CS, bool(self.CS.gap_dist_button), 1, 3, 3, "-")
-    # else:
-    #   self.CS.madsEnabled = False
+    if self.CP.pcmCruise and self.CP.minEnableSpeed > 0 and self.CP.pcmCruiseSpeed:
+      if ret.gasPressed and not ret.cruiseState.enabled:
+        self.CS.accEnabled = False
+      self.CS.accEnabled = ret.cruiseState.enabled or self.CS.accEnabled
 
-    # if not self.CP.pcmCruise or (self.CP.pcmCruise and self.CP.minEnableSpeed > 0):
-    #   if any(b.type == ButtonType.cancel for b in buttonEvents):
-    #     self.CS.madsEnabled, self.CS.accEnabled = self.get_sp_cancel_cruise_state(self.CS.madsEnabled)
-    # if self.get_sp_pedal_disengage(ret):
-    #   self.CS.madsEnabled, self.CS.accEnabled = self.get_sp_cancel_cruise_state(self.CS.madsEnabled)
-    #   ret.cruiseState.enabled = False if self.CP.pcmCruise else self.CS.accEnabled
-
-    # if self.CP.pcmCruise and self.CP.minEnableSpeed > 0 and self.CP.pcmCruiseSpeed:
-    #   if ret.gasPressed and not ret.cruiseState.enabled:
-    #     self.CS.accEnabled = False
-    #   self.CS.accEnabled = ret.cruiseState.enabled or self.CS.accEnabled
-
-    # ret, self.CS = self.get_sp_common_state(ret, self.CS, gap_button=bool(self.CS.gap_dist_button))
+    ret, self.CS = self.get_sp_common_state(ret, self.CS, gap_button=bool(self.CS.gap_dist_button))
 
     # MADS BUTTON
-    # if self.CS.out.madsEnabled != self.CS.madsEnabled:
-    #   if self.mads_event_lock:
-    #     buttonEvents.append(create_mads_event(self.mads_event_lock))
-    #     self.mads_event_lock = False
-    # else:
-    #   if not self.mads_event_lock:
-    #     buttonEvents.append(create_mads_event(self.mads_event_lock))
-    #     self.mads_event_lock = True
+    if self.CS.out.madsEnabled != self.CS.madsEnabled:
+      if self.mads_event_lock:
+        buttonEvents.append(create_mads_event(self.mads_event_lock))
+        self.mads_event_lock = False
+    else:
+      if not self.mads_event_lock:
+        buttonEvents.append(create_mads_event(self.mads_event_lock))
+        self.mads_event_lock = True
 
-    events = self.create_common_events(ret, extra_gears=[GearShifter.sport, GearShifter.low,
+    ret.buttonEvents = buttonEvents
+
+    # The ECM allows enabling on falling edge of set, but only rising edge of resume
+    events = self.create_common_events(ret, c, extra_gears=[GearShifter.sport, GearShifter.low,
                                                          GearShifter.eco, GearShifter.manumatic],
-                                       pcm_enable=self.CP.pcmCruise, enable_buttons=(ButtonType.decelCruise,))
-    
-    if not self.CP.pcmCruise:
-      if any(b.type == ButtonType.accelCruise and b.pressed for b in ret.buttonEvents):
-        events.add(EventName.buttonEnable)
+                                       pcm_enable=False, enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
+    #if not self.CP.pcmCruise:
+    #  if any(b.type == ButtonType.accelCruise and b.pressed for b in ret.buttonEvents):
+    #    events.add(EventName.buttonEnable)
+
+    events, ret = self.create_sp_events(self.CS, ret, events, enable_pressed=self.CS.accEnabled,
+                                        enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
 
     # Enabling at a standstill with brake is allowed
     # TODO: verify 17 Volt can enable for the first time at a stop and allow for all GMs
     below_min_enable_speed = ret.vEgo < self.CP.minEnableSpeed
     if below_min_enable_speed and not (ret.standstill and ret.brake >= 20):
       events.add(EventName.belowEngageSpeed)
-    if self.CS.park_brake:
-      events.add(EventName.parkBrake)
     if ret.cruiseState.standstill:
       events.add(EventName.resumeRequired)
-    if ret.vEgo < self.CP.minSteerSpeed:
+    if ret.vEgo < self.CP.minSteerSpeed and self.CS.madsEnabled:
       events.add(EventName.belowSteerSpeed)
 
     ret.events = events.to_msg()
+
     return ret
 
   def apply(self, c, now_nanos):

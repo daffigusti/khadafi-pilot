@@ -52,6 +52,8 @@ class LatControlTorque(LatControl):
 
       self.torque_params.latAccelFactor = float(self.param_s.get("TorqueMaxLatAccel", encoding="utf8")) * 0.01
       self.torque_params.friction = float(self.param_s.get("TorqueFriction", encoding="utf8")) * 0.01
+      print("torque_params.friction : %d", self.torque_params.friction)
+      print("torque_params.latAccelFactor : %d", self.torque_params.latAccelFactor)
 
   def update(self, active, CS, VM, params, last_actuators, steer_limited, desired_curvature, desired_curvature_rate, llk):
     self.update_live_tune()

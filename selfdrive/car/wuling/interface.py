@@ -137,6 +137,7 @@ class CarInterface(CarInterfaceBase):
     events, ret = self.create_sp_events(self.CS, ret, events, enable_pressed=self.CS.accEnabled,
                                         enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
 
+
     # Enabling at a standstill with brake is allowed
     # TODO: verify 17 Volt can enable for the first time at a stop and allow for all GMs
     below_min_enable_speed = ret.vEgo < self.CP.minEnableSpeed
@@ -147,6 +148,10 @@ class CarInterface(CarInterfaceBase):
     if ret.vEgo < self.CP.minSteerSpeed and self.CS.madsEnabled:
       events.add(EventName.belowSteerSpeed)
 
+    ret.customStockLong = self.CS.update_custom_stock_long(self.CC.cruise_button, self.CC.final_speed_kph,
+                                                           self.CC.target_speed, self.CC.v_set_dis,
+                                                           self.CC.speed_diff, self.CC.button_type)
+    
     ret.events = events.to_msg()
 
     return ret

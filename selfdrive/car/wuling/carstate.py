@@ -39,6 +39,11 @@ class CarState(CarStateBase):
 
     self.lkas_enabled = False
     self.prev_lkas_enabled = False
+    self.lta_status = False
+    self.prev_lta_status = False
+    self.lta_status_active = False
+    self.gac_send = False
+    self.gac_send_counter = 0
 
     self.crz_btns_counter = 0
     self.is_cruise_latch = False
@@ -147,6 +152,10 @@ class CarState(CarStateBase):
     self.lkas_status = pt_cp.vl["STEER_STATUS"]["STEER_STATUS"]
     self.cruise_gap = pt_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
     self.gap_dist_button = self.cruise_gap
+    self.lkas_enabled = cam_cp.vl["LkasHud"]["LKA_ACTIVE"];
+    self.lkas_hud = copy.copy(cam_cp.vl["LkasHud"])
+
+    # self.lkas_status = cam_cp.vl["LkasHud"]["LKAS_STATE"];
     # ret.steerFaultTemporary = self.lkas_status == 0
     # ret.steerFaultTemporary = pt_cp.vl["PSCMSteeringAngle"]["STEER_STATUS"] != 0
 
@@ -159,6 +168,7 @@ class CarState(CarStateBase):
 
     # print('Steering Torque EPS :  %d' %  ret.steeringTorqueEps)
     # print('Steering Statud EPS :  %d' %  self.lkas_status)
+    # print('Button :  %d' %  self.lkas_status)
     #trans state 15 "PARKING" 1 "DRIVE" 14 "BACKWARD" 13 "NORMAL"
     self.prev_mads_enabled = self.mads_enabled
     self.prev_lfa_enabled = self.lfa_enabled
@@ -172,6 +182,7 @@ class CarState(CarStateBase):
     if CP.networkLocation == NetworkLocation.fwdCamera:
       messages += [
         ("STEERING_LKA", 50),
+        ("LkasHud", 20),
       ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], messages, CanBus.CAMERA)
@@ -189,7 +200,6 @@ class CarState(CarStateBase):
       ("EBCMWheelSpdRear", 20),
       ("PSCMSteeringAngle", 100),
       ("ASCMActiveCruiseControlStatus", 10),
-      # ("LkasHud", 20),
       ("AccStatus", 20),
       ("STEER_RELATED", 20),
       ("STEER_STATUS", 10),

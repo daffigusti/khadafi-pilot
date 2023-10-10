@@ -85,17 +85,11 @@ class CarController:
     self.v_target_plan = 0
 
     self.last_resume_frame = 0
-    self.custom_planner_speed = self.param_s.get_bool("CustomStockLongPlanner")
-
 
   def update(self, CC, CS, now_nanos):
     
     if not self.CP.pcmCruiseSpeed:
       self.sm.update(0)
-
-      if self.sm.updated['longitudinalPlan']:
-        _speeds = self.sm['longitudinalPlan'].speeds
-        self.speeds = _speeds[-1] if len(_speeds) else 0
 
       if self.sm.updated['longitudinalPlanSP']:
         self.v_tsc_state = self.sm['longitudinalPlanSP'].visionTurnControllerState
@@ -109,10 +103,8 @@ class CarController:
       if self.frame % 200 == 0:
         self.speed_limit_control_enabled = self.param_s.get_bool("SpeedLimitControl")
         self.is_metric = self.param_s.get_bool("IsMetric")
-        self.custom_planner_speed = self.param_s.get_bool("CustomStockLongPlanner")
       self.last_speed_limit_sign_tap = self.param_s.get_bool("LastSpeedLimitSignTap")
       self.v_cruise_min = HYUNDAI_V_CRUISE_MIN[self.is_metric] * (CV.KPH_TO_MPH if not self.is_metric else 1)
-      self.v_target_plan = min(CC.vCruise * CV.KPH_TO_MS, self.speeds)
 
     actuators = CC.actuators
     hud_control = CC.hudControl
@@ -121,7 +113,7 @@ class CarController:
     set_speed_in_units = hud_control.setSpeed * (CV.MS_TO_KPH if CS.is_metric else CV.MS_TO_MPH)
 
    # show LFA "white_wheel" and LKAS "White car + lanes" when not CC.latActive
-    lateral_paused = CS.madsEnabled and not CC.latActive
+    lateral_paused = CS.out.madsEnabled and not CC.latActive
     if CC.latActive:
       self.lat_disengage_init = False
     elif self.lat_active_last:

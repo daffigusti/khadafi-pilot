@@ -72,6 +72,7 @@ class CarInterface(CarInterfaceBase):
   def _update(self, c):
     ret = self.CS.update(self.cp, self.cp_cam, self.cp_loopback)
     self.sp_update_params()
+    print("Cs enable %s" % ret.cruiseState.enabled)
 
     buttonEvents = []
 
@@ -82,6 +83,8 @@ class CarInterface(CarInterfaceBase):
       
     self.CS.mads_enabled = self.get_sp_cruise_main_state(ret.cruiseState.available)
 
+
+    
     if not self.CP.pcmCruise:
       if any(b.type == ButtonType.accelCruise and b.pressed for b in buttonEvents):
         self.accEnabled = True
@@ -116,7 +119,7 @@ class CarInterface(CarInterfaceBase):
         self.accEnabled = False
       self.accEnabled = ret.cruiseState.enabled or self.accEnabled
 
-    ret = self.get_sp_common_state(ret, self.CS, gap_button=bool(self.CS.gap_dist_button))
+    ret = self.get_sp_common_state(ret, gap_button=bool(self.CS.gap_dist_button))
 
     # MADS BUTTON
     if self.CS.out.madsEnabled != self.madsEnabled:
@@ -130,15 +133,19 @@ class CarInterface(CarInterfaceBase):
 
     ret.buttonEvents = buttonEvents
 
+    # print("Mads enable %s" % self.CS.mads_enabled)
+    # print("pcmCruise enable %s" % self.CP.pcmCruise)
+    # print("Acc enable %s" % self.accEnabled)
+    
     # The ECM allows enabling on falling edge of set, but only rising edge of resume
     events = self.create_common_events(ret, c, extra_gears=[GearShifter.sport, GearShifter.low,
                                                          GearShifter.eco, GearShifter.manumatic],
-                                       pcm_enable=False, enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
+                                       pcm_enable=False, enable_buttons=(ButtonType.decelCruise,))
     #if not self.CP.pcmCruise:
     #  if any(b.type == ButtonType.accelCruise and b.pressed for b in ret.buttonEvents):
     #    events.add(EventName.buttonEnable)
 
-    events = self.create_sp_events(ret, events, enable_pressed=self.accEnabled, enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
+    events = self.create_sp_events(ret, events, enable_pressed=self.accEnabled, enable_buttons=(ButtonType.decelCruise,))
 
     # Enabling at a standstill with brake is allowed
     # TODO: verify 17 Volt can enable for the first time at a stop and allow for all GMs

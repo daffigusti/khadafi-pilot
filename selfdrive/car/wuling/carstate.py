@@ -121,6 +121,7 @@ class CarState(CarStateBase):
 
     ret.cruiseState.available = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
     ret.cruiseState.enabled = pt_cp.vl["AccStatus"]["CruiseState"] != 0
+    ret.cruiseState.enabled = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
 
     self.is_cruise_latch = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
 

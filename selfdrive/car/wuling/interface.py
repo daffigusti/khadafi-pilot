@@ -72,7 +72,7 @@ class CarInterface(CarInterfaceBase):
   def _update(self, c):
     ret = self.CS.update(self.cp, self.cp_cam, self.cp_loopback)
     self.sp_update_params()
-    print("Cs enable %s" % ret.cruiseState.enabled)
+    # print("Cs enable %s" % ret.cruiseState.enabled)
 
     buttonEvents = []
 
@@ -101,6 +101,8 @@ class CarInterface(CarInterfaceBase):
       self.toggle_gac(bool(self.CS.gap_dist_button), 1, 3, 3, "-")
     else:
       self.madsEnabled = False
+
+    # print("Mads enable %s" % self.madsEnabled)
 
     if not self.CP.pcmCruise or not self.CP.pcmCruiseSpeed:
       if not self.CP.pcmCruise:

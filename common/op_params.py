@@ -4,7 +4,7 @@ import json
 from atomicwrites import atomic_write
 from common.colors import COLORS
 from common.travis_checker import BASEDIR
-from selfdrive.hardware import TICI
+from openpilot.system.hardware import TICI
 from common.params import Params
 from common.numpy_fast import clip
 

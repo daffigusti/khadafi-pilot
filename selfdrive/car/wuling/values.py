@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Dict, List, Union
 from panda.python import uds
 
@@ -44,7 +44,7 @@ class CarControllerParams:
   def __init__(self, CP):
    pass
 
-class CAR:
+class CAR(StrEnum):
  ALMAS_RS_PRO = "WULING ALMAZ RS PRO 2022"
 
 

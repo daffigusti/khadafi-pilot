@@ -138,7 +138,7 @@ class CarInterface(CarInterfaceBase):
 
     # Enabling at a standstill with brake is allowed
     # TODO: verify 17 Volt can enable for the first time at a stop and allow for all GMs
-    below_min_enable_speed = ret.vEgo < self.CP.minEnableSpeed or self.CS.moving_backward
+    below_min_enable_speed = ret.vEgo < self.CP.minEnableSpeed
     if below_min_enable_speed and not (ret.standstill and ret.brake >= 20):
       events.add(EventName.belowEngageSpeed)
     if ret.cruiseState.standstill:

@@ -148,7 +148,7 @@ class CarState(CarStateBase):
     # ret.cruiseState.standstill = ret.cruiseState.enabled == 0 and ret.cruiseState.available != 0
     self.lkas_status = 0
     self.crz_btns_counter = pt_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
-    ret.brakeLights = bool(ret.brakePressed or ret.brakeHoldActive)
+    ret.brakeLightsDEPRECATED = bool(ret.brakePressed or ret.brakeHoldActive)
     self.lkas_status = pt_cp.vl["STEER_STATUS"]["STEER_STATUS"]
     self.cruise_gap = pt_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
     self.gap_dist_button = self.cruise_gap

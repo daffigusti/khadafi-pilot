@@ -156,8 +156,7 @@ class CarController:
       self.brake_counter = 0
 
       # if CC.cruiseControl.resume and self.frame % 2 == 0:
-      if CS.resume_alert == 1 and self.frame % 2 == 0:
-        if CS.resume_alert == 1:
+      if (CS.resume_alert == 1 or CC.cruiseControl.resume) and self.frame % 2 == 0:
           print("Cruize button %s " % CC.cruiseControl.resume)
           print("Resule Alert %s " % CS.resume_alert)
         # Send Resume button when planner wants car to move
@@ -194,6 +193,14 @@ class CarController:
     lka_active = CS.lkas_status == 1
     lka_critical = lka_active and abs(actuators.steer) > 0.9
     lka_icon_status = (lka_active, lka_critical)
+
+    # send HUD alerts
+    if self.frame % 5 == 0:
+      ldw = CC.hudControl.visualAlert == VisualAlert.ldw
+      steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
+      # TODO: find a way to silence audible warnings so we can add more hud alerts
+      steer_required = steer_required
+      can_sends.append(wulingcan.create_lkas_hud(self.packer_pt, 0, CS.lkas_hud, steer_required ))
 
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.params.STEER_MAX

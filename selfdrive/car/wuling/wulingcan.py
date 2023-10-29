@@ -123,8 +123,6 @@ def create_lkas_hud(packer, bus, lkas_hud_stock_values, steer_warning=0):
   # print('Send to Lkas');
   # print(values)
   values.update({
-    "COUNTER_1": (lkas_hud_stock_values["COUNTER_1"] + 1) % 0x11,
-    "COUNTER_2": (lkas_hud_stock_values["COUNTER_2"] + 1) % 0x11,
     "STEER_WARNING": steer_warning,
   })
 

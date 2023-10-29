@@ -153,7 +153,7 @@ class CarState(CarStateBase):
     self.cruise_gap = cam_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
     self.gap_dist_button = self.cruise_gap
     self.lkas_enabled = cam_cp.vl["LkasHud"]["LKA_ACTIVE"];
-    self.lkas_hud = copy.copy(cam_cp.vl["LkasHud"])
+    self.lkas_hud = cam_cp.vl["LkasHud"]
 
     # self.lkas_status = cam_cp.vl["LkasHud"]["LKAS_STATE"];
     # ret.steerFaultTemporary = self.lkas_status == 0

@@ -93,38 +93,89 @@ def create_buttons(packer, idx, button):
     "RESUME_BTN_2" : resume,
     "ACC_BTN_1" : button,
     "ACC_BTN_2" : acc_btn_2,
-    "COUNTER_1" : (idx+1) % 0x11,
-    "COUNTER_2" : (idx+1) % 0x11,
+    "LKA_BTN" : 0,
+    "COUNTER_1" : (idx+1) % 0x4,
+    "COUNTER_2" : (idx+1) % 0x4,
   }
+  print(values)
 
-  return packer.make_can_msg("STEER_BTN", 0, values)
+  return packer.make_can_msg("STEER_BTN",  0, values)
 
 
-def create_lkas_hud(packer, bus, lkas_hud_stock_values, steer_warning=0):
+def create_lkas_hud(packer, bus, lkas_hud_stock_values, lkas_active=0, steer_warning=0):
   values = {s: lkas_hud_stock_values[s] for s in [
+    "ALERT",
     "LKA_ACTIVE",
+    "LEAD_FOLLOW_1",
+    "LEAD_FOLLOW_2",
     "LKAS_STATE",
     "LKA_LINE",
     "LKA_LINE_2",
     "ALERT_DEPART1",
     "STEER_WARNING",
+    "HUD_ALERT",
     "COUNTER_1",
     "COUNTER_2",
     "NEW_SIGNAL_1",
     "NEW_SIGNAL_2",
-    "NEW_SIGNAL_3",
-    "NEW_SIGNAL_4",
     "NEW_SIGNAL_6",
     "NEW_SIGNAL_7",
-    "NEW_SIGNAL_8",
-    "NEW_SIGNAL_9",
+    "NEW_SIGNAL_8"
   ]}
-
-  # print('Send to Lkas');
-  # print(values)
-  values.update({
-    "STEER_WARNING": steer_warning,
-  })
+  
+  # values.update({
+  #     "LKA_ACTIVE": 1,
+  #     "STEER_WARNING": 1,
+  #     "LKA_LINE_2":0
+  #   })
+  
+  # if lkas_active:
+  #     values.update({
+  #       "LKA_ACTIVE": 1,
+  #       # "LKAS_STATE": lkas_active,
+  #       "STEER_WARNING": 1,
+  #       "LKA_LINE_2": 0,
+  #     })
+  # if lkas_active:
+  #     values.update({
+  #         "LKA_ACTIVE": 1,
+  #         "LKAS_STATE": 1,
+  #         "LEAD_FOLLOW_1": 1,
+  #         "LEAD_FOLLOW_2": 1,
+  #         "HUD_ALERT": 1,
+  #         "LKA_LINE": 3,
+  #         "STEER_WARNING": 2,
+  #         "LKA_LINE_2": 0,
+  #         "NEW_SIGNAL_1": 1,
+  #       })
+  # if lkas_active:
+  #     values.update({
+  #       "LKA_ACTIVE": 1,
+  #       "LKAS_STATE": 1,
+  #       "LEAD_FOLLOW_1": 1,
+  #       "LEAD_FOLLOW_2": 1,
+  #       "HUD_ALERT": 2,
+  #       "STEER_WARNING": 3,
+  #       "LKA_LINE_2": 1,
+  #     })
+  # if steer_warning:
+  #     values.update({
+  #       "ALERT": 1,
+  #       "STEER_WARNING": 3,
+  #     })
+      
+  # if steer_warning:
+  #    values.update({
+  #       "ALERT": 1,
+  #       "STEER_WARNING": 1,
+  #     })
+     
+  print('Send to Lkas');
+  print(values)
+  # values.update({
+  #   "STEER_WARNING": steer_warning,
+  # })
+  
 
   return packer.make_can_msg("LkasHud", bus, values)
 
@@ -167,6 +218,7 @@ def create_lka_icon_command(bus, active, critical, steer):
   return make_can_msg(0x104c006c, dat, bus)
 
 def create_resume_button(bus, active, critical, steer):
-  dat = b"\x48\x08\x00\x00\x00\x00\x00\x50"
+  # dat = b"\x48\x08\x00\x00\x00\x00\x00\x50"
+  dat = b"\x80\x20\x00\x00\x00\x00\x00\xa0"
   return make_can_msg(0x1e1, dat, bus)
 

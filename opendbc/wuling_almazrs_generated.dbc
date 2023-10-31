@@ -137,21 +137,22 @@ BO_ 549 STEERING_LKA: 8 XXX
  SG_ CHECKSUM : 63|8@0+ (1,0) [0|255] "" XXX
 
 BO_ 883 LkasHud: 8 K20_ECM
+ SG_ ALERT : 0|1@0+ (1,0) [0|1] "" XXX
  SG_ LKA_ACTIVE : 1|1@0+ (1,0) [0|1] "" NEO
- SG_ NEW_SIGNAL_4 : 2|1@0+ (1,0) [0|1] "" XXX
- SG_ COUNTER_1 : 6|2@1+ (1,0) [0|3] "" XXX
- SG_ NEW_SIGNAL_1 : 8|2@1+ (1,0) [0|3] "" XXX
+ SG_ LEAD_FOLLOW_1 : 2|1@0+ (1,0) [0|1] "" XXX
+ SG_ LEAD_FOLLOW_2 : 11|1@0+ (1,0) [0|1] "" XXX
  SG_ LKAS_STATE : 10|1@0+ (1,0) [0|1] "" NEO
- SG_ NEW_SIGNAL_3 : 11|1@0+ (1,0) [0|1] "" XXX
  SG_ LKA_LINE : 13|2@0+ (1,0) [0|3] "" XXX
- SG_ ALERT_DEPART1 : 15|1@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_9 : 16|3@1+ (1,0) [0|7] "" XXX
- SG_ NEW_SIGNAL_2 : 20|1@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_8 : 32|8@1+ (1,0) [0|255] "" XXX
- SG_ NEW_SIGNAL_7 : 40|8@1+ (1,0) [0|255] "" XXX
- SG_ NEW_SIGNAL_6 : 48|8@1+ (1,0) [0|255] "" XXX
- SG_ STEER_WARNING : 56|4@1+ (1,0) [0|15] "" XXX
  SG_ LKA_LINE_2 : 60|2@1+ (1,0) [0|3] "" XXX
+ SG_ ALERT_DEPART1 : 15|1@0+ (1,0) [0|1] "" XXX
+ SG_ HUD_ALERT : 16|3@1+ (1,0) [0|7] "" XXX
+ SG_ STEER_WARNING : 56|4@1+ (1,0) [0|15] "" XXX
+ SG_ NEW_SIGNAL_1 : 8|2@1+ (1,0) [0|3] "" XXX
+ SG_ NEW_SIGNAL_2 : 20|1@0+ (1,0) [0|1] "" XXX
+ SG_ NEW_SIGNAL_6 : 48|8@1+ (1,0) [0|255] "" XXX
+ SG_ NEW_SIGNAL_7 : 40|8@1+ (1,0) [0|255] "" XXX
+ SG_ NEW_SIGNAL_8 : 32|8@1+ (1,0) [0|255] "" XXX
+ SG_ COUNTER_1 : 6|2@1+ (1,0) [0|3] "" XXX
  SG_ COUNTER_2 : 62|2@1+ (1,0) [0|3] "" XXX
 
 BO_ 611 AccStatus: 8 XXX

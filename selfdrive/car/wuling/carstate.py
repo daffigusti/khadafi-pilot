@@ -117,17 +117,17 @@ class CarState(CarStateBase):
 
     ret.parkingBrake = bool(pt_cp.vl["EPBStatus"]["EPBSTATUS"])
     self.park_brake = pt_cp.vl["EPBStatus"]["EPBSTATUS"]
-    self.pcm_acc_status = cam_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSTATE"]
+    self.pcm_acc_status = pt_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSTATE"]
 
-    ret.cruiseState.available = cam_cp.vl["AccStatus"]["CruiseState"] != 0
-    ret.cruiseState.enabled = cam_cp.vl["AccStatus"]["CruiseState"] != 0
+    ret.cruiseState.available = pt_cp.vl["AccStatus"]["CruiseState"] != 0
+    ret.cruiseState.enabled = pt_cp.vl["AccStatus"]["CruiseState"] != 0
 
-    self.is_cruise_latch = cam_cp.vl["AccStatus"]["CruiseMainOn"] != 0
+    self.is_cruise_latch = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
 
-    if cam_cp.vl["AccStatus"]["CruiseMainOn"] != 0 and ret.brakePressed:
+    if pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0 and ret.brakePressed:
       self.is_cruise_latch = False
     else:
-      cam_cp.vl["AccStatus"]["CruiseMainOn"] != 0 and not ret.brakePressed
+      pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0 and not ret.brakePressed
       self.is_cruise_latch = True
 
     if not ret.cruiseState.available:
@@ -136,10 +136,10 @@ class CarState(CarStateBase):
 
     # ret.cruiseState.enabled = self.is_cruise_latch
 
-    self.acc_state = cam_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSTATE"]
-    self.resume_alert = cam_cp.vl["ASCMActiveCruiseControlStatus"]["ACCResumeAlert"] ==1 and self.acc_state == 0
+    self.acc_state = pt_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSTATE"]
+    self.resume_alert =pt_cp.vl["ASCMActiveCruiseControlStatus"]["ACCResumeAlert"] ==1 and self.acc_state == 0
 
-    ret.cruiseState.speed = cam_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSpeedSetpoint"] * CV.KPH_TO_MS
+    ret.cruiseState.speed = pt_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSpeedSetpoint"] * CV.KPH_TO_MS
     # ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
     ret.steeringPressed = self.update_steering_pressed(abs(ret.steeringTorque) > self.params.STEER_THRESHOLD, 5)
 
@@ -147,10 +147,11 @@ class CarState(CarStateBase):
 
     # ret.cruiseState.standstill = ret.cruiseState.enabled == 0 and ret.cruiseState.available != 0
     self.lkas_status = 0
-    self.crz_btns_counter = cam_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
+    self.crz_btns_counter = pt_cp.vl["ASCMActiveCruiseControlStatus"]["COUNTER_1"];
     ret.brakeLightsDEPRECATED = bool(ret.brakePressed or ret.brakeHoldActive)
-    self.lkas_status = pt_cp.vl["STEER_STATUS"]["STEER_STATUS"]
-    self.cruise_gap = cam_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
+    # self.lkas_status = pt_cp.vl["STEER_STATUS"]["STEER_STATUS"]
+    self.lkas_status = pt_cp.vl["PSCMSteeringAngle"]["STEER_STATUS"]
+    self.cruise_gap = pt_cp.vl["ASCMActiveCruiseControlStatus"]['ACCGapLevel']
     self.gap_dist_button = self.cruise_gap
     self.lkas_enabled = cam_cp.vl["LkasHud"]["LKA_ACTIVE"];
     self.lkas_hud = cam_cp.vl["LkasHud"]
@@ -183,8 +184,7 @@ class CarState(CarStateBase):
       messages += [
         ("STEERING_LKA", 50),
         ("LkasHud", 20),
-        ("ASCMActiveCruiseControlStatus", 10),
-        ("AccStatus", 20),
+        
       ]
 
     return CANParser(DBC[CP.carFingerprint]["pt"], messages, CanBus.CAMERA)
@@ -197,6 +197,8 @@ class CarState(CarStateBase):
       ("EPBStatus", 10),
       ("ECMPRDNL", 10),
       ("BCMDoorBeltStatus", 10),
+      ("ASCMActiveCruiseControlStatus", 10),
+      ("AccStatus", 20),
       ("BCMDoorBelt", 10),
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),

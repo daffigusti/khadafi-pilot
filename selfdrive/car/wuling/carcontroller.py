@@ -160,17 +160,23 @@ class CarController:
           print("Cruize button %s " % CC.cruiseControl.resume)
           print("Resule Alert %s " % CS.resume_alert)
         # Send Resume button when planner wants car to move
-          can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.crz_btns_counter, CruiseButtons.RES_ACCEL))
-          print("Send Resume 2 %d" % (CS.crz_btns_counter))
+          can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.RES_ACCEL))
           self.last_button_frame = self.frame
       elif CS.out.cruiseState.enabled and not self.CP.pcmCruiseSpeed:
         self.cruise_button = self.get_cruise_buttons(CS, CC.vCruise)
         if self.cruise_button is not None:
           if self.frame % 2 == 0:
             print(self.cruise_button)
-            
-            can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.crz_btns_counter, self.cruise_button))
-            print("Send button %d" % (CS.crz_btns_counter))
+            can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.RES_ACCEL))
+            print("Send button %d" % (self.frame))
+
+
+    # test button
+    # if CS.out.steeringPressed:
+    #     if self.frame % 2 == 0:
+    #       can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.DECEL_SET))
+    #       # can_sends.append(wulingcan.create_resume_button(0,0,0,0))
+    #       print("Send button %d" % (CS.buttons_counter))
 
     if (self.frame  % self.params.STEER_STEP) == 0:
       apply_steer = int(round(actuators.steer * self.params.STEER_MAX))
@@ -196,11 +202,10 @@ class CarController:
 
     # send HUD alerts
     if self.frame % 5 == 0:
+      # TODO: find a way to silence audible warnings so we can add more hud alerts
       ldw = CC.hudControl.visualAlert == VisualAlert.ldw
       steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
-      # TODO: find a way to silence audible warnings so we can add more hud alerts
-      steer_required = steer_required
-      can_sends.append(wulingcan.create_lkas_hud(self.packer_pt, 0, CS.lkas_hud, steer_required ))
+      can_sends.append(wulingcan.create_lkas_hud(self.packer_pt, 0, CS.lkas_hud, CC.latActive, steer_required))
 
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.params.STEER_MAX
@@ -303,8 +308,8 @@ class CarController:
   def get_button_control(self, CS, final_speed, v_cruise_kph_prev):
     self.init_speed = round(min(final_speed, v_cruise_kph_prev) * (CV.KPH_TO_MPH if not self.is_metric else 1))
     self.v_set_dis = round(CS.out.cruiseState.speed * (CV.MS_TO_MPH if not self.is_metric else CV.MS_TO_KPH))
-    print(self.init_speed)
-    print(self.v_set_dis)
+    # print(self.init_speed)
+    # print(self.v_set_dis)
 
     cruise_button = self.get_button_type(self.button_type)
 

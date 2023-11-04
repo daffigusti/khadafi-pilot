@@ -103,6 +103,8 @@ def create_buttons(packer, idx, button):
 
 
 def create_lkas_hud(packer, bus, lkas_hud_stock_values, lkas_active=0, steer_warning=0):
+  commands = []
+
   values = {s: lkas_hud_stock_values[s] for s in [
     "ALERT",
     "LKA_ACTIVE",
@@ -123,6 +125,17 @@ def create_lkas_hud(packer, bus, lkas_hud_stock_values, lkas_active=0, steer_war
     "NEW_SIGNAL_8"
   ]}
   
+  # values.update({
+  #         "LKA_ACTIVE": 1,
+  #         "LKAS_STATE": 1,
+  #         "LEAD_FOLLOW_1": 1,
+  #         "LEAD_FOLLOW_2": 1,
+  #         "HUD_ALERT": 1,
+  #         "LKA_LINE": 3,
+  #         "STEER_WARNING": 2,
+  #         "LKA_LINE_2": 0,
+  #         "NEW_SIGNAL_1": 1,
+  #       })
   # values.update({
   #     "LKA_ACTIVE": 1,
   #     "STEER_WARNING": 1,
@@ -170,14 +183,17 @@ def create_lkas_hud(packer, bus, lkas_hud_stock_values, lkas_active=0, steer_war
   #       "STEER_WARNING": 1,
   #     })
      
-  print('Send to Lkas');
-  print(values)
+  # print('Send to Lkas');
+  # print(values)
   # values.update({
   #   "STEER_WARNING": steer_warning,
   # })
   
+  commands.append(packer.make_can_msg("LkasHud", bus, values))
+  # commands.append(packer.make_can_msg("LkasHud", 1, values))
+  # commands.append(packer.make_can_msg("LkasHud", 2, values))
 
-  return packer.make_can_msg("LkasHud", bus, values)
+  return commands
 
 def create_adas_time_status(bus, tt, idx):
   dat = [(tt >> 20) & 0xff, (tt >> 12) & 0xff, (tt >> 4) & 0xff,

@@ -156,10 +156,15 @@ BO_ 883 LkasHud: 8 K20_ECM
  SG_ COUNTER_2 : 62|2@1+ (1,0) [0|3] "" XXX
 
 BO_ 611 AccStatus: 8 XXX
+ SG_ NEW_SIGNAL_5 : 0|6@1+ (1,0) [0|63] "" XXX
  SG_ NEW_SIGNAL_2 : 8|8@1+ (1,0) [0|255] "" XXX
- SG_ CruiseMainOn : 38|1@0+ (1,0) [0|1] "" XXX
+ SG_ NEW_SIGNAL_4 : 19|1@0+ (1,0) [0|1] "" XXX
  SG_ CruiseState : 21|1@0+ (1,0) [0|1] "" XXX
+ SG_ NEW_SIGNAL_1 : 22|2@1+ (1,0) [0|3] "" XXX
+ SG_ CruiseMainOn : 38|1@0+ (1,0) [0|1] "" XXX
+ SG_ NEW_SIGNAL_3 : 56|4@1+ (1,0) [0|63] "" XXX
  SG_ FCWAlert : 60|1@1+ (1,0) [0|3] "" XXX
+ SG_ NEW_SIGNAL_6 : 61|1@0+ (1,0) [0|1] "" XXX
 
 BO_ 401 GAS_PEDAL: 8 XXX
  SG_ NEW_SIGNAL_3 : 2|11@0+ (1,0) [0|2047] "" XXX
@@ -179,7 +184,7 @@ BO_ 617 BRAKE_MODULE: 8 XXX
  SG_ BRAKE_PRESSED : 37|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_7 : 32|4@1+ (1,0) [0|15] "" XXX
  SG_ ENABLE : 21|1@0+ (1,0) [0|1] "" XXX
- SG_ FCWAlert : 19|1@0+ (1,0) [0|1] "" XXX
+ SG_ AEB : 19|1@0+ (1,0) [0|1] "" XXX
  SG_ COUNTER : 7|2@0+ (1,0) [0|3] "" XXX
  SG_ COUNTER_2 : 63|2@0+ (1,0) [0|3] "" XXX
  SG_ NEW_SIGNAL_6 : 5|1@0+ (1,0) [0|1] "" XXX

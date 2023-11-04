@@ -119,7 +119,7 @@ class CarState(CarStateBase):
     self.park_brake = pt_cp.vl["EPBStatus"]["EPBSTATUS"]
     self.pcm_acc_status = pt_cp.vl["ASCMActiveCruiseControlStatus"]["ACCSTATE"]
 
-    ret.cruiseState.available = pt_cp.vl["AccStatus"]["CruiseState"] != 0
+    ret.cruiseState.available = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
     ret.cruiseState.enabled = pt_cp.vl["AccStatus"]["CruiseState"] != 0
 
     self.is_cruise_latch = pt_cp.vl["AccStatus"]["CruiseMainOn"] != 0
@@ -156,6 +156,9 @@ class CarState(CarStateBase):
     self.lkas_enabled = cam_cp.vl["LkasHud"]["LKA_ACTIVE"];
     self.lkas_hud = cam_cp.vl["LkasHud"]
 
+    ret.stockFcw = bool(pt_cp.vl["AccStatus"]["FCWAlert"])
+    ret.stockAeb = bool(pt_cp.vl["BRAKE_MODULE"]["AEB"])
+    
     # self.lkas_status = cam_cp.vl["LkasHud"]["LKAS_STATE"];
     # ret.steerFaultTemporary = self.lkas_status == 0
     # ret.steerFaultTemporary = pt_cp.vl["PSCMSteeringAngle"]["STEER_STATUS"] != 0

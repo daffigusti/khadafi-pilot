@@ -160,16 +160,15 @@ class CarController:
           print("Cruize button %s " % CC.cruiseControl.resume)
           print("Resule Alert %s " % CS.resume_alert)
         # Send Resume button when planner wants car to move
-          can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.RES_ACCEL))
+          can_sends.extend([wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.RES_ACCEL)]*25)
           self.last_button_frame = self.frame
       elif CS.out.cruiseState.enabled and not self.CP.pcmCruiseSpeed:
         self.cruise_button = self.get_cruise_buttons(CS, CC.vCruise)
         if self.cruise_button is not None:
           if self.frame % 2 == 0:
             print(self.cruise_button)
-            can_sends.append(wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, CruiseButtons.RES_ACCEL))
+            can_sends.extend([wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, self.cruise_button)]*20)
             print("Send button %d" % (self.frame))
-
 
     # test button
     # if CS.out.steeringPressed:
@@ -205,7 +204,7 @@ class CarController:
       # TODO: find a way to silence audible warnings so we can add more hud alerts
       ldw = CC.hudControl.visualAlert == VisualAlert.ldw
       steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
-      can_sends.append(wulingcan.create_lkas_hud(self.packer_pt, 0, CS.lkas_hud, CC.latActive, steer_required))
+      can_sends.extend(wulingcan.create_lkas_hud(self.packer_pt, 0, CS.lkas_hud, CC.latActive, steer_required))
 
     new_actuators = actuators.copy()
     new_actuators.steer = self.apply_steer_last / self.params.STEER_MAX

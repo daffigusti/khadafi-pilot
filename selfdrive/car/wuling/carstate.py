@@ -205,6 +205,7 @@ class CarState(CarStateBase):
       ("BCMDoorBelt", 10),
       ("EBCMWheelSpdFront", 20),
       ("EBCMWheelSpdRear", 20),
+      ("BRAKE_MODULE", 20),
       ("PSCMSteeringAngle", 100),
       ("STEER_RELATED", 20),
       ("STEER_STATUS", 10),

@@ -156,6 +156,7 @@ class CarController:
       self.brake_counter = 0
 
       # if CC.cruiseControl.resume and self.frame % 2 == 0:
+      
       if (CS.resume_alert == 1 or CC.cruiseControl.resume) and self.frame % 2 == 0:
           print("Cruize button %s " % CC.cruiseControl.resume)
           print("Resule Alert %s " % CS.resume_alert)
@@ -167,7 +168,7 @@ class CarController:
         if self.cruise_button is not None:
           if self.frame % 2 == 0:
             print(self.cruise_button)
-            can_sends.extend([wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, self.cruise_button)]*20)
+            can_sends.extend([wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, self.cruise_button)]*2)
             print("Send button %d" % (self.frame))
 
     # test button

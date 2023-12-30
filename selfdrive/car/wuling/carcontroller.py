@@ -172,7 +172,7 @@ class CarController:
           self.last_button_frame = self.frame
       elif CS.out.cruiseState.enabled and not self.CP.pcmCruiseSpeed:
         self.cruise_button = self.get_cruise_buttons(CS, CC.vCruise)
-        if self.cruise_button is not None:
+        if self.cruise_button is not None and CS.cruise_buttons == CruiseButtons.UNPRESS:
           # if self.frame % 2 == 0:
             print(self.cruise_button)
             can_sends.extend([wulingcan.create_buttons(self.packer_pt, CS.buttons_counter, self.cruise_button)] * 10)

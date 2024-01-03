@@ -66,8 +66,12 @@ VOLKSWAGEN_V_CRUISE_MIN = {
   False: int(20 * CV.MPH_TO_KPH),
 }
 
-SpeedLimitControlState = custom.LongitudinalPlanSP.SpeedLimitControlState
+WULING_V_CRUISE_MIN = {
+  True: 30,
+  False: int(20 * CV.MPH_TO_KPH),
+}
 
+SpeedLimitControlState = custom.LongitudinalPlanSP.SpeedLimitControlState
 
 class VCruiseHelper:
   def __init__(self, CP):
@@ -122,7 +126,7 @@ class VCruiseHelper:
     button_type = None
 
     v_cruise_delta = 1. if is_metric else IMPERIAL_INCREMENT
-    v_cruise_delta_mltplr = 10 if is_metric else 5
+    v_cruise_delta_mltplr = 5 if is_metric else 5
 
     for b in CS.buttonEvents:
       if b.type.raw in self.button_timers and not b.pressed:
@@ -202,7 +206,8 @@ class VCruiseHelper:
         initial = MAZDA_V_CRUISE_MIN[is_metric]
       elif self.CP.carName == "volkswagen":
         initial = VOLKSWAGEN_V_CRUISE_MIN[is_metric]
-
+      elif self.CP.carName == "wuling":
+        initial = WULING_V_CRUISE_MIN[is_metric]
     # 250kph or above probably means we never had a set speed
     if any(b.type in resume_buttons for b in CS.buttonEvents) and self.v_cruise_kph_last < 250:
       self.v_cruise_kph = self.v_cruise_kph_last
@@ -234,6 +239,8 @@ class VCruiseHelper:
         self.v_cruise_min = MAZDA_V_CRUISE_MIN[is_metric]
       elif self.CP.carName == "volkswagen":
         self.v_cruise_min = VOLKSWAGEN_V_CRUISE_MIN[is_metric]
+      elif self.CP.carName == "wuling":
+        self.v_cruise_min = WULING_V_CRUISE_MIN[is_metric]
     self.is_metric_prev = is_metric
 
 

@@ -145,6 +145,8 @@ class LatControlTorque(LatControl):
 
       self.torque_params.latAccelFactor = float(self.param_s.get("TorqueMaxLatAccel", encoding="utf8")) * 0.01
       self.torque_params.friction = float(self.param_s.get("TorqueFriction", encoding="utf8")) * 0.01
+      print("torque_params.friction : %d", self.torque_params.friction)
+      print("torque_params.latAccelFactor : %d", self.torque_params.latAccelFactor)
 
   @property
   def pid_long_sp(self):

@@ -651,9 +651,10 @@ struct CarParams {
     hongqi @26;
     body @27;
     hyundaiCanfd @28;
-    volkswagenMqbEvo @29;
-    chryslerCusw @30;
-    psa @31;
+    wuling @29;
+    volkswagenMqbEvo @30;
+    chryslerCusw @31;
+    psa @32;
   }
 
   enum SteerControlType {

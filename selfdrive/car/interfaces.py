@@ -758,6 +758,17 @@ class CarStateBase(ABC):
     self.mads_enabled = False
     self.prev_mads_enabled = False
     self.control_initialized = False
+    
+    # FrogPilot variables
+    self.cruise_decreased = False
+    self.cruise_decreased_previously = False
+    self.cruise_increased = False
+    self.cruise_increased_previously = False
+    self.lkas_enabled = False
+    self.lkas_previously_enabled = False
+
+    self.prev_distance_button = 0
+    self.distance_button = 0
 
     self.button_events: list[capnp.lib.capnp._DynamicStructBuilder] = []
     self.params_list: SimpleNamespace = ParamManager().get_params()

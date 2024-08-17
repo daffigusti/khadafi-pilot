@@ -242,7 +242,7 @@ def get_fw_versions_ordered(logcan, sendcan, vin: str, ecu_rx_addrs: set[EcuAddr
   """Queries for FW versions ordering brands by likelihood, breaks when exact match is found"""
 
   all_car_fw = []
-  brand_matches = get_brand_ecu_matches(ecu_rx_addrs)
+  brand_matches =   get_brand_ecu_matches(ecu_rx_addrs)
 
   for brand in sorted(brand_matches, key=lambda b: len(brand_matches[b]), reverse=True):
     # Skip this brand if there are no matching present ECUs

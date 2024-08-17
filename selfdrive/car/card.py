@@ -5,6 +5,7 @@ import time
 from types import SimpleNamespace
 
 import cereal.messaging as messaging
+import threading
 
 from cereal import car
 
@@ -19,7 +20,7 @@ from openpilot.selfdrive.car.car_helpers import get_car, get_one_can
 from openpilot.selfdrive.car.interfaces import CarInterfaceBase
 from openpilot.selfdrive.car.param_manager import ParamManager
 from openpilot.selfdrive.controls.lib.events import Events
-
+from openpilot.selfdrive.debug.chery_test import test_thread,test, log_data
 REPLAY = "REPLAY" in os.environ
 
 EventName = car.CarEvent.EventName
@@ -179,12 +180,21 @@ class Car:
 
       self.CC_prev = CC
 
+  def getCheryEvData(self, enable, speed):
+    log_data(self.can_sock, self.pm.sock['sendcan'], enable, speed)
+
+  def getCheryEvData_thread(self, enable, speed):
+    pin_thread = threading.Thread(target=self.getCheryEvData)
+    pin_thread.start()
+
   def step(self):
     CS = self.state_update()
 
     self.update_events(CS)
 
     self.state_publish(CS)
+    if self.sm.frame % int(10. / DT_CTRL) == 0:
+      self.getCheryEvData(CS.cruiseState.enabled, CS.vEgoCluster)
 
     initialized = (not any(e.name == EventName.controlsInitializing for e in self.sm['onroadEvents']) and
                    self.sm.seen['onroadEvents'])

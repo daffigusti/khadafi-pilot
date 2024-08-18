@@ -146,6 +146,8 @@ class CarController:
     # send acc msg at 50Hz
     # print('Log ',now_nanos)
     if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ACC_CONTROL_STEP) == 0:
+      full_stop = CC.longActive and CS.out.standstill
+
       accel = int(round(interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
       # print('Log  Long',now_nanos)
       gas = accel
@@ -154,7 +156,7 @@ class CarController:
       else:
         print('Actuator accel : ',actuators.accel)
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
-      can_sends.append(cherycan.create_longitudinal_control(self.packer_pt, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping))
+      can_sends.append(cherycan.create_longitudinal_control(self.packer_pt, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping, full_stop))
 
     new_actuators = CC.actuators.as_builder()
     new_actuators.steeringAngleDeg = self.apply_angle_last

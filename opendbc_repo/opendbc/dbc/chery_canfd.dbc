@@ -193,7 +193,7 @@ BO_ 930 ACC_CMD: 8 XXX
  SG_ CMD : 6|10@0- (1,0) [0|127] "" XXX
  SG_ ACCEL_ON : 7|1@0+ (1,0) [0|1] "" XXX
  SG_ ACC_STATE : 9|2@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_1 : 10|1@0+ (1,0) [0|1] "" XXX
+ SG_ STOPPED : 10|1@0+ (1,0) [0|1] "" XXX
  SG_ ACC_STATE_2 : 11|2@1+ (1,0) [0|15] "" XXX
  SG_ NEW_SIGNAL_12 : 16|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_9 : 17|1@0+ (1,0) [0|1] "" XXX

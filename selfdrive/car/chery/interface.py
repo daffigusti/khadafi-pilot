@@ -49,7 +49,7 @@ class CarInterface(CarInterfaceBase):
     ret.centerToFront = ret.wheelbase * 0.4
 
     ret.steerLimitTimer = 1.0
-    ret.steerActuatorDelay = 0.2
+    ret.steerActuatorDelay = 0.25
     ret.steerControlType = car.CarParams.SteerControlType.angle
 
     ret.transmissionType = TransmissionType.automatic
@@ -58,7 +58,8 @@ class CarInterface(CarInterfaceBase):
     ret.stoppingDecelRate = 0.5
     ret.vEgoStarting = 0.1
     ret.vEgoStopping = 0.25
-    # ret.longitudinalActuatorDelay = 0.5 # s
+    ret.stoppingControl = True
+    ret.longitudinalActuatorDelay = 0.5 # s
     # ret.startAccel = 1.0
 
     ret.enableBsm = 0x4B1 in fingerprint[CAN.main] and 0x4B3 in fingerprint[CAN.main]

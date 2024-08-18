@@ -11,6 +11,5 @@ FINGERPRINTS = {
 }
 
 
-FW_VERSIONS = {
-
+FW_VERSIONS: dict[str, dict[tuple, list[bytes]]] = {
 }

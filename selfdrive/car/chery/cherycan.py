@@ -17,13 +17,15 @@ def calculate_crc(data, poly, xor_output):
       crc &= 0xFF
   return (crc ^ xor_output)
 
-def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas: float, accel: float, stopping: bool):
+def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas: float, accel: float, stopping: bool, full_stop : bool):
   throtle = gas if long_active else -24
+  # if full stop cmd = 400, acc_state = 2, and stopped = 1
+  acc_state = 2 if full_stop else 3 if long_active else acc['ACC_STATE']
   values = {
-      "CMD": throtle,
+      "CMD": 400 if full_stop else throtle,
       "ACCEL_ON": 1 if throtle>= 0 else 0,
-      "ACC_STATE": 3 if long_active else acc['ACC_STATE'],
-      "NEW_SIGNAL_1": acc['NEW_SIGNAL_1'],
+      "ACC_STATE": acc_state,
+      "STOPPED": 1 if full_stop else acc['STOPPED'],
       "ACC_STATE_2": acc['ACC_STATE_2'],
       "NEW_SIGNAL_12": acc['NEW_SIGNAL_12'],
       "NEW_SIGNAL_9": acc['NEW_SIGNAL_9'],

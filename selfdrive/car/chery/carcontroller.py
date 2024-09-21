@@ -101,14 +101,14 @@ class CarController:
     # hud_v_cruise = hud_control.setSpeed
 
 
-    # if CC.cruiseControl.cancel and (self.frame % self.params.BUTTONS_STEP) == 0:
-    #   can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, cancel=True))
-    #   # can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, cancel=True))
-    # elif CC.cruiseControl.resume and (self.frame % self.params.BUTTONS_STEP) == 0:
-    #   can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, resume=True))
-    #   # can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, resume=True))
-    # else:
-    #   self.brake_counter = 0
+    if CC.cruiseControl.cancel and (self.frame % self.params.BUTTONS_STEP) == 0:
+      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, cancel=True))
+      # can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, cancel=True))
+    elif CC.cruiseControl.resume and (self.frame % self.params.BUTTONS_STEP) == 0:
+      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, resume=True))
+      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, resume=True))
+    else:
+      self.brake_counter = 0
 
     self.steering_pressed_counter = self.steering_pressed_counter + 1 if abs(CS.out.steeringTorque) >= 50 else 0
     # Make LKA Temporary disable when driver try to override
@@ -132,6 +132,10 @@ class CarController:
       else:
         apply_angle = CS.out.steeringAngleDeg
         apply_steer_req = False
+
+                # ovveride human steer
+      if abs(CS.out.steeringTorque) >= 50:
+        apply_angle = CS.out.steeringAngleDeg
 
       self.apply_angle_last = apply_angle
       self.last_steer_frame = self.frame

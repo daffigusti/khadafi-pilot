@@ -40,6 +40,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
       "NEW_SIGNAL_3": acc['NEW_SIGNAL_3'],
       "NEW_SIGNAL_4": acc['NEW_SIGNAL_4'],
       "NEW_SIGNAL_11": acc['NEW_SIGNAL_11'],
+      "GAS_PRESSED": acc['GAS_PRESSED'],
       "COUNTER": (frame) % 0x0f,
       # "STEER_REQUEST": steer_req,
   }
@@ -61,9 +62,10 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
 def create_steering_control_lkas(packer, apply_steer, frame, lkas_enable, lkas):
   # idx = (apply_steer) % 1000
   apply_steer = int((apply_steer*10)-390)
-
+  if apply_steer>= 0 and apply_steer <=2 :
+      apply_steer = 2
   values = {
-      "CMD": 1 if apply_steer == 0 else apply_steer,
+        "CMD": apply_steer,
       "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
       # "LKA_ACTIVE":  1 if (apply_steer) else 0,
       "LKA_ACTIVE": 1 if lkas_enable else 0,
@@ -145,4 +147,10 @@ def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume
     "ACC": 1 if cancel else 0,      # CC cancel button
     "RES_PLUS": 1 if resume else 0,      # CC resume button
   })
+
+  dat = packer.make_can_msg("STEER_BUTTON", bus, values)[2]
+
+  crc = calculate_crc(dat[:-1], 0x1D, 0xA)
+  values["CHECKSUM"] = crc
+
   return packer.make_can_msg("STEER_BUTTON", bus, values)

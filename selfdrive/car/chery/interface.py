@@ -62,6 +62,12 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalActuatorDelay = 0.5 # s
     # ret.startAccel = 1.0
 
+    ret.longitudinalTuning.kpBP = [0.]
+    ret.longitudinalTuning.kpV = [0.0]
+    ret.longitudinalTuning.kiV = [0.1]
+    ret.longitudinalTuning.deadzoneBP = [0., 9.]
+    ret.longitudinalTuning.deadzoneV = [.0, .20]
+
     ret.enableBsm = 0x4B1 in fingerprint[CAN.main] and 0x4B3 in fingerprint[CAN.main]
 
     ret.minEnableSpeed = -1

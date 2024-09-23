@@ -65,8 +65,6 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalTuning.kpBP = [0.]
     ret.longitudinalTuning.kpV = [0.0]
     ret.longitudinalTuning.kiV = [0.1]
-    ret.longitudinalTuning.deadzoneBP = [0., 9.]
-    ret.longitudinalTuning.deadzoneV = [.0, .20]
 
     ret.enableBsm = 0x4B1 in fingerprint[CAN.main] and 0x4B3 in fingerprint[CAN.main]
 
@@ -84,13 +82,14 @@ class CarInterface(CarInterfaceBase):
       *self.CS.button_events,
       *create_button_events(self.CS.distance_button, self.CS.prev_distance_button, {1: ButtonType.gapAdjustCruise})
     ]
+    if not self.CP.pcmCruise:
+      if any(b.type == ButtonType.accelCruise and b.pressed for b in self.CS.button_events):
+        self.CS.accEnabled = True
+
     self.CS.mads_enabled = self.get_sp_cruise_main_state(ret)
 
-    self.CS.accEnabled = self.get_sp_v_cruise_non_pcm_state(ret, c.vCruise,
-                                                            enable_buttons=(ButtonType.accelCruise, ButtonType.decelCruise, ButtonType.resumeCruise) if not self.CP.pcmCruiseSpeed else
-                                                                           (ButtonType.accelCruise, ButtonType.decelCruise),
-                                                            resume_button=(ButtonType.resumeCruise,) if not self.CP.pcmCruiseSpeed else
-                                                                          (ButtonType.accelCruise, ButtonType.resumeCruise))
+    self.CS.accEnabled = self.get_sp_v_cruise_non_pcm_state(ret, c.vCruise, self.CS.accEnabled,
+                                                            enable_buttons=(ButtonType.setCruise, ButtonType.resumeCruise))
     if ret.cruiseState.available:
       if self.enable_mads:
         if not self.CS.prev_mads_enabled and self.CS.mads_enabled:
@@ -101,7 +100,7 @@ class CarInterface(CarInterfaceBase):
     else:
       self.CS.madsEnabled = False
 
-    self.CS.madsEnabled = self.get_sp_started_mads(ret)
+    self.CS.madsEnabled = self.get_sp_started_mads(ret, self.CS.madsEnabled)
 
     if not self.CP.pcmCruise or (self.CP.pcmCruise and self.CP.minEnableSpeed > 0) or not self.CP.pcmCruiseSpeed:
       if any(b.type == ButtonType.cancel for b in self.CS.button_events):

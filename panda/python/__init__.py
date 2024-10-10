@@ -470,6 +470,7 @@ class Panda:
       self.close()
 
     success = False
+    time.sleep(1) # give some time for the device to enumerate with multiple usb hubs
     # wait up to 15 seconds
     for _ in range(15*10):
       try:

@@ -114,7 +114,7 @@ static bool chery_tx_hook(const CANPacket_t *to_send)
   if (bus == CHERY_MAIN)
   {
 
-    if (addr == CHERY_LKAS)
+    if (addr == CHERY_LKAS_HUD)
     {
       // tx = false;
     }

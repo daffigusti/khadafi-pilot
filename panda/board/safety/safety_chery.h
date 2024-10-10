@@ -98,7 +98,7 @@ static void chery_rx_hook(const CANPacket_t *to_push)
     //   brake_pressed = (GET_BYTE(to_push, 0) & 0x10U);
     // }
 
-    generic_rx_checks((addr == CHERY_LKAS));
+    generic_rx_checks((addr == CHERY_LKAS_HUD));
   }
   controls_allowed = true;
   controls_allowed_long = true;

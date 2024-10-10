@@ -4,6 +4,7 @@ from enum import Enum, IntFlag, StrEnum
 from typing import Dict, List, Union
 from panda.python import uds
 from openpilot.selfdrive.car import CanBusBase
+from openpilot.common.realtime import DT_CTRL
 
 from cereal import car
 from openpilot.selfdrive.car import AngleRateLimit, CarSpecs, DbcDict, PlatformConfig, Platforms, dbc_dict
@@ -26,23 +27,30 @@ class CarControllerParams:
   STEER_DELTA_UP = 2
   STEER_DELTA_DOWN = 3
 
-  STEER_THRESHOLD = 60
+  STEER_THRESHOLD = 50
   STEER_DRIVER_ALLOWANCE = 1.0  # Driver intervention threshold, Nm
 
+  # Temporary steer fault timeout
+  # Maximum time to continuously read 0 torque from EPS
+  STEER_TIMEOUT = 30 / DT_CTRL
   # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 1.2, .1])
   # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 2.0, 0.2])
 
   # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.15])
   # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.36, 0.26])
 
+  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.085])
+  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.325, 0.09])
 
   # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.1, 0.081])
   # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.125, 0.09])
 
+  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.085])
+  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.325, 0.09])
   # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.1, 0.095])
   # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.155, 0.1])
-  ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[5., .8, .15])
-  ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[5., 3.5, 0.4])
+  ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[4., .8, .15])
+  ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[4., 1.5, 0.4])
 
   ACCEL_MAX = 2.0               # m/s^2 max acceleration
   ACCEL_MAX_PLUS = 4.0          # m/s^2 max acceleration
@@ -51,7 +59,7 @@ class CarControllerParams:
   INACTIVE_GAS = -24
 
   GAS_MAX = 512
-  GAS_MIN = -512
+  GAS_MIN = -400
 
   ACCEL_LOOKUP_BP = [ACCEL_MIN, 0, ACCEL_MAX]
   ACCEL_LOOKUP_V = [GAS_MIN, -24, GAS_MAX]
@@ -74,7 +82,7 @@ class CheryFlags(IntFlag):
 @dataclass
 class CheryCarDocs(CarDocs):
   package: str = "Chery Pilot"
-  car_parts: CarParts = field(default_factory=CarParts.common([CarHarness.chery]))
+  car_parts: CarParts = field(default_factory=CarParts.common([CarHarness.custom]))
 
   def init(self):
     super().init()
@@ -91,9 +99,9 @@ class CheryPlatformConfig(PlatformConfig):
 
 
 class CAR(Platforms):
-  OMODA_E5 = CheryPlatformConfig(
-    [CheryCarDocs("Omoda E5")],
-    CheryCarSpecs(mass=1785, wheelbase=2.63, steerRatio=18)
+  CHERY_OMODA_E5 = CheryPlatformConfig(
+    [CheryCarDocs("Chery Omoda E5")],
+    CheryCarSpecs(mass=1785, wheelbase=2.63, steerRatio=17.5)
   )
 
 

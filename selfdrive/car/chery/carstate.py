@@ -127,8 +127,8 @@ class CarState(CarStateBase):
     # cruise state
     # ret.cruiseState.available = cam_cp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
     # ret.cruiseState.available =  cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
-    # ret.cruiseState.available =  True
-    ret.cruiseState.available = cam_cp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
+    ret.cruiseState.available =  True
+    # ret.cruiseState.available = cam_csp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
     ret.cruiseState.enabled = cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0 or cam_cp.vl["ACC_CMD"]["STOPPED"] == 1
     self.needResume = cam_cp.vl["ACC"]["ACC_ACTIVE"] == 0 and cam_cp.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cam_cp.vl["SETTING"]["CC_SPEED"]

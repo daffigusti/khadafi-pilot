@@ -11,4 +11,4 @@ if [ -z "$AGNOS_VERSION" ]; then
 fi
 
 export STAGING_ROOT="/data/safe_staging"
-export FINGERPRINT="OMODA_E5"
+export FINGERPRINT="CHERY_OMODA_E5"

@@ -46,7 +46,9 @@ class CarController:
     self.packer_pt = CANPacker(DBC[self.CP.carFingerprint]['pt'])
     self.param_s = Params()
 
-    self.sm = messaging.SubMaster(['longitudinalPlan'])
+    sub_services = ['longitudinalPlan', 'longitudinalPlanSP']
+    if sub_services:
+      self.sm = messaging.SubMaster(sub_services)
     self.is_metric = self.param_s.get_bool("IsMetric")
     self.speed_limit_control_enabled = False
     self.last_speed_limit_sign_tap = False
@@ -81,7 +83,7 @@ class CarController:
   def update(self, CC, CS, now_nanos):
     can_sends = []
     actuators = CC.actuators
-    experimentalMode = True
+    experimentalMode = False
 
     if not self.CP.pcmCruiseSpeed:
       self.sm.update(0)

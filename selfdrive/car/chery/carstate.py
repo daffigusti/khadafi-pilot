@@ -1,4 +1,6 @@
 import copy
+import time
+
 from cereal import car, custom
 from collections import deque
 import cereal.messaging as messaging
@@ -16,6 +18,8 @@ GearShifter = car.CarState.GearShifter
 TransmissionType = car.CarParams.TransmissionType
 NetworkLocation = car.CarParams.NetworkLocation
 STANDSTILL_THRESHOLD = 10 * 0.0311 * CV.KPH_TO_MS
+DEADBAND = 0.2
+DIRECTION_HOLD_TIME = 1.0  # 1 second hold time
 
 class CarState(CarStateBase):
   def __init__(self, CP):
@@ -29,12 +33,17 @@ class CarState(CarStateBase):
     self.prev_distance_button = 0
     self.distance_button = 0
     self.prev_main_button = 0
+    self.lkas_status = 0
     self.main_button = 0
     self.button_states = {button.event_type: False for button in self.params.BUTTONS}
     self.lkas_enabled = False
     self.prev_lkas_enabled = False
     self.mainEnabled = False
+    self.last_change_time = 0.0
 
+    # Detect if servo stop responding to steering command.
+    self.cruiseState_enabled_prev = False
+    self.eps_torque_timer = 0
 
   def create_button_events(self, pt_cp, buttons):
     button_events = []
@@ -69,14 +78,16 @@ class CarState(CarStateBase):
     self.acc_md = copy.copy(cam_cp.vl["ACC_CMD"])
     self.lkas = copy.copy(pt_cp.vl["LKAS"])
     self.lkas_state = copy.copy(cam_cp.vl["LKAS_STATE"])
+    self.setting = copy.copy(cam_cp.vl["SETTING"])
     self.lkas_cmd = copy.copy(cam_cp.vl["LKAS_CAM_CMD_345"])
 
     # steer_angle = pt_cp.vl["STEER_SENSOR"]["ANGLE"]
     # steer_angle_fraction = pt_cp.vl["STEER_SENSOR"]["FRACTION"]
 
     # gas pedal
-    self.gasPos = pt_cp.vl["ENGINE_DATA"]["GAS_POS"]
-    ret.gas = 0 if self.gasPos >= 2559 or self.gasPos<=0 else self.gasPos
+    self.gasPos = pt_cp.vl["ENGINE_DATA"]["GAS"]
+    # ret.gas = 0 if self.gasPos >= 2559 or self.gasPos<=0 else self.gasPos
+    ret.gas = self.gasPos
     # ret.gasPressed = ret.gas > 1
     ret.gasPressed = (cam_cp.vl["ACC_CMD"]["GAS_PRESSED"]==1) if (cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0) else (ret.gas > 1)
 
@@ -106,6 +117,9 @@ class CarState(CarStateBase):
     ret.steeringAngleDeg = self.agleSensor
 
     ret.steeringTorque = pt_cp.vl["STEER_SENSOR_2"]["TORQUE_DRIVER"] * self.direction
+
+    ret.steeringTorqueEps = pt_cp.vl["STEER_ANGLE_SENSOR"]['TORQUE']
+
     ret.steeringPressed = abs(ret.steeringTorque) > self.params.STEER_THRESHOLD
 
     self.steerTemporaryUnvailable = False
@@ -114,8 +128,9 @@ class CarState(CarStateBase):
     # ret.cruiseState.available = cam_cp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
     # ret.cruiseState.available =  cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
     # ret.cruiseState.available =  True
-    ret.cruiseState.available = cam_cp.vl["ACC_CMD"]["ACC_STATE"] != 1
+    ret.cruiseState.available = cam_cp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0
     ret.cruiseState.enabled = cam_cp.vl["ACC"]["ACC_ACTIVE"] != 0 or cam_cp.vl["ACC_CMD"]["STOPPED"] == 1
+    self.needResume = cam_cp.vl["ACC"]["ACC_ACTIVE"] == 0 and cam_cp.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cam_cp.vl["SETTING"]["CC_SPEED"]
     # ret.cruiseState.enabled = cam_cp.vl["LKAS_STATE"]["STATE"] != 0
     self.cruise_decreased_previously = self.cruise_decreased
@@ -132,6 +147,7 @@ class CarState(CarStateBase):
     # FrogPilot CarState functions
     self.lkas_previously_enabled = self.lkas_enabled
     self.lkas_enabled = cam_cp.vl["LKAS_STATE"]["LKA_ACTIVE"] != 0
+    self.lkas_active =  pt_cp.vl["LKAS"]['LKAS_CMD']
 
     # blindspot sensors
     if self.CP.enableBsm:

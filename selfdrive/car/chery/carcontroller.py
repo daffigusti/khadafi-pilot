@@ -16,6 +16,10 @@ LongCtrlState = car.CarControl.Actuators.LongControlState
 BUTTONS_STATES = ["accelCruise", "decelCruise", "cancel", "resumeCruise"]
 ButtonType = car.CarState.ButtonEvent.Type
 
+# Camera cancels up to 0.1s after brake is pressed, ECM allows 0.5s
+CAMERA_CANCEL_DELAY_FRAMES = 10
+# Enforce a minimum interval between steering messages to avoid a fault
+MIN_STEER_MSG_INTERVAL_MS = 15
 
 class CarController:
   def __init__(self, dbc_name, CP, VM):
@@ -77,6 +81,7 @@ class CarController:
   def update(self, CC, CS, now_nanos):
     can_sends = []
     actuators = CC.actuators
+    experimentalMode = True
 
     if not self.CP.pcmCruiseSpeed:
       self.sm.update(0)
@@ -102,20 +107,20 @@ class CarController:
 
 
     if CC.cruiseControl.cancel and (self.frame % self.params.BUTTONS_STEP) == 0:
-      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, cancel=True))
-      # can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, cancel=True))
-    elif CC.cruiseControl.resume and (self.frame % self.params.BUTTONS_STEP) == 0:
-      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, CS.buttons_stock_values, resume=True))
-      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.main, CS.buttons_stock_values, resume=True))
+      # can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera,self.frame, CS.buttons_stock_values, cancel=True))
+      print('Send Cancel')
+
+    elif (CC.cruiseControl.resume or CS.needResume) and (self.frame % self.params.BUTTONS_STEP) == 0:
+      can_sends.append(cherycan.create_button_msg(self.packer_pt, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
+      print('Send Resume')
     else:
       self.brake_counter = 0
 
     self.steering_pressed_counter = self.steering_pressed_counter + 1 if abs(CS.out.steeringTorque) >= 50 else 0
     # Make LKA Temporary disable when driver try to override
-    if self.steering_pressed_counter * DT_CTRL > 2:
+    if self.steering_pressed_counter * DT_CTRL > 1:
       self.steerDisableTemp = True
       self.steering_unpressed_counter = 0
-      print('Steer Pressed')
     else:
       self.steering_unpressed_counter += 1
       if self.steering_unpressed_counter * DT_CTRL > 1:
@@ -123,19 +128,18 @@ class CarController:
 
     ### lateral control ###
     # send steer msg at 50Hz
-
+    apply_steer_req = False
     if  (self.frame  % self.params.STEER_STEP) == 0:
       if CC.latActive and not self.steerDisableTemp:
         apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgo, CarControllerParams)
         print('Apply angle:',apply_angle)
-        apply_steer_req = True
+        # apply_steer_req = CC.latActive and not CS.out.standstill
+        apply_steer_req = CC.latActive
       else:
         apply_angle = CS.out.steeringAngleDeg
-        apply_steer_req = False
-
-                # ovveride human steer
-      if abs(CS.out.steeringTorque) >= 50:
-        apply_angle = CS.out.steeringAngleDeg
+          # ovveride human steer
+      # if abs(CS.out.steeringTorque) >= 50:
+      #   apply_angle = CS.out.steeringAngleDeg
 
       self.apply_angle_last = apply_angle
       self.last_steer_frame = self.frame
@@ -148,25 +152,28 @@ class CarController:
 
     ### longitudinal control ###
     # send acc msg at 50Hz
-    # print('Log ',now_nanos)
     if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ACC_CONTROL_STEP) == 0:
       full_stop = CC.longActive and CS.out.standstill
-
       accel = int(round(interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
-      # print('Log  Long',now_nanos)
       gas = accel
       if not CC.longActive:
         gas = CarControllerParams.INACTIVE_GAS
       else:
         print('Actuator accel : ',actuators.accel)
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
-      can_sends.append(cherycan.create_longitudinal_control(self.packer_pt, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping, full_stop))
+      if experimentalMode:
+        can_sends.append(cherycan.create_longitudinal_control(self.packer_pt, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping, full_stop))
+      else:
+        can_sends.append(cherycan.create_longitudinal_controlBypass(self.packer_pt, self.CAN.main, CS.acc_md, self.frame))
+
+    if self.frame % 20 == 0:
+      ldw = CC.hudControl.visualAlert == VisualAlert.ldw
+      steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
+      can_sends.append(cherycan.create_lkas_state_hud(self.packer_pt, self.frame, CS.lkas_state, apply_steer_req))
 
     new_actuators = CC.actuators.as_builder()
     new_actuators.steeringAngleDeg = self.apply_angle_last
     # new_actuators.accel = accel
-    # new_actuators.gas = self.apply_gas
-    # new_actuators.brake = self.apply_brake
 
     self.frame += 1
     return new_actuators, can_sends

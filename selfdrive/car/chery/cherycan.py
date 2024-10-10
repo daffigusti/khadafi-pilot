@@ -24,7 +24,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
   values = {
       "CMD": 400 if full_stop else throtle,
       "ACCEL_ON": 1 if throtle>= 0 else 0,
-      "ACC_STATE": acc_state,
+      "ACC_STATE": acc_state, # 1 not available, 2 available, 3 active
       "STOPPED": 1 if full_stop else acc['STOPPED'],
       "ACC_STATE_2": acc['ACC_STATE_2'],
       "NEW_SIGNAL_12": acc['NEW_SIGNAL_12'],
@@ -46,7 +46,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
   }
   # values["COUNTER"] = (values["COUNTER"] + 1) % 0x0f
 
-  dat = packer.make_can_msg("ACC_CMD", bus, values)[2]
+  dat = packer.make_can_msg("ACC_CMD", bus, values)[1]
 
   crc = calculate_crc(dat[:-1], 0x1D, 0xA)
   values["CHECKSUM"] = crc
@@ -58,14 +58,18 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
 
   return packer.make_can_msg("ACC_CMD", bus, values)
 
+def create_longitudinal_controlBypass(packer, bus, acc, frame):
+
+  return packer.make_can_msg("ACC_CMD", bus, acc)
+
 
 def create_steering_control_lkas(packer, apply_steer, frame, lkas_enable, lkas):
   # idx = (apply_steer) % 1000
-  apply_steer = int((apply_steer*10)-390)
+  apply_steer = int((apply_steer*10)-389)
   if apply_steer>= 0 and apply_steer <=2 :
-      apply_steer = 2
+    apply_steer = 2
   values = {
-        "CMD": apply_steer,
+      "CMD": apply_steer,
       "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
       # "LKA_ACTIVE":  1 if (apply_steer) else 0,
       "LKA_ACTIVE": 1 if lkas_enable else 0,
@@ -81,7 +85,7 @@ def create_steering_control_lkas(packer, apply_steer, frame, lkas_enable, lkas):
   }
   # values["COUNTER"] = (values["COUNTER"] + 1) % 0x0f
 
-  dat = packer.make_can_msg("LKAS_CAM_CMD_345", 4, values)[2]
+  dat = packer.make_can_msg("LKAS_CAM_CMD_345", 4, values)[1]
 
   crc = calculate_crc(dat[:-1], 0x1D, 0xA)
   values["CHECKSUM"] = crc
@@ -98,31 +102,26 @@ def create_steering_control_lkas(packer, apply_steer, frame, lkas_enable, lkas):
   return packer.make_can_msg("LKAS_CAM_CMD_345", 4, values)
 
 
-def create_lkas_state_hud(packer, apply_steer, frame, steer_req, lkas):
-  idx = (apply_steer) % 255
-  values = {
-      "NEW_SIGNAL_3": 2,
-      "NEW_SIGNAL_2": 2,
-      "STATE": 0,
-      "LKA_ACTIVE": 1,
-      "COUNTER": (frame) % 0x0f,
-      # "STEER_REQUEST": steer_req,
-  }
-  # values["COUNTER"] = (values["COUNTER"] + 1) % 0x0f
+def create_lkas_state_hud(packer, frame, lkas, lkas_active):
 
-  dat = packer.make_can_msg("LKAS_STATE", 4, values)[2]
+  values = {
+      "NEW_SIGNAL_1": 1,
+      "NEW_SIGNAL_2": 2 if lkas_active else 0,
+      "NEW_SIGNAL_3": 2 if lkas_active else 0,
+      "NEW_SIGNAL_4": 1,
+      "STATE": 0 if lkas_active else 1,
+      "LKA_ACTIVE": 1 if lkas_active else 0,
+      "COUNTER": (frame) % 0x0f,
+  }
+
+  dat = packer.make_can_msg("LKAS_STATE", 4, values)[1]
 
   crc = calculate_crc(dat[:-1], 0x1D, 0xA)
   values["CHECKSUM"] = crc
-  # values["COUNTER"] = lkas['COUNTER']
 
-  # print("Lkas:",lkas)
-  # print("Send valud:",values)
+  return packer.make_can_msg("LKAS_STATE", 4, values if lkas_active else lkas)
 
-  return packer.make_can_msg("LKAS_STATE", 4, lkas
-                             )
-
-def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume=False):
+def create_button_msg(packer, bus: int,frame, stock_values: dict, cancel=False, resume=False):
   """
   Creates a CAN message for buttons/switches.
 
@@ -130,7 +129,7 @@ def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume
 
   Frequency is 20Hz.
   """
-
+  # print(bus)
   values = {s: stock_values[s] for s in [
     "ACC",
     "CC_BTN",
@@ -146,11 +145,14 @@ def create_button_msg(packer, bus: int, stock_values: dict, cancel=False, resume
   values.update({
     "ACC": 1 if cancel else 0,      # CC cancel button
     "RES_PLUS": 1 if resume else 0,      # CC resume button
+    # "COUNTER": (frame) % 0x0f,
   })
 
-  dat = packer.make_can_msg("STEER_BUTTON", bus, values)[2]
+  dat = packer.make_can_msg("STEER_BUTTON", bus, values)[1]
 
   crc = calculate_crc(dat[:-1], 0x1D, 0xA)
   values["CHECKSUM"] = crc
+
+  # print(values)
 
   return packer.make_can_msg("STEER_BUTTON", bus, values)

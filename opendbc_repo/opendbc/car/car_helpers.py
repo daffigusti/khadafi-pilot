@@ -21,6 +21,7 @@ def load_interfaces(brand_names):
   for brand_name in brand_names:
     path = f'opendbc.car.{brand_name}'
     CarInterface = __import__(path + '.interface', fromlist=['CarInterface']).CarInterface
+    print(f'Loaded {brand_name} interface')
     for model_name in brand_names[brand_name]:
       ret[model_name] = CarInterface
   return ret

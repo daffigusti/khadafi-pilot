@@ -178,9 +178,12 @@ static bool rx_msg_safety_check(const CANPacket_t *to_push,
     }
 
     // quality flag check
-    if ((safety_hooks->get_quality_flag_valid != NULL) && !cfg->rx_checks[index].msg[cfg->rx_checks[index].status.index].ignore_quality_flag) {
+    if ((safety_hooks->get_quality_flag_valid != NULL) && !cfg->rx_checks[index].msg[cfg->rx_checks[index].status.index].ignore_quality_flag)
+    {
       cfg->rx_checks[index].status.valid_quality_flag = safety_hooks->get_quality_flag_valid(to_push);
-    } else {
+    }
+    else
+    {
       cfg->rx_checks[index].status.valid_quality_flag = cfg->rx_checks[index].msg[cfg->rx_checks[index].status.index].ignore_quality_flag;
     }
   }
@@ -396,31 +399,32 @@ static void reset_sample(struct sample_t *sample) {
 
 int set_safety_hooks(uint16_t mode, uint16_t param) {
   const safety_hook_config safety_hook_registry[] = {
-    {SAFETY_SILENT, &nooutput_hooks},
-    {SAFETY_HONDA_NIDEC, &honda_nidec_hooks},
-    {SAFETY_TOYOTA, &toyota_hooks},
-    {SAFETY_ELM327, &elm327_hooks},
-    {SAFETY_GM, &gm_hooks},
-    {SAFETY_HONDA_BOSCH, &honda_bosch_hooks},
-    {SAFETY_HYUNDAI, &hyundai_hooks},
-    {SAFETY_CHRYSLER, &chrysler_hooks},
-    {SAFETY_SUBARU, &subaru_hooks},
-    {SAFETY_VOLKSWAGEN_MQB, &volkswagen_mqb_hooks},
-    {SAFETY_NISSAN, &nissan_hooks},
-    {SAFETY_NOOUTPUT, &nooutput_hooks},
-    {SAFETY_HYUNDAI_LEGACY, &hyundai_legacy_hooks},
-    {SAFETY_MAZDA, &mazda_hooks},
-    {SAFETY_BODY, &body_hooks},
-    {SAFETY_FORD, &ford_hooks},
-    {SAFETY_RIVIAN, &rivian_hooks},
-    {SAFETY_TESLA, &tesla_hooks},
+      {SAFETY_SILENT, &nooutput_hooks},
+      {SAFETY_HONDA_NIDEC, &honda_nidec_hooks},
+      {SAFETY_TOYOTA, &toyota_hooks},
+      {SAFETY_ELM327, &elm327_hooks},
+      {SAFETY_GM, &gm_hooks},
+      {SAFETY_HONDA_BOSCH, &honda_bosch_hooks},
+      {SAFETY_HYUNDAI, &hyundai_hooks},
+      {SAFETY_CHRYSLER, &chrysler_hooks},
+      {SAFETY_SUBARU, &subaru_hooks},
+      {SAFETY_VOLKSWAGEN_MQB, &volkswagen_mqb_hooks},
+      {SAFETY_NISSAN, &nissan_hooks},
+      {SAFETY_NOOUTPUT, &nooutput_hooks},
+      {SAFETY_HYUNDAI_LEGACY, &hyundai_legacy_hooks},
+      {SAFETY_MAZDA, &mazda_hooks},
+      {SAFETY_BODY, &body_hooks},
+      {SAFETY_FORD, &ford_hooks},
+      {SAFETY_RIVIAN, &rivian_hooks},
+      {SAFETY_TESLA, &tesla_hooks},
+      {SAFETY_CHERY, &chery_hooks},
 #ifdef CANFD
     {SAFETY_HYUNDAI_CANFD, &hyundai_canfd_hooks},
 #endif
 #ifdef ALLOW_DEBUG
-    {SAFETY_SUBARU_PREGLOBAL, &subaru_preglobal_hooks},
-    {SAFETY_VOLKSWAGEN_PQ, &volkswagen_pq_hooks},
-    {SAFETY_ALLOUTPUT, &alloutput_hooks},
+      {SAFETY_SUBARU_PREGLOBAL, &subaru_preglobal_hooks},
+      {SAFETY_VOLKSWAGEN_PQ, &volkswagen_pq_hooks},
+      {SAFETY_ALLOUTPUT, &alloutput_hooks},
 #endif
   };
 
@@ -535,12 +539,14 @@ void pcm_cruise_check(bool cruise_engaged) {
   cruise_engaged_prev = cruise_engaged;
 }
 
-void speed_mismatch_check(const float speed_2) {
+void speed_mismatch_check(const float speed_2)
+{
   // Disable controls if speeds from two sources are too far apart.
   // For safety modes that use speed to adjust torque or angle limits
-  const float MAX_SPEED_DELTA = 2.0;  // m/s
+  const float MAX_SPEED_DELTA = 2.0; // m/s
   bool is_invalid_speed = ABS(speed_2 - ((float)vehicle_speed.values[0] / VEHICLE_SPEED_FACTOR)) > MAX_SPEED_DELTA;
-  if (is_invalid_speed) {
+  if (is_invalid_speed)
+  {
     controls_allowed = false;
   }
 }

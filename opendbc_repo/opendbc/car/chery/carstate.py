@@ -137,7 +137,7 @@ class CarState(CarStateBase, MadsCarState):
     self.lead_front  = (cp_cam.vl["LEAD_FRONT"]["LEAD_DISTANCE"]) if (cp_cam.vl["LEAD_FRONT"]["VALID_SIGNAL"] == 1)  else 0
 
     self.needResume = cp_cam.vl["ACC"]["ACC_ACTIVE"] == 0 and cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
-    ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"]
+    ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"] * CV.KPH_TO_MS
     # ret.cruiseState.enabled = cp_cam.vl["LKAS_STATE"]["STATE"] != 0
     self.cruise_decreased_previously = self.cruise_decreased
     self.cruise_decreased = cp.vl["STEER_BUTTON"]["RES_MINUS"]

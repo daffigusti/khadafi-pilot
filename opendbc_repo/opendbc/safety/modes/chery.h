@@ -94,7 +94,7 @@ static safety_config chery_init(uint16_t param)
       {CHERY_STEER_BUTTON, 2, 6, .check_relay = false},
   };
   static const CanMsg CHERY_LONG_TX_MSGS[] = {
-      {CHERY_ACC_CMD, 0, 8, .check_relay = false},
+      {CHERY_ACC_CMD, 0, 8, .check_relay = true},
       {CHERY_LKAS_CMD, 0, 8, .check_relay = true},
       {CHERY_LKAS_HUD, 0, 8, .check_relay = true},
       // {CHERY_HUD_ALERT, 0, 8, .check_relay = true},

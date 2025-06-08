@@ -54,6 +54,7 @@ class CarInterface(CarInterfaceBase):
     # ret.longitudinalTuning.kiV = [0.5]
     ret.longitudinalTuning.kiBP = [0., 5., 35.]
     ret.longitudinalTuning.kiV = [0.6, 0.5, 0.3]
+    # ret.longitudinalTuning.kiV = [0.5, 0.4, 0.15]
 
     ret.enableBsm = 0x4B1 in fingerprint[CAN.main] and 0x4B3 in fingerprint[CAN.main]
 

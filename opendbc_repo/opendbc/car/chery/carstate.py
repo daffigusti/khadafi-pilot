@@ -78,7 +78,7 @@ class CarState(CarStateBase, MadsCarState):
     ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
     ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
     ret.vEgoCluster = ret.vEgo
-    ret.standstill = ret.vEgoRaw < .1
+    ret.standstill = ret.vEgoRaw < 1e-3
 
     self.acc_md = copy.copy(cp_cam.vl["ACC_CMD"])
     self.lkas = copy.copy(cp.vl["LKAS"])

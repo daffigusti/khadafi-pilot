@@ -50,7 +50,7 @@ class CarControllerParams:
   ANGLE_LIMITS: AngleSteeringLimits = AngleSteeringLimits(
     # When output steering Angle not within range -1311 and 1310,
     #   CANPacker packs wrong angle output to be decoded by panda
-    2000,  # deg, reasonable limit
+    300,  # deg, reasonable limit
     ([0., 5., 15.], [1.2, .8, .15]),
     ([0., 5., 15.], [1.8, 1, 0.3]),
   )

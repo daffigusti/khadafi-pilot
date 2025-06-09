@@ -66,7 +66,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
   if long_active:
     print("Accel:",gas)
   # print("Acc Ori:",acc)
-    print("Send valud:",values)
+    # print("Send valud:",values)
 
   return packer.make_can_msg("ACC_CMD", bus, values)
 

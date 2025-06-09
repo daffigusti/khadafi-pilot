@@ -113,7 +113,7 @@ class CarController(CarControllerBase):
     if  (self.frame  % self.params.STEER_STEP) == 0:
       if CC.latActive and not self.steerDisableTemp:
         apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
-        # print('Apply angle:',apply_angle)
+        print(f"apply_angle: {apply_angle}")
         # apply_steer_req = CC.latActive and not CS.out.standstill
         apply_steer_req = CC.latActive
       else:
@@ -125,7 +125,6 @@ class CarController(CarControllerBase):
       self.apply_angle_last = apply_angle
       self.last_steer_frame = self.frame
 
-      # print('Apply steer.',apply_steer)
       can_sends.append(cherycan.create_steering_control_lkas(self.packer, self.CAN.main, apply_angle, self.frame, apply_steer_req, CS.lkas_cmd))
 
     # if  (self.frame  % self.params.LKAS_HUD_STEP) == 0:

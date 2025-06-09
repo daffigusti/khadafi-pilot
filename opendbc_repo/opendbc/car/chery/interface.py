@@ -47,13 +47,14 @@ class CarInterface(CarInterfaceBase):
     ret.stoppingDecelRate = 0.3
     ret.vEgoStarting = 0.1
     ret.vEgoStopping = 0.1
-    ret.longitudinalActuatorDelay = 0.5 # s
+    ret.longitudinalActuatorDelay = 0.05 # s
     # ret.startAccel = 1.0
 
     # ret.longitudinalTuning.kpV = [0.0]
     # ret.longitudinalTuning.kiV = [0.5]
     ret.longitudinalTuning.kiBP = [0., 5., 35.]
-    ret.longitudinalTuning.kiV = [0.6, 0.5, 0.3]
+    # ret.longitudinalTuning.kiV = [0.6, 0.5, 0.3]
+    ret.longitudinalTuning.kiV = [0.5, 0.4, 0.2]
     # ret.longitudinalTuning.kiV = [0.5, 0.4, 0.15]
 
     ret.enableBsm = 0x4B1 in fingerprint[CAN.main] and 0x4B3 in fingerprint[CAN.main]

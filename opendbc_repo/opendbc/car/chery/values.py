@@ -51,8 +51,8 @@ class CarControllerParams:
     # When output steering Angle not within range -1311 and 1310,
     #   CANPacker packs wrong angle output to be decoded by panda
     2000,  # deg, reasonable limit
-    ([0., 5., 15.], [4., .8, .15]),
-    ([0., 5., 15.], [4., 1.5, 0.4]),
+    ([0., 5., 15.], [1.2, .8, .15]),
+    ([0., 5., 15.], [1.8, 1, 0.3]),
   )
 
   ACCEL_MAX = 2.0               # m/s^2 max acceleration
@@ -118,20 +118,12 @@ class CAR(Platforms):
 
 FW_QUERY_CONFIG = FwQueryConfig(
   requests=[
+    # TODO: check data to ensure ABS does not skip ISO-TP frames on bus 0
     Request(
-      [StdQueries.TESTER_PRESENT_REQUEST, StdQueries.SUPPLIER_SOFTWARE_VERSION_REQUEST],
-      [StdQueries.TESTER_PRESENT_RESPONSE, StdQueries.SUPPLIER_SOFTWARE_VERSION_RESPONSE],
+      [StdQueries.MANUFACTURER_SOFTWARE_VERSION_REQUEST],
+      [StdQueries.MANUFACTURER_SOFTWARE_VERSION_RESPONSE],
       bus=0,
-    ),
-    Request(
-      [StdQueries.SHORT_TESTER_PRESENT_REQUEST, StdQueries.OBD_VERSION_REQUEST],
-      [StdQueries.SHORT_TESTER_PRESENT_RESPONSE, StdQueries.OBD_VERSION_RESPONSE],
-      whitelist_ecus=[Ecu.engine, Ecu.hybrid, Ecu.srs, Ecu.transmission, Ecu.hvac],
-      bus=0,
-    ),
-  ],
-  extra_ecus=[
-    (Ecu.hybrid, 0x7E8, None),
+    )
   ],
 )
 

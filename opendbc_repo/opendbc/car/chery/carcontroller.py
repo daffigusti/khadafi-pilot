@@ -71,6 +71,9 @@ class CarController(CarControllerBase):
     self.steering_unpressed_counter = 0
     self.steerDisableTemp = False
 
+    self.prev_gas = 0
+    self.prev_accel = 0
+
   def update(self, CC, CC_SP, CS, now_nanos):
     can_sends = []
     actuators = CC.actuators
@@ -88,8 +91,8 @@ class CarController(CarControllerBase):
       # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera,self.frame, CS.buttons_stock_values, cancel=True))
       print('Send Cancel')
 
-    elif (CC.cruiseControl.resume or CS.needResume) and (self.frame % self.params.BUTTONS_STEP) == 0:
-      can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
+    elif (CC.cruiseControl.resume) and (self.frame % self.params.BUTTONS_STEP) == 0:
+      # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
       print('Send Resume')
     else:
       self.brake_counter = 0
@@ -132,13 +135,20 @@ class CarController(CarControllerBase):
     # send acc msg at 50Hz
     if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ACC_CONTROL_STEP) == 0:
       full_stop = CC.longActive and CS.out.standstill
-      # full_stop = 0
       accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
       gas = accel
+
+      if gas > 0:
+        full_stop = 0
+
+      self.prev_gas = gas
+
+      # full_stop = 0
+
       if not CC.longActive:
         gas = CarControllerParams.INACTIVE_GAS
       else:
-        print('Actuator accel : ',actuators.accel)
+        print(f'actuator accell {actuators.accel}, accel {accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
       if experimentalMode:
         can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping, full_stop))

@@ -137,6 +137,8 @@ class Car:
       safety_config.safetyModel = structs.CarParams.SafetyModel.noOutput
       self.CP.safetyConfigs = [safety_config]
 
+      print('passive')
+
     if self.CP.secOcRequired and not is_release:
       # Copy user key if available
       try:

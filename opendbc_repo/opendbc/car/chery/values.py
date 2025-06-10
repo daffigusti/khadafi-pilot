@@ -51,8 +51,10 @@ class CarControllerParams:
     # When output steering Angle not within range -1311 and 1310,
     #   CANPacker packs wrong angle output to be decoded by panda
     300,  # deg, reasonable limit
-    ([0., 5., 15.], [1.2, .8, .15]),
-    ([0., 5., 15.], [1.8, 1, 0.3]),
+    # ([0., 5., 15.], [1.2, .8, .15]),
+    # ([0., 5., 15.], [1.8, 1, 0.3]),
+    ([],[]), #Tesla controls
+    ([],[]), #Tesla controls
   )
 
   ACCEL_MAX = 2.0               # m/s^2 max acceleration
@@ -66,6 +68,11 @@ class CarControllerParams:
 
   ACCEL_LOOKUP_BP = [ACCEL_MIN, 0, ACCEL_MAX]
   ACCEL_LOOKUP_V = [GAS_MIN, -24, GAS_MAX]
+
+   # More torque optimization
+  # The torque is calculated based on the curvature of the road and the speed of the car and it's a percentage of the maximum torque.
+  SMOOTHING_ANGLE_VEGO_MATRIX = [0, 8.5, 11, 13.8, 22.22]
+  SMOOTHING_ANGLE_ALPHA_MATRIX = [0.05, 0.1, 0.3, 0.6, 1]
 
   def __init__(self, CP):
     self.BUTTONS = [

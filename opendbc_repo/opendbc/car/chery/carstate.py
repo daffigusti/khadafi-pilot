@@ -139,6 +139,8 @@ class CarState(CarStateBase, MadsCarState):
     self.needResume = cp_cam.vl["ACC"]["ACC_ACTIVE"] == 0 and cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"] * CV.KPH_TO_MS
     # ret.cruiseState.enabled = cp_cam.vl["LKAS_STATE"]["STATE"] != 0
+    ret.cruiseState.standstill = ret.standstill
+
     self.cruise_decreased_previously = self.cruise_decreased
     self.cruise_decreased = cp.vl["STEER_BUTTON"]["RES_MINUS"]
     self.cruise_increased_previously = self.cruise_increased
@@ -155,12 +157,15 @@ class CarState(CarStateBase, MadsCarState):
     self.lkas_enabled = cp_cam.vl["LKAS_STATE"]["LKA_ACTIVE"] != 0
     self.lkas_active =  cp.vl["LKAS"]['LKAS_CMD']
 
+    # TODO: get the real value
+    ret.stockAeb = False
+    ret.stockFcw = False
     # blindspot sensors
     if self.CP.enableBsm:
       ret.leftBlindspot = cp.vl["BSM_LEFT"]["BSM_LEFT_DETECT"] != 0
       ret.rightBlindspot = cp.vl["BSM_RIGHT"]["BSM_RIGHT_DETECT"] != 0
 
-    # lock info
+    # TODO: get the real value
     ret.doorOpen = False
     ret.seatbeltUnlatched = False
 

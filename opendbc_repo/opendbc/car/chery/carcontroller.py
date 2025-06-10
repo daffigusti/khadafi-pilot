@@ -1,10 +1,14 @@
+import math
 import numpy as np
+from opendbc.car.carlog import carlog
 from opendbc.can.packer import CANPacker
-from opendbc.car import Bus, DT_CTRL, apply_std_steer_angle_limits, structs
+from opendbc.car import ACCELERATION_DUE_TO_GRAVITY, Bus, DT_CTRL, apply_std_steer_angle_limits, structs, AngleSteeringLimits, rate_limit
 from opendbc.car.chery import cherycan
 from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.chery.values import DBC, CarControllerParams
 from opendbc.car.interfaces import CarControllerBase
+from opendbc.car.vehicle_model import VehicleModel
+from opendbc.car.interfaces import CarControllerBase, ISO_LATERAL_ACCEL
 
 VisualAlert = structs.CarControl.HUDControl.VisualAlert
 NetworkLocation = structs.CarParams.NetworkLocation
@@ -16,6 +20,60 @@ CAMERA_CANCEL_DELAY_FRAMES = 10
 # Enforce a minimum interval between steering messages to avoid a fault
 MIN_STEER_MSG_INTERVAL_MS = 15
 
+MAX_ANGLE_RATE = 5
+# Add extra tolerance for average banked road since safety doesn't have the roll
+AVERAGE_ROAD_ROLL = 0.06  # ~3.4 degrees, 6% superelevation. higher actual roll lowers lateral acceleration
+MAX_LATERAL_ACCEL = ISO_LATERAL_ACCEL + (ACCELERATION_DUE_TO_GRAVITY * AVERAGE_ROAD_ROLL)  # ~3.6 m/s^2
+MAX_LATERAL_JERK = 3.0 + (ACCELERATION_DUE_TO_GRAVITY * AVERAGE_ROAD_ROLL)  # ~3.6 m/s^3
+
+def get_max_angle_rate_sec(v_ego_raw: float, VM: VehicleModel):
+  max_curvature_rate_sec = MAX_LATERAL_JERK / (v_ego_raw ** 2)  # (1/m)/s
+  max_angle_rate_sec = math.degrees(VM.get_steer_from_curvature(max_curvature_rate_sec, v_ego_raw, 0))  # deg/s
+  return max_angle_rate_sec
+
+def get_max_angle_delta(v_ego_raw: float, VM: VehicleModel, freq=100.):
+  return get_max_angle_rate_sec(v_ego_raw, VM) / float(freq) # hz
+
+def get_max_angle(v_ego_raw: float, VM: VehicleModel):
+  max_curvature = MAX_LATERAL_ACCEL / (v_ego_raw ** 2)  # 1/m
+  return math.degrees(VM.get_steer_from_curvature(max_curvature, v_ego_raw, 0))  # deg
+
+def apply_chery_steer_angle_limits(apply_angle: float, apply_angle_last: float, v_ego_raw: float, steering_angle: float,
+                                     lat_active: bool, limits: AngleSteeringLimits, VM: VehicleModel, smoothing_factor, recently_overridden) -> float:
+  apply_angle_last = steering_angle if recently_overridden else apply_angle_last  # Reset last angle if recently overridden
+  new_angle = np.clip(apply_angle, -819.2, 819.1)
+  v_ego_raw = max(v_ego_raw, 1)
+
+  if abs(new_angle - apply_angle_last) > 0.1:  # If there's a significant difference between the new angle and the last applied angle, apply smoothing
+    adjusted_alpha = np.interp(v_ego_raw, CarControllerParams.SMOOTHING_ANGLE_VEGO_MATRIX, CarControllerParams.SMOOTHING_ANGLE_ALPHA_MATRIX) + smoothing_factor
+    adjusted_alpha_limited = float(min(float(adjusted_alpha), 1.))  # Limit the smoothing factor to 1 if adjusted_alpha is greater than 1
+    new_angle = (new_angle * adjusted_alpha_limited) + (apply_angle_last * (1 - adjusted_alpha_limited))
+
+  apply_angle = new_angle
+
+  # *** max lateral jerk limit ***
+  max_angle_delta = get_max_angle_delta(v_ego_raw, VM)
+
+  # prevent fault
+  max_angle_delta = min(max_angle_delta, MAX_ANGLE_RATE)
+  new_apply_angle = rate_limit(apply_angle, apply_angle_last, -max_angle_delta, max_angle_delta)
+
+  # *** max lateral accel limit ***
+  max_angle = get_max_angle(v_ego_raw, VM)
+  new_apply_angle = np.clip(new_apply_angle, -max_angle, max_angle)
+
+  # angle is current angle when inactive
+  if not lat_active or recently_overridden:
+    new_apply_angle = steering_angle
+
+  # prevent fault
+  return float(np.clip(new_apply_angle, -limits.STEER_ANGLE_MAX, limits.STEER_ANGLE_MAX))
+
+def get_safety_CP():
+  from opendbc.car.hyundai.interface import CarInterface
+  return CarInterface.get_non_essential_params("CHERY_OMODA_E5")
+
+
 class CarController(CarControllerBase):
   def __init__(self, dbc_names, CP, CP_SP):
     super().__init__(dbc_names, CP, CP_SP)
@@ -26,47 +84,27 @@ class CarController(CarControllerBase):
     self.params = CarControllerParams(self.CP)
     self.frame = 0
 
+      # Vehicle model used for lateral limiting
+    self.VM = VehicleModel(get_safety_CP())
+
     self.start_time = 0.
     self.apply_steer_last = 0
-    self.apply_gas = 0
-    self.apply_brake = 0
     self.apply_angle_last = 0
     self.last_steer_frame = 0
     self.last_button_frame = 0
     self.brake_counter = 0
     self.cancel_counter = 0
+    self.accel = 0.0
+
+    self.angle_limit_counter = 0
+    self.smoothing_factor = 0.6
+    self.last_override_frame = 0
 
     self.lka_steering_cmd_counter = 0
     self.lka_steering_cmd_counter_last = -1
 
     self.lka_icon_status_last = (False, False)
 
-    self.speed_limit_control_enabled = False
-    self.last_speed_limit_sign_tap = False
-    self.last_speed_limit_sign_tap_prev = False
-    self.speed_limit = 0.
-    self.speed_limit_offset = 0
-    self.timer = 0
-    self.final_speed_kph = 0
-    self.init_speed = 0
-    self.current_speed = 0
-    self.v_set_dis = 0
-    self.v_cruise_min = 0
-    self.button_type = 0
-    self.button_select = 0
-    self.button_count = 0
-    self.target_speed = 0
-    self.t_interval = 7
-    self.slc_active_stock = False
-    self.sl_force_active_timer = 0
-    self.v_tsc_state = 0
-    self.slc_state = 0
-    self.m_tsc_state = 0
-    self.cruise_button = None
-    self.speed_diff = 0
-    self.v_tsc = 0
-    self.m_tsc = 0
-    self.steady_speed = 0
     self.steering_pressed_counter = 0
     self.steering_unpressed_counter = 0
     self.steerDisableTemp = False
@@ -83,7 +121,7 @@ class CarController(CarControllerBase):
     # hud_control = CC.hudControl
     # hud_alert = hud_control.visualAlert
     # hud_v_cruise = hud_control.setSpeed
-
+    recently_overridden = self.frame - self.last_override_frame < 50
     ### STEER ###
     steer_hud_alert = 1 if hud_control.visualAlert in (VisualAlert.steerRequired, VisualAlert.ldw) else 0
 
@@ -107,12 +145,20 @@ class CarController(CarControllerBase):
       if self.steering_unpressed_counter * DT_CTRL > 1:
         self.steerDisableTemp = False
 
+    if CS.out.steeringPressed:  # User is overriding
+        # Let's try to consider that the override is not a true or false but a progressive depending on how much torque is being applied to the col
+        self.last_override_frame = self.frame
+
     ### lateral control ###
     # send steer msg at 50Hz
     apply_steer_req = False
     if  (self.frame  % self.params.STEER_STEP) == 0:
       if CC.latActive and not self.steerDisableTemp:
-        apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
+        apply_angle = apply_chery_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
+                                                               CS.out.steeringAngleDeg, CC.latActive,
+                                                               CarControllerParams.ANGLE_LIMITS, self.VM, self.smoothing_factor, recently_overridden)
+
+        # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
         print(f"apply_angle: {apply_angle}")
         # apply_steer_req = CC.latActive and not CS.out.standstill
         apply_steer_req = CC.latActive
@@ -134,10 +180,10 @@ class CarController(CarControllerBase):
     # send acc msg at 50Hz
     if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ACC_CONTROL_STEP) == 0:
       full_stop = CC.longActive and CS.out.standstill
-      accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
-      gas = accel
+      self.accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
+      gas = self.accel
 
-      if gas > 0:
+      if gas > 0 and CS.out.standstill:
         full_stop = 0
 
       self.prev_gas = gas
@@ -146,11 +192,10 @@ class CarController(CarControllerBase):
 
       if not CC.longActive:
         gas = CarControllerParams.INACTIVE_GAS
-      else:
-        print(f'actuator accell {actuators.accel}, accel {accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
       if experimentalMode:
-        can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, accel, stopping, full_stop))
+        print(f'actuator accell {actuators.accel}, accel {self.accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
+        can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, self.accel, stopping, full_stop))
       else:
         can_sends.append(cherycan.create_longitudinal_controlBypass(self.packer, self.CAN.main, CS.acc_md, self.frame))
 
@@ -161,7 +206,7 @@ class CarController(CarControllerBase):
 
     new_actuators = CC.actuators.as_builder()
     new_actuators.steeringAngleDeg = self.apply_angle_last
-    # new_actuators.accel = accel
+    new_actuators.accel = self.accel
 
     self.frame += 1
     return new_actuators, can_sends

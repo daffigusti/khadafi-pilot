@@ -26,13 +26,11 @@ AVERAGE_ROAD_ROLL = 0.06  # ~3.4 degrees, 6% superelevation. higher actual roll 
 MAX_LATERAL_ACCEL = ISO_LATERAL_ACCEL + (ACCELERATION_DUE_TO_GRAVITY * AVERAGE_ROAD_ROLL)  # ~3.6 m/s^2
 MAX_LATERAL_JERK = 3.0 + (ACCELERATION_DUE_TO_GRAVITY * AVERAGE_ROAD_ROLL)  # ~3.6 m/s^3
 
-def get_max_angle_rate_sec(v_ego_raw: float, VM: VehicleModel):
+def get_max_angle_delta(v_ego_raw: float, VM: VehicleModel):
   max_curvature_rate_sec = MAX_LATERAL_JERK / (v_ego_raw ** 2)  # (1/m)/s
   max_angle_rate_sec = math.degrees(VM.get_steer_from_curvature(max_curvature_rate_sec, v_ego_raw, 0))  # deg/s
-  return max_angle_rate_sec
+  return max_angle_rate_sec * (DT_CTRL * CarControllerParams.STEER_STEP)
 
-def get_max_angle_delta(v_ego_raw: float, VM: VehicleModel, freq=100.):
-  return get_max_angle_rate_sec(v_ego_raw, VM) / float(freq) # hz
 
 def get_max_angle(v_ego_raw: float, VM: VehicleModel):
   max_curvature = MAX_LATERAL_ACCEL / (v_ego_raw ** 2)  # 1/m
@@ -40,16 +38,7 @@ def get_max_angle(v_ego_raw: float, VM: VehicleModel):
 
 def apply_chery_steer_angle_limits(apply_angle: float, apply_angle_last: float, v_ego_raw: float, steering_angle: float,
                                      lat_active: bool, limits: AngleSteeringLimits, VM: VehicleModel, smoothing_factor, recently_overridden) -> float:
-  apply_angle_last = steering_angle if recently_overridden else apply_angle_last  # Reset last angle if recently overridden
-  new_angle = np.clip(apply_angle, -819.2, 819.1)
   v_ego_raw = max(v_ego_raw, 1)
-
-  if abs(new_angle - apply_angle_last) > 0.1:  # If there's a significant difference between the new angle and the last applied angle, apply smoothing
-    adjusted_alpha = np.interp(v_ego_raw, CarControllerParams.SMOOTHING_ANGLE_VEGO_MATRIX, CarControllerParams.SMOOTHING_ANGLE_ALPHA_MATRIX) + smoothing_factor
-    adjusted_alpha_limited = float(min(float(adjusted_alpha), 1.))  # Limit the smoothing factor to 1 if adjusted_alpha is greater than 1
-    new_angle = (new_angle * adjusted_alpha_limited) + (apply_angle_last * (1 - adjusted_alpha_limited))
-
-  apply_angle = new_angle
 
   # *** max lateral jerk limit ***
   max_angle_delta = get_max_angle_delta(v_ego_raw, VM)
@@ -63,7 +52,7 @@ def apply_chery_steer_angle_limits(apply_angle: float, apply_angle_last: float, 
   new_apply_angle = np.clip(new_apply_angle, -max_angle, max_angle)
 
   # angle is current angle when inactive
-  if not lat_active or recently_overridden:
+  if not lat_active:
     new_apply_angle = steering_angle
 
   # prevent fault
@@ -194,7 +183,7 @@ class CarController(CarControllerBase):
         gas = CarControllerParams.INACTIVE_GAS
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
       if experimentalMode:
-        print(f'actuator accell {actuators.accel}, accel {self.accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
+        # print(f'actuator accell {actuators.accel}, accel {self.accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
         can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, self.accel, stopping, full_stop))
       else:
         can_sends.append(cherycan.create_longitudinal_controlBypass(self.packer, self.CAN.main, CS.acc_md, self.frame))

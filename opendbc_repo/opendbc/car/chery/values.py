@@ -23,7 +23,7 @@ class CarControllerParams:
   STEER_DELTA_UP = 2
   STEER_DELTA_DOWN = 3
 
-  STEER_THRESHOLD = 50               # Nm, threshold for steering torque to be considered active
+  STEER_THRESHOLD = 70               # Nm, threshold for steering torque to be considered active
   STEER_DRIVER_ALLOWANCE = 15    # Driver intervention threshold, Nm
 
   # Temporary steer fault timeout

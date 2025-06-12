@@ -64,6 +64,7 @@ class CarState(CarStateBase, MadsCarState):
   def update(self, can_parsers) -> tuple[structs.CarState, structs.CarStateSP]:
     cp = can_parsers[Bus.pt]
     cp_cam = can_parsers[Bus.cam]
+    loopback_cp = can_parsers[Bus.loopback]
 
     ret = structs.CarState()
     ret_sp = structs.CarStateSP()
@@ -127,6 +128,24 @@ class CarState(CarStateBase, MadsCarState):
     ret.steeringPressed = abs(ret.steeringTorque) > CarControllerParams.STEER_THRESHOLD
 
     self.steerTemporaryUnvailable = False
+    self.lkas_status_before = self.lkas_status
+    self.lkas_status = cp.vl["LKAS"]['NEW_SIGNAL_1']
+
+    if ret.cruiseState.enabled and ret.vEgo > self.CP.minSteerSpeed:
+       # Reset counter on entry
+      if self.cruiseState_enabled_prev != ret.cruiseState.enabled:
+        self.eps_torque_timer = 0
+      # Count up when no torque from servo detected.
+      if loopback_cp.vl["LKAS_STATE"]['LKA_ACTIVE'] == 1 and cp.vl["LKAS"]['LKAS_CMD'] == -1 and self.lkas_status == 1:
+        self.eps_torque_timer += 1
+      else:
+        self.eps_torque_timer = 0
+      # Set fault if above threshold
+      ret.steerFaultTemporary = self.eps_torque_timer >= CarControllerParams.STEER_TIMEOUT
+
+    self.cruiseState_enabled_prev = ret.cruiseState.enabled
+
+    self.button_events = self.create_button_events(cp, self.params.BUTTONS)
     # cruise state
     # ret.cruiseState.available = cp_cam.vl["ACC_CMD"]["ACC_STATE"] != 1 or cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
     # ret.cruiseState.available =  cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
@@ -223,9 +242,12 @@ class CarState(CarStateBase, MadsCarState):
       ("SETTING", 20),
       ("LEAD_FRONT", 20),
     ]
-
+    loopback_messages = [
+      ("LKAS_STATE", 0),
+    ]
     return {
       Bus.pt: CANParser(DBC[CP.carFingerprint][Bus.pt], pt_messages, CanBus.main),
       Bus.cam: CANParser(DBC[CP.carFingerprint][Bus.pt], cam_messages, CanBus.camera),
+      Bus.loopback: CANParser(DBC[CP.carFingerprint][Bus.pt], loopback_messages, CanBus.loopback),
     }
 

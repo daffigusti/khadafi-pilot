@@ -97,6 +97,7 @@ class CanBus:
   main = 0
   alt = 1
   camera = 2
+  loopback = 128
 
 @dataclass
 class CheryCarDocs(CarDocs):

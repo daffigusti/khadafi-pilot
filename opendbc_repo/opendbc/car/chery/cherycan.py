@@ -83,7 +83,7 @@ def create_steering_control_lkas(packer, bus: int, apply_steer, frame, lkas_enab
     apply_steer = 2
   values = {
       "CMD": apply_steer,
-      "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
+      # "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
       # "LKA_ACTIVE":  1 if (apply_steer) else 0,
       "LKA_ACTIVE": 1 if lkas_enable else 0,
       # "LKA_ACTIVE":  0,

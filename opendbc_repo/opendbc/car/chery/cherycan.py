@@ -77,7 +77,8 @@ def create_longitudinal_controlBypass(packer, bus, acc, frame):
 
 def create_steering_control_lkas(packer, bus: int, apply_steer, frame, lkas_enable, lkas):
   # idx = (apply_steer) % 1000
-  apply_steer = int((apply_steer*10)-389)
+  # apply_steer = int((apply_steer*10)-389)
+  apply_steer = int((apply_steer+780)*10)
   if apply_steer>= 0 and apply_steer <=2 :
     apply_steer = 2
   values = {

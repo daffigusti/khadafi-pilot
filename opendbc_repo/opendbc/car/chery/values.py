@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import Enum, IntFlag
 from collections import defaultdict, namedtuple
 
-from opendbc.car import AngleSteeringLimits, Bus, PlatformConfig, DbcDict, Platforms, CarSpecs, structs
+from opendbc.car import AngleSteeringLimits, Bus, DT_CTRL, PlatformConfig, DbcDict, Platforms, CarSpecs, structs
 from opendbc.car.structs import CarParams
 from opendbc.car.docs_definitions import CarDocs, CarFootnote, CarHarness, CarParts, Column
 from opendbc.car.fw_query_definitions import FwQueryConfig, Request, StdQueries
@@ -27,6 +27,7 @@ class CarControllerParams:
   STEER_DRIVER_ALLOWANCE = 15    # Driver intervention threshold, Nm
 
   # Temporary steer fault timeout
+  STEER_TIMEOUT = 30 / DT_CTRL
   # Maximum time to continuously read 0 torque from EPS
   # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 1.2, .1])
   # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 2.0, 0.2])

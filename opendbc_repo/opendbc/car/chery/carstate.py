@@ -109,7 +109,7 @@ class CarState(CarStateBase, MadsCarState):
     ret.rightBlinker = cp.vl["BCM_SIGNAL_1"]["SIGN_SIGNAL"] == 1
 
     # steering wheel
-    self.agleSensor = cp.vl["STEER_ANGLE_SENSOR"]["STEER_ANGLE"]/10
+    self.agleSensor = cp.vl["STEER_ANGLE_SENSOR"]["STEER_ANGLE"]
 
     if  (self.frame  % 10) == 0:
       if(self.agleSensor<self.angleSensorLast):

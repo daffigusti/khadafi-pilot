@@ -82,6 +82,7 @@ class CarControllerParams:
       Button(structs.CarState.ButtonEvent.Type.decelCruise, "STEER_BUTTON", "RES_MINUS", [1]),
       # Button(car.CarState.ButtonEvent.Type.cancel, "STEER_BUTTON", "ACC", [1]),
       Button(structs.CarState.ButtonEvent.Type.gapAdjustCruise, "STEER_BUTTON", "GAP_ADJUST_UP", [1]),
+      # Button(structs.CarState.ButtonEvent.Type.gapAdjustCruise, "STEER_BUTTON", "GAP_ADJUST_DOWN", [1]),
     ]
 
 class CherySafetyFlags(IntFlag):

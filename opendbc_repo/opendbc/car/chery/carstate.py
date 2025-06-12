@@ -127,7 +127,6 @@ class CarState(CarStateBase, MadsCarState):
     ret.steeringPressed = abs(ret.steeringTorque) > CarControllerParams.STEER_THRESHOLD
 
     self.steerTemporaryUnvailable = False
-    self.button_events = self.create_button_events(cp, self.params.BUTTONS)
     # cruise state
     # ret.cruiseState.available = cp_cam.vl["ACC_CMD"]["ACC_STATE"] != 1 or cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
     # ret.cruiseState.available =  cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
@@ -189,6 +188,7 @@ class CarState(CarStateBase, MadsCarState):
     # print('agle sensor 2: ', self.agleSensor)
     # print('Steer Sensor Torque: ', ret.steeringTorque)
     # print('Engine: ', cp.vl["ENGINE_DATA"])
+    # print('Button', ret.buttonEvents)
 
     self.frame += 1
     return ret, ret_sp

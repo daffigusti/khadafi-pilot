@@ -58,6 +58,38 @@ def apply_chery_steer_angle_limits(apply_angle: float, apply_angle_last: float, 
   # prevent fault
   return float(np.clip(new_apply_angle, -limits.STEER_ANGLE_MAX, limits.STEER_ANGLE_MAX))
 
+
+def apply_chery_steer_angle_limits2(apply_angle: float, apply_angle_last: float, v_ego_raw: float, steering_angle: float,
+                                     lat_active: bool, limits: AngleSteeringLimits, VM: VehicleModel, smoothing_factor, recently_overridden) -> float:
+  apply_angle_last = steering_angle if recently_overridden else apply_angle_last  # Reset last angle if recently overridden
+  new_angle = np.clip(apply_angle, -819.2, 819.1)
+  v_ego_raw = max(v_ego_raw, 1)
+
+  if abs(new_angle - apply_angle_last) > 0.1:  # If there's a significant difference between the new angle and the last applied angle, apply smoothing
+    adjusted_alpha = np.interp(v_ego_raw, CarControllerParams.SMOOTHING_ANGLE_VEGO_MATRIX, CarControllerParams.SMOOTHING_ANGLE_ALPHA_MATRIX) + smoothing_factor
+    adjusted_alpha_limited = float(min(float(adjusted_alpha), 1.))  # Limit the smoothing factor to 1 if adjusted_alpha is greater than 1
+    new_angle = (new_angle * adjusted_alpha_limited) + (apply_angle_last * (1 - adjusted_alpha_limited))
+
+  apply_angle = new_angle
+
+  # *** max lateral jerk limit ***
+  max_angle_delta = get_max_angle_delta(v_ego_raw, VM)
+
+  # prevent fault
+  max_angle_delta = min(max_angle_delta, MAX_ANGLE_RATE)
+  new_apply_angle = rate_limit(apply_angle, apply_angle_last, -max_angle_delta, max_angle_delta)
+
+  # *** max lateral accel limit ***
+  max_angle = get_max_angle(v_ego_raw, VM)
+  new_apply_angle = np.clip(new_apply_angle, -max_angle, max_angle)
+
+  # angle is current angle when inactive
+  if not lat_active or recently_overridden:
+    new_apply_angle = steering_angle
+
+  # prevent fault
+  return float(np.clip(new_apply_angle, -limits.STEER_ANGLE_MAX, limits.STEER_ANGLE_MAX))
+
 def get_safety_CP():
   from opendbc.car.hyundai.interface import CarInterface
   return CarInterface.get_non_essential_params("CHERY_OMODA_E5")
@@ -141,26 +173,22 @@ class CarController(CarControllerBase):
     ### lateral control ###
     # send steer msg at 50Hz
     apply_steer_req = False
-    if  (self.frame  % self.params.STEER_STEP) == 0:
-      if CC.latActive and not self.steerDisableTemp:
-        apply_angle = apply_chery_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
-                                                               CS.out.steeringAngleDeg, CC.latActive,
+    lat_active = CC.latActive and not self.steerDisableTemp
+    if (self.frame  % self.params.STEER_STEP) == 0:
+      apply_angle = apply_chery_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
+                                                               CS.out.steeringAngleDeg, lat_active,
                                                                CarControllerParams.ANGLE_LIMITS, self.VM, self.smoothing_factor, recently_overridden)
 
-        # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
+      # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
+      if lat_active:
         print(f"apply_angle: {apply_angle}")
-        # apply_steer_req = CC.latActive and not CS.out.standstill
-        apply_steer_req = CC.latActive
-      else:
-        apply_angle = CS.out.steeringAngleDeg
-          # ovveride human steer
-      # if abs(CS.out.steeringTorque) >= 50:
-      #   apply_angle = CS.out.steeringAngleDeg
+      # apply_steer_req = CC.latActive and not CS.out.standstill
+      # apply_steer_req = CC.latActive
 
       self.apply_angle_last = apply_angle
       self.last_steer_frame = self.frame
 
-      can_sends.append(cherycan.create_steering_control_lkas(self.packer, self.CAN.main, apply_angle, self.frame, apply_steer_req, CS.lkas_cmd))
+      can_sends.append(cherycan.create_steering_control_lkas(self.packer, self.CAN.main, apply_angle, self.frame, lat_active, CS.lkas_cmd))
 
     # if  (self.frame  % self.params.LKAS_HUD_STEP) == 0:
     #   can_sends.append(cherycan.create_lkas_state(self.packer, 0, self.frame, CC.latActive, CS.lkas_state))
@@ -191,7 +219,7 @@ class CarController(CarControllerBase):
     if self.frame % 20 == 0:
       # ldw = CC.hudControl.visualAlert == VisualAlert.ldw
       # steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
-      can_sends.append(cherycan.create_lkas_state_hud(self.packer, self.CAN.main, self.frame, CS.lkas_state, apply_steer_req))
+      can_sends.append(cherycan.create_lkas_state_hud(self.packer, self.CAN.main, self.frame, CS.lkas_state, lat_active))
 
     new_actuators = CC.actuators.as_builder()
     new_actuators.steeringAngleDeg = self.apply_angle_last

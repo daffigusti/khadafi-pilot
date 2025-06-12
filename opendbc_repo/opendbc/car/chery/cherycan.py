@@ -29,7 +29,7 @@ def calculate_crc(data, poly, xor_output):
       crc &= 0xFF
   return (crc ^ xor_output)
 
-def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas: float, accel: float, stopping: bool, full_stop : bool):
+def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas: float, accel: float, stopping: bool, full_stop : bool, resume : bool):
   throtle = gas if long_active else -24
   # if full stop cmd = 400, acc_state = 2, and stopped = 1
   acc_state = 2 if full_stop else 3 if long_active else acc['ACC_STATE']
@@ -52,7 +52,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
       "NEW_SIGNAL_3": acc['NEW_SIGNAL_3'],
       "NEW_SIGNAL_4": acc['NEW_SIGNAL_4'],
       "NEW_SIGNAL_11": acc['NEW_SIGNAL_11'],
-      "GAS_PRESSED": 1 if gas > 0 and full_stop == 0 else 0,  # gas pressed
+      "GAS_PRESSED": 1 if resume else 0,  # gas pressed
       "COUNTER": (frame) % 0x0f,
       # "STEER_REQUEST": steer_req,
   }
@@ -77,13 +77,13 @@ def create_longitudinal_controlBypass(packer, bus, acc, frame):
 
 def create_steering_control_lkas(packer, bus: int, apply_steer, frame, lkas_enable, lkas):
   # idx = (apply_steer) % 1000
-  # apply_steer = int((apply_steer*10)-389)
-  apply_steer = int((apply_steer+780)*10)
+  apply_steer = int((apply_steer*10)-392)
+  # apply_steer = int((apply_steer+780)*10)
   if apply_steer>= 0 and apply_steer <=2 :
     apply_steer = 2
   values = {
       "CMD": apply_steer,
-      # "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
+      "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,
       # "LKA_ACTIVE":  1 if (apply_steer) else 0,
       "LKA_ACTIVE": 1 if lkas_enable else 0,
       # "LKA_ACTIVE":  0,

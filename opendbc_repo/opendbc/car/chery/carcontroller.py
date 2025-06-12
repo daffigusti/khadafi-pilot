@@ -145,7 +145,7 @@ class CarController(CarControllerBase):
     recently_overridden = self.frame - self.last_override_frame < 50
     ### STEER ###
     steer_hud_alert = 1 if hud_control.visualAlert in (VisualAlert.steerRequired, VisualAlert.ldw) else 0
-
+    resume = False
     if CC.cruiseControl.cancel and (self.frame % self.params.BUTTONS_STEP) == 0:
       # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera,self.frame, CS.buttons_stock_values, cancel=True))
       print('Send Cancel')
@@ -153,6 +153,7 @@ class CarController(CarControllerBase):
     elif (CC.cruiseControl.resume) and (self.frame % self.params.BUTTONS_STEP) == 0:
       # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
       print('Send Resume')
+      resume = True
     else:
       self.brake_counter = 0
 
@@ -175,9 +176,9 @@ class CarController(CarControllerBase):
     apply_steer_req = False
     lat_active = CC.latActive and not self.steerDisableTemp
     if (self.frame  % self.params.STEER_STEP) == 0:
-      apply_angle = apply_chery_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
+      apply_angle = apply_chery_steer_angle_limits2(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
                                                                CS.out.steeringAngleDeg, lat_active,
-                                                               CarControllerParams.ANGLE_LIMITS, self.VM, self.smoothing_factor, recently_overridden)
+                                                               CarControllerParams.ANGLE_LIMITS, self.VM, self.smoothing_factor, self.steerDisableTemp)
 
       # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
       if lat_active:
@@ -200,7 +201,7 @@ class CarController(CarControllerBase):
       self.accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
       gas = self.accel
 
-      if gas > 0 and CS.out.standstill:
+      if gas > 0 and resume:
         full_stop = 0
 
       self.prev_gas = gas
@@ -212,7 +213,7 @@ class CarController(CarControllerBase):
       stopping = CC.actuators.longControlState == LongCtrlState.stopping
       if experimentalMode:
         # print(f'actuator accell {actuators.accel}, accel {self.accel}, gas {gas}, full_stop {full_stop}, CC.longActive {CC.longActive}, CS.out.standstill {CS.out.standstill}' )
-        can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, self.accel, stopping, full_stop))
+        can_sends.append(cherycan.create_longitudinal_control(self.packer, self.CAN.main, CS.acc_md, self.frame, CC.longActive, gas, self.accel, stopping, full_stop, resume))
       else:
         can_sends.append(cherycan.create_longitudinal_controlBypass(self.packer, self.CAN.main, CS.acc_md, self.frame))
 

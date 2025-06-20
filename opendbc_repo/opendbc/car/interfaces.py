@@ -430,11 +430,13 @@ def get_interface_attr(attr: str, combine_brands: bool = False, ignore_none: boo
   # read all the folders in opendbc/car and return a dict where:
   # - keys are all the car models or brand names
   # - values are attr values from all car folders
+  print(f'Loading {attr} values from all car interfaces...')
   result = {}
   for car_folder in sorted([x[0] for x in os.walk(BASEDIR)]):
     try:
       brand_name = car_folder.split('/')[-1]
       brand_values = __import__(f'opendbc.car.{brand_name}.{INTERFACE_ATTR_FILE.get(attr, "values")}', fromlist=[attr])
+      print(f'Loaded {brand_name} {attr} values')
       if hasattr(brand_values, attr) or not ignore_none:
         attr_data = getattr(brand_values, attr, None)
       else:

@@ -64,8 +64,8 @@ class CarControllerParams:
   MIN_GAS = -24
   INACTIVE_GAS = -24
 
-  GAS_MAX = 512
-  GAS_MIN = -400
+  GAS_MAX = 511
+  GAS_MIN = -511
 
   ACCEL_LOOKUP_BP = [ACCEL_MIN, 0, ACCEL_MAX]
   ACCEL_LOOKUP_V = [GAS_MIN, -24, GAS_MAX]

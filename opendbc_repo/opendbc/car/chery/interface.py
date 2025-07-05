@@ -38,7 +38,7 @@ class CarInterface(CarInterfaceBase):
     ret.centerToFront = ret.wheelbase * 0.44
 
     ret.steerLimitTimer = 1.0
-    ret.steerActuatorDelay = 0.25
+    ret.steerActuatorDelay = 0.1
     ret.steerControlType = structs.CarParams.SteerControlType.angle
 
     ret.transmissionType = TransmissionType.automatic

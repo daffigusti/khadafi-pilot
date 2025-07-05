@@ -174,6 +174,7 @@ class CarState(CarStateBase, MadsCarState):
     self.lkas_previously_enabled = self.lkas_enabled
     self.lkas_enabled = cp_cam.vl["LKAS_STATE"]["LKA_ACTIVE"] != 0
     self.lkas_active =  cp.vl["LKAS"]['LKAS_CMD']
+    self.acc_available = cp_cam.vl["SETTING"]["ACC_AVAILABLE"]
 
     # TODO: get the real value
     ret.stockAeb = False

@@ -118,7 +118,7 @@ class CarController(CarControllerBase):
     self.accel = 0.0
 
     self.angle_limit_counter = 0
-    self.smoothing_factor = 0.6
+    self.smoothing_factor = 0.3
     self.last_override_frame = 0
 
     self.lka_steering_cmd_counter = 0
@@ -150,8 +150,8 @@ class CarController(CarControllerBase):
       # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera,self.frame, CS.buttons_stock_values, cancel=True))
       print('Send Cancel')
 
-    elif (CC.cruiseControl.resume) and (self.frame % self.params.BUTTONS_STEP) == 0:
-      # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
+    elif (CC.cruiseControl.resume and CS.acc_available == 3) and (self.frame % self.params.BUTTONS_STEP) == 0:
+      can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
       print('Send Resume')
       resume = True
     else:

@@ -46,7 +46,7 @@ ButtonType = car.CarState.ButtonEvent.Type
 SafetyModel = car.CarParams.SafetyModel
 TurnDirection = custom.ModelDataV2SP.TurnDirection
 
-IGNORED_SAFETY_MODES = (SafetyModel.silent, SafetyModel.noOutput)
+IGNORED_SAFETY_MODES = (SafetyModel.silent, SafetyModel.noOutput, SafetyModel.cheryCanFd)
 
 
 class SelfdriveD(CruiseHelper):
@@ -323,9 +323,14 @@ class SelfdriveD(CruiseHelper):
       # safety mismatch allows some time for pandad to set the safety mode and publish it back from panda
       if (safety_mismatch and self.sm.frame*DT_CTRL > 10.) or pandaState.safetyRxChecksInvalid or self.mismatch_counter >= 200:
         self.events.add(EventName.controlsMismatch)
+        print('mis 1')
+        print(self.mismatch_counter)
+        print(pandaState.safetyRxChecksInvalid)
+        print(safety_mismatch)
 
       if log.PandaState.FaultType.relayMalfunction in pandaState.faults:
         self.events.add(EventName.relayMalfunction)
+        print('mis 2')
 
     # Handle HW and system malfunctions
     # Order is very intentional here. Be careful when modifying this.
@@ -498,6 +503,7 @@ class SelfdriveD(CruiseHelper):
     if self.enabled and any(not ps.controlsAllowed for ps in self.sm['pandaStates']
            if ps.safetyModel not in IGNORED_SAFETY_MODES):
       self.mismatch_counter += 1
+      print('mismatch counter')
 
     return CS
 

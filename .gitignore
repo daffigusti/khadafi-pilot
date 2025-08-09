@@ -64,6 +64,7 @@ provisioning
 coverage.xml
 htmlcov
 pandaextra
+panda/
 
 .mypy_cache/
 flycheck_*

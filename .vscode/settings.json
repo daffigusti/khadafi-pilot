@@ -22,6 +22,12 @@
     "selfdrive/**",
     "system/**",
     "third_party/**",
-    "tools/**",
-  ]
+    "tools/**"
+  ],
+  "files.associations": {
+    "*.js": "javascriptreact",
+    "*.edge": "edge",
+    "*.module": "php",
+    "chery.h": "c"
+  }
 }

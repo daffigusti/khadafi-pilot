@@ -46,7 +46,7 @@ class Joystick:
     # TODO: find a way to get this from API or detect gamepad/PC, perhaps "inputs" doesn't support it
     self.cancel_button = 'BTN_NORTH'  # BTN_NORTH=X/triangle
     if HARDWARE.get_device_type() == 'pc':
-      accel_axis = 'ABS_Z'
+      accel_axis = 'ABS_Y'
       steer_axis = 'ABS_RX'
       # TODO: once the longcontrol API is finalized, we can replace this with outputting gas/brake and steering
       self.flip_map = {'ABS_RZ': accel_axis}
@@ -69,7 +69,7 @@ class Joystick:
       return False
 
     event = (joystick_event.code, joystick_event.state)
-
+    # print(event)  # for debugging
     # flip left trigger to negative accel
     if event[0] in self.flip_map:
       event = (self.flip_map[event[0]], -event[1])

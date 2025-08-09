@@ -14,6 +14,7 @@ from openpilot.tools.lib.route import SegmentRange
 
 NO_API = "NO_API" in os.environ
 SUPPORTED_BRANDS = VERSIONS.keys()
+print(SUPPORTED_BRANDS)
 SUPPORTED_CARS = [brand for brand in SUPPORTED_BRANDS for brand in interface_names[brand]]
 UNKNOWN_BRAND = "unknown"
 

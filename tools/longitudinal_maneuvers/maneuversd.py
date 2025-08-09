@@ -37,6 +37,8 @@ class Maneuver:
     if self.initial_speed < 0.01:
       ready = ready and standstill
     self._ready_cnt = (self._ready_cnt + 1) if ready else 0
+    print(f"v_ego: {v_ego:.2f}, initial_speed: {self.initial_speed:.2f}, ready_cnt: {self._ready_cnt}")
+    print(f"Ready: {ready}, Active: {self._active}, Finished: {self._finished}")
 
     if self._ready_cnt > (3. / DT_MDL):
       self._active = True
@@ -159,7 +161,7 @@ def main():
       if maneuver.active:
         alert_msg.alertDebug.alertText1 = f'Maneuver Active: {accel:0.2f} m/s^2'
       else:
-        alert_msg.alertDebug.alertText1 = f'Setting up to {maneuver.initial_speed * CV.MS_TO_MPH:0.2f} mph'
+        alert_msg.alertDebug.alertText1 = f'Setting up to {maneuver.initial_speed * CV.MS_TO_KPH:0.2f} kph'
       alert_msg.alertDebug.alertText2 = f'{maneuver.description}'
     else:
       alert_msg.alertDebug.alertText1 = 'Maneuvers Finished'

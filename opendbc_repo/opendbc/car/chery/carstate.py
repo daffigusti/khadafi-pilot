@@ -1,9 +1,8 @@
 import copy
 
 from opendbc.car.common.conversions import Conversions as CV
-from opendbc.can.can_define import CANDefine
+from opendbc.can import CANDefine, CANParser
 from opendbc.car import Bus, create_button_events, structs
-from opendbc.can.parser import CANParser
 from opendbc.car.interfaces import CarStateBase
 from opendbc.car.chery.values import DBC, CarControllerParams, CanBus
 from opendbc.sunnypilot.car.chery.mads import MadsCarState
@@ -69,16 +68,23 @@ class CarState(CarStateBase, MadsCarState):
     ret = structs.CarState()
     ret_sp = structs.CarStateSP()
     # car speed
-    ret.wheelSpeeds = self.get_wheel_speeds(
+    # ret.wheelSpeeds = self.get_wheel_speeds(
+    #   cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FR"],
+    #   cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FL"],
+    #   cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RR"],
+    #   cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RL"],
+    # )
+
+    self.parse_wheel_speeds(ret,
       cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FR"],
       cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FL"],
       cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RR"],
       cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RL"],
     )
 
-    ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
-    ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
-    ret.vEgoCluster = ret.vEgo
+    # ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
+    # ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
+    # ret.vEgoCluster = ret.vEgo
     ret.standstill = ret.vEgoRaw < 1e-3
 
     self.acc_md = copy.copy(cp_cam.vl["ACC_CMD"])
@@ -93,9 +99,9 @@ class CarState(CarStateBase, MadsCarState):
     # gas pedal
     self.gasPos = cp.vl["ENGINE_DATA"]["GAS"]
     # ret.gas = 0 if self.gasPos >= 2559 or self.gasPos<=0 else self.gasPos
-    ret.gas = self.gasPos
+    # ret.gas = self.gasPos
     # ret.gasPressed = ret.gas > 1
-    ret.gasPressed = (cp_cam.vl["ACC_CMD"]["GAS_PRESSED"]==1) if (cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0) else (ret.gas > 1)
+    ret.gasPressed = (cp_cam.vl["ACC_CMD"]["GAS_PRESSED"]==1) if (cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0) else (self.gasPos > 1)
 
     # brake pedal
     ret.brake = cp.vl["BRAKE_DATA"]["BRAKE_POS"]

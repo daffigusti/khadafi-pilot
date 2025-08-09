@@ -57,6 +57,7 @@ system/camerad/test/ae_gray_test
 coverage.xml
 htmlcov
 pandaextra
+panda/
 
 .mypy_cache/
 flycheck_*

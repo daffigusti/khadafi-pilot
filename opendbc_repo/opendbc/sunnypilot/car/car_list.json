@@ -4,11 +4,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "ILX",
-    "year": [
-      "2016",
-      "2017",
-      "2018"
-    ],
+    "year": ["2016", "2017", "2018"],
     "package": "Technology Plus Package or AcuraWatch Plus"
   },
   "Acura ILX 2019": {
@@ -16,9 +12,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "ILX",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "All"
   },
   "Acura MDX 2025-26": {
@@ -26,10 +20,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "MDX",
-    "year": [
-      "2025",
-      "2026"
-    ],
+    "year": ["2025", "2026"],
     "package": "All except Type S"
   },
   "Acura RDX 2016-18": {
@@ -37,11 +28,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "RDX",
-    "year": [
-      "2016",
-      "2017",
-      "2018"
-    ],
+    "year": ["2016", "2017", "2018"],
     "package": "AcuraWatch Plus or Advance Package"
   },
   "Acura RDX 2019-21": {
@@ -49,11 +36,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "RDX",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Acura TLX 2021": {
@@ -61,9 +44,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "TLX",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Acura TLX 2025": {
@@ -71,9 +52,7 @@
     "make": "Acura",
     "brand": "honda",
     "model": "TLX",
-    "year": [
-      "2025"
-    ],
+    "year": ["2025"],
     "package": "All"
   },
   "Audi A3 2014-19": {
@@ -81,14 +60,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "A3",
-    "year": [
-      "2014",
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2014", "2015", "2016", "2017", "2018", "2019"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Audi A3 Sportback e-tron 2017-18": {
@@ -96,10 +68,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "A3 Sportback e-tron",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Audi Q2 2018": {
@@ -107,9 +76,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "Q2",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Audi Q3 2019-24": {
@@ -117,14 +84,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "Q3",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Audi RS3 2018": {
@@ -132,9 +92,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "RS3",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Audi S3 2015-17": {
@@ -142,11 +100,7 @@
     "make": "Audi",
     "brand": "volkswagen",
     "model": "S3",
-    "year": [
-      "2015",
-      "2016",
-      "2017"
-    ],
+    "year": ["2015", "2016", "2017"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Buick LaCrosse 2017-19": {
@@ -154,11 +108,7 @@
     "make": "Buick",
     "brand": "gm",
     "model": "LaCrosse",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "Driver Confidence Package 2"
   },
   "Cadillac Escalade 2017": {
@@ -166,9 +116,7 @@
     "make": "Cadillac",
     "brand": "gm",
     "model": "Escalade",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "Driver Assist Package"
   },
   "Cadillac Escalade ESV 2016": {
@@ -176,9 +124,7 @@
     "make": "Cadillac",
     "brand": "gm",
     "model": "Escalade ESV",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Adaptive Cruise Control (ACC) & LKAS"
   },
   "Cadillac Escalade ESV 2019": {
@@ -186,9 +132,7 @@
     "make": "Cadillac",
     "brand": "gm",
     "model": "Escalade ESV",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Adaptive Cruise Control (ACC) & LKAS"
   },
   "Cadillac XT4 2023": {
@@ -196,9 +140,7 @@
     "make": "Cadillac",
     "brand": "gm",
     "model": "XT4",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Driver Assist Package"
   },
   "Chevrolet Bolt EUV 2022-23": {
@@ -206,10 +148,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Bolt EUV",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Premier or Premier Redline Trim, without Super Cruise Package"
   },
   "Chevrolet Bolt EV 2022-23": {
@@ -217,10 +156,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Bolt EV",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "2LT Trim with Adaptive Cruise Control Package"
   },
   "Chevrolet Bolt EV Non-ACC 2017": {
@@ -228,9 +164,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Bolt EV Non-ACC",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "No Adaptive Cruise Control (Non-ACC)"
   },
   "Chevrolet Bolt EV Non-ACC 2018-21": {
@@ -238,12 +172,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Bolt EV Non-ACC",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2018", "2019", "2020", "2021"],
     "package": "No Adaptive Cruise Control (Non-ACC)"
   },
   "Chevrolet Equinox 2019-22": {
@@ -251,12 +180,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Equinox",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chevrolet Malibu Non-ACC 2016-23": {
@@ -264,16 +188,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Malibu Non-ACC",
-    "year": [
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "No Adaptive Cruise Control (Non-ACC)"
   },
   "Chevrolet Silverado 1500 2020-21": {
@@ -281,10 +196,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Silverado 1500",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "Safety Package II"
   },
   "Chevrolet Trailblazer 2021-22": {
@@ -292,10 +204,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Trailblazer",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chevrolet Traverse 2022-23": {
@@ -303,10 +212,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Traverse",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "RS, Premier, or High Country Trim"
   },
   "Chevrolet Volt 2017-18": {
@@ -314,10 +220,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Volt",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chevrolet Volt 2019": {
@@ -325,9 +228,7 @@
     "make": "Chevrolet",
     "brand": "gm",
     "model": "Volt",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Adaptive Cruise Control (ACC) & LKAS"
   },
   "Chrysler Pacifica 2017-18": {
@@ -335,10 +236,7 @@
     "make": "Chrysler",
     "brand": "chrysler",
     "model": "Pacifica",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chrysler Pacifica 2019-20": {
@@ -346,10 +244,7 @@
     "make": "Chrysler",
     "brand": "chrysler",
     "model": "Pacifica",
-    "year": [
-      "2019",
-      "2020"
-    ],
+    "year": ["2019", "2020"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chrysler Pacifica 2021-23": {
@@ -357,11 +252,7 @@
     "make": "Chrysler",
     "brand": "chrysler",
     "model": "Pacifica",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "All"
   },
   "Chrysler Pacifica Hybrid 2017-18": {
@@ -369,10 +260,7 @@
     "make": "Chrysler",
     "brand": "chrysler",
     "model": "Pacifica Hybrid",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Chrysler Pacifica Hybrid 2019-25": {
@@ -380,15 +268,7 @@
     "make": "Chrysler",
     "brand": "chrysler",
     "model": "Pacifica Hybrid",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "comma body": {
@@ -404,25 +284,23 @@
     "make": "CUPRA",
     "brand": "volkswagen",
     "model": "Ateca",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
+  },
+  "Chery Omoda E5": {
+    "platform": "CHERY_OMODA_E5",
+    "make": "Chery",
+    "brand": "chery",
+    "model": "Omoda E5",
+    "year": ["2024"],
+    "package": "All"
   },
   "Dodge Durango 2020-21": {
     "platform": "DODGE_DURANGO",
     "make": "Dodge",
     "brand": "chrysler",
     "model": "Durango",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Ford Bronco Sport 2021-24": {
@@ -430,12 +308,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Bronco Sport",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2021", "2022", "2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape 2020-22": {
@@ -443,11 +316,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape 2023-24": {
@@ -455,10 +324,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape Hybrid 2020-22": {
@@ -466,11 +332,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape Hybrid 2023-24": {
@@ -478,10 +340,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape Hybrid",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape Plug-in Hybrid 2020-22": {
@@ -489,11 +348,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape Plug-in Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Escape Plug-in Hybrid 2023-24": {
@@ -501,10 +356,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Escape Plug-in Hybrid",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Expedition 2022-24": {
@@ -512,11 +364,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Expedition",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Co-Pilot360 Assist 2.0"
   },
   "Ford Explorer 2020-24": {
@@ -524,13 +372,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Explorer",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford Explorer Hybrid 2020-24": {
@@ -538,13 +380,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Explorer Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Co-Pilot360 Assist+"
   },
   "Ford F-150 2021-23": {
@@ -552,11 +388,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "F-150",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Co-Pilot360 Assist 2.0"
   },
   "Ford F-150 Hybrid 2021-23": {
@@ -564,11 +396,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "F-150 Hybrid",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Co-Pilot360 Assist 2.0"
   },
   "Ford F-150 Lightning 2022-23": {
@@ -576,10 +404,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "F-150 Lightning",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Co-Pilot360 Assist 2.0"
   },
   "Ford Focus 2018": {
@@ -587,9 +412,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Focus",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Ford Focus Hybrid 2018": {
@@ -597,9 +420,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Focus Hybrid",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Ford Kuga 2020-23": {
@@ -607,12 +428,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Kuga",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Ford Kuga Hybrid 2020-23": {
@@ -620,12 +436,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Kuga Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Ford Kuga Hybrid 2024": {
@@ -633,9 +444,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Kuga Hybrid",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "All"
   },
   "Ford Kuga Plug-in Hybrid 2020-23": {
@@ -643,12 +452,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Kuga Plug-in Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Ford Kuga Plug-in Hybrid 2024": {
@@ -656,9 +460,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Kuga Plug-in Hybrid",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "All"
   },
   "Ford Maverick 2022": {
@@ -666,9 +468,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Maverick",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "LARIAT Luxury"
   },
   "Ford Maverick 2023-24": {
@@ -676,10 +476,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Maverick",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Co-Pilot360 Assist"
   },
   "Ford Maverick Hybrid 2022": {
@@ -687,9 +484,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Maverick Hybrid",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "LARIAT Luxury"
   },
   "Ford Maverick Hybrid 2023-24": {
@@ -697,10 +492,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Maverick Hybrid",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Co-Pilot360 Assist"
   },
   "Ford Mustang Mach-E 2021-24": {
@@ -708,12 +500,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Mustang Mach-E",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2021", "2022", "2023", "2024"],
     "package": "All"
   },
   "Ford Ranger 2024": {
@@ -721,9 +508,7 @@
     "make": "Ford",
     "brand": "ford",
     "model": "Ranger",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "Adaptive Cruise Control with Lane Centering"
   },
   "Genesis G70 2018": {
@@ -731,9 +516,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G70",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All"
   },
   "Genesis G70 2019-21": {
@@ -741,11 +524,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G70",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Genesis G70 2022-23": {
@@ -753,10 +532,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G70",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Genesis G80 2017": {
@@ -764,9 +540,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G80",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "All"
   },
   "Genesis G80 2018-19": {
@@ -774,10 +548,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G80",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "All"
   },
   "Genesis G80 (2.5T Advanced Trim, with HDA II) 2024": {
@@ -785,9 +556,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G80 (2.5T Advanced Trim, with HDA II)",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "Highway Driving Assist II"
   },
   "Genesis G90 2017-20": {
@@ -795,12 +564,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "G90",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "All"
   },
   "Genesis GV60 (Advanced Trim) 2023": {
@@ -808,9 +572,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV60 (Advanced Trim)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Genesis GV60 (Performance Trim) 2022-23": {
@@ -818,10 +580,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV60 (Performance Trim)",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Genesis GV70 (2.5T Trim, without HDA II) 2022-24": {
@@ -829,11 +588,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV70 (2.5T Trim, without HDA II)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Genesis GV70 (3.5T Trim, without HDA II) 2022-23": {
@@ -841,10 +596,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV70 (3.5T Trim, without HDA II)",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Genesis GV70 Electrified (Australia Only) 2022": {
@@ -852,9 +604,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV70 Electrified (Australia Only)",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Genesis GV70 Electrified (with HDA II) 2023-24": {
@@ -862,10 +612,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV70 Electrified (with HDA II)",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Highway Driving Assist II"
   },
   "Genesis GV80 2023": {
@@ -873,9 +620,7 @@
     "make": "Genesis",
     "brand": "hyundai",
     "model": "GV80",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "GMC Acadia 2018": {
@@ -883,9 +628,7 @@
     "make": "GMC",
     "brand": "gm",
     "model": "Acadia",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "GMC Sierra 1500 2020-21": {
@@ -893,10 +636,7 @@
     "make": "GMC",
     "brand": "gm",
     "model": "Sierra 1500",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "Driver Alert Package II"
   },
   "Honda Accord 2018-22": {
@@ -904,13 +644,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Accord",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022"],
     "package": "All"
   },
   "Honda Accord 2023-25": {
@@ -918,11 +652,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Accord",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Honda Accord Hybrid 2018-22": {
@@ -930,13 +660,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Accord Hybrid",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022"],
     "package": "All"
   },
   "Honda Accord Hybrid 2023-25": {
@@ -944,11 +668,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Accord Hybrid",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Honda City (Brazil only) 2023": {
@@ -956,9 +676,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "City (Brazil only)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Honda Civic 2016-18": {
@@ -966,11 +684,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic",
-    "year": [
-      "2016",
-      "2017",
-      "2018"
-    ],
+    "year": ["2016", "2017", "2018"],
     "package": "Honda Sensing"
   },
   "Honda Civic 2019-21": {
@@ -978,11 +692,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Honda Civic 2022-24": {
@@ -990,11 +700,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Honda Civic Hatchback 2017-18": {
@@ -1002,10 +708,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Honda Sensing"
   },
   "Honda Civic Hatchback 2019-21": {
@@ -1013,11 +716,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Honda Civic Hatchback 2022-24": {
@@ -1025,11 +724,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Honda Civic Hatchback Hybrid 2025-26": {
@@ -1037,10 +732,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback Hybrid",
-    "year": [
-      "2025",
-      "2026"
-    ],
+    "year": ["2025", "2026"],
     "package": "All"
   },
   "Honda Civic Hatchback Hybrid (Europe only) 2023": {
@@ -1048,9 +740,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback Hybrid (Europe only)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Honda Civic Hybrid 2025-26": {
@@ -1058,10 +748,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hybrid",
-    "year": [
-      "2025",
-      "2026"
-    ],
+    "year": ["2025", "2026"],
     "package": "All"
   },
   "Honda Clarity 2018-21": {
@@ -1069,12 +756,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Clarity",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2018", "2019", "2020", "2021"],
     "package": "Honda Sensing"
   },
   "Honda CR-V 2015-16": {
@@ -1082,10 +764,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "CR-V",
-    "year": [
-      "2015",
-      "2016"
-    ],
+    "year": ["2015", "2016"],
     "package": "Touring Trim"
   },
   "Honda CR-V 2017-22": {
@@ -1093,14 +772,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "CR-V",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Honda Sensing"
   },
   "Honda CR-V 2023-26": {
@@ -1108,12 +780,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "CR-V",
-    "year": [
-      "2023",
-      "2024",
-      "2025",
-      "2026"
-    ],
+    "year": ["2023", "2024", "2025", "2026"],
     "package": "All"
   },
   "Honda CR-V Hybrid 2017-22": {
@@ -1121,14 +788,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "CR-V Hybrid",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Honda Sensing"
   },
   "Honda CR-V Hybrid 2023-26": {
@@ -1136,12 +796,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "CR-V Hybrid",
-    "year": [
-      "2023",
-      "2024",
-      "2025",
-      "2026"
-    ],
+    "year": ["2023", "2024", "2025", "2026"],
     "package": "All"
   },
   "Honda e 2020": {
@@ -1149,9 +804,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "e",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "All"
   },
   "Honda Fit 2018-20": {
@@ -1159,11 +812,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Fit",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "Honda Sensing"
   },
   "Honda Freed 2020": {
@@ -1171,9 +820,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Freed",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "Honda Sensing"
   },
   "Honda HR-V 2019-22": {
@@ -1181,12 +828,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "HR-V",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2019", "2020", "2021", "2022"],
     "package": "Honda Sensing"
   },
   "Honda HR-V 2023-25": {
@@ -1194,11 +836,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "HR-V",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Honda Insight 2019-22": {
@@ -1206,12 +844,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Insight",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2019", "2020", "2021", "2022"],
     "package": "All"
   },
   "Honda Inspire 2018": {
@@ -1219,9 +852,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Inspire",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All"
   },
   "Honda N-Box 2018": {
@@ -1229,9 +860,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "N-Box",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All"
   },
   "Honda Odyssey 2018-20": {
@@ -1239,11 +868,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Odyssey",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "Honda Sensing"
   },
   "Honda Odyssey 2021-26": {
@@ -1251,14 +876,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Odyssey",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025",
-      "2026"
-    ],
+    "year": ["2021", "2022", "2023", "2024", "2025", "2026"],
     "package": "All"
   },
   "Honda Odyssey (Taiwan) 2018-19": {
@@ -1266,10 +884,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Odyssey (Taiwan)",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "Honda Sensing"
   },
   "Honda Passport 2019-25": {
@@ -1277,15 +892,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Passport",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
     "package": "All"
   },
   "Honda Passport 2026": {
@@ -1293,9 +900,15 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Passport",
-    "year": [
-      "2026"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "package": "All"
+  },
+  "Honda Passport 2026": {
+    "platform": "HONDA_PASSPORT_4G",
+    "make": "Honda",
+    "brand": "honda",
+    "model": "Passport",
+    "year": ["2026"],
     "package": "All"
   },
   "Honda Pilot 2016-22": {
@@ -1303,15 +916,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Pilot",
-    "year": [
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Honda Sensing"
   },
   "Honda Pilot 2023-25": {
@@ -1319,11 +924,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Pilot",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Honda Ridgeline 2017-25": {
@@ -1349,9 +950,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Azera",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Hyundai Azera Hybrid 2019": {
@@ -1359,9 +958,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Azera Hybrid",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "All"
   },
   "Hyundai Azera Hybrid 2020": {
@@ -1369,9 +966,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Azera Hybrid",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "All"
   },
   "Hyundai Custin 2023": {
@@ -1379,9 +974,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Custin",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Hyundai Elantra 2017-18": {
@@ -1389,10 +982,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Elantra 2019": {
@@ -1400,9 +990,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Elantra 2021-23": {
@@ -1410,11 +998,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Elantra GT 2017-20": {
@@ -1422,12 +1006,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra GT",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Elantra Hybrid 2021-23": {
@@ -1435,11 +1014,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra Hybrid",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Elantra Non-SCC 2022": {
@@ -1447,9 +1022,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Elantra Non-SCC",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "No Smart Cruise Control (Non-SCC)"
   },
   "Hyundai Genesis 2015-16": {
@@ -1457,10 +1030,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Genesis",
-    "year": [
-      "2015",
-      "2016"
-    ],
+    "year": ["2015", "2016"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai i30 2017-19": {
@@ -1468,11 +1038,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "i30",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Ioniq 5 (Southeast Asia and Europe only) 2022-24": {
@@ -1480,11 +1046,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq 5 (Southeast Asia and Europe only)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Hyundai Ioniq 5 (with HDA II) 2022-24": {
@@ -1492,11 +1054,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq 5 (with HDA II)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Highway Driving Assist II"
   },
   "Hyundai Ioniq 5 (without HDA II) 2022-24": {
@@ -1504,11 +1062,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq 5 (without HDA II)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Highway Driving Assist"
   },
   "Hyundai Ioniq 6 (with HDA II) 2023-24": {
@@ -1516,10 +1070,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq 6 (with HDA II)",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Highway Driving Assist II"
   },
   "Hyundai Ioniq Electric 2019": {
@@ -1527,9 +1078,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Electric",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Ioniq Electric 2020": {
@@ -1537,9 +1086,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Electric",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "All"
   },
   "Hyundai Ioniq Hybrid 2017-19": {
@@ -1547,11 +1094,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Hybrid",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Ioniq Hybrid 2020-22": {
@@ -1559,11 +1102,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Ioniq Plug-in Hybrid 2019": {
@@ -1571,9 +1110,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Plug-in Hybrid",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Ioniq Plug-in Hybrid 2020-22": {
@@ -1581,11 +1118,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Ioniq Plug-in Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Hyundai Kona 2020": {
@@ -1593,9 +1126,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona 2022-23": {
@@ -1603,10 +1134,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona Electric 2018-21": {
@@ -1614,12 +1142,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Electric",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2018", "2019", "2020", "2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona Electric 2022-23": {
@@ -1627,10 +1150,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Electric",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona Electric (with HDA II, Korea only) 2023": {
@@ -1638,9 +1158,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Electric (with HDA II, Korea only)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona Electric Non-SCC 2019": {
@@ -1648,9 +1166,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Electric Non-SCC",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "No Smart Cruise Control (Non-SCC)"
   },
   "Hyundai Kona Hybrid 2020": {
@@ -1658,9 +1174,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Hybrid",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Kona Non-SCC 2019": {
@@ -1668,9 +1182,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Kona Non-SCC",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "No Smart Cruise Control (Non-SCC)"
   },
   "Hyundai Nexo 2021": {
@@ -1678,9 +1190,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Nexo",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Hyundai Palisade 2020-22": {
@@ -1688,11 +1198,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Palisade",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Hyundai Santa Cruz 2022-24": {
@@ -1700,11 +1206,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Santa Cruz",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Santa Fe 2019-20": {
@@ -1712,10 +1214,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Santa Fe",
-    "year": [
-      "2019",
-      "2020"
-    ],
+    "year": ["2019", "2020"],
     "package": "All"
   },
   "Hyundai Santa Fe 2021-23": {
@@ -1723,11 +1222,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Santa Fe",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "All"
   },
   "Hyundai Santa Fe Hybrid 2022-23": {
@@ -1735,10 +1230,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Santa Fe Hybrid",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Hyundai Santa Fe Plug-in Hybrid 2022-23": {
@@ -1746,10 +1238,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Santa Fe Plug-in Hybrid",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Hyundai Sonata 2018-19": {
@@ -1757,10 +1246,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Sonata",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Sonata 2020-23": {
@@ -1768,12 +1254,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Sonata",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Hyundai Sonata Hybrid 2020-23": {
@@ -1781,12 +1262,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Sonata Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Hyundai Staria 2023": {
@@ -1794,9 +1270,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Staria",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Hyundai Tucson 2021": {
@@ -1804,9 +1278,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Tucson 2022": {
@@ -1814,9 +1286,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Tucson 2023-24": {
@@ -1824,10 +1294,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "All"
   },
   "Hyundai Tucson Diesel 2019": {
@@ -1835,9 +1302,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson Diesel",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Hyundai Tucson Hybrid 2022-24": {
@@ -1845,11 +1310,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson Hybrid",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Hyundai Tucson Plug-in Hybrid 2024": {
@@ -1857,9 +1318,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Tucson Plug-in Hybrid",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "All"
   },
   "Hyundai Veloster 2019-20": {
@@ -1867,10 +1326,7 @@
     "make": "Hyundai",
     "brand": "hyundai",
     "model": "Veloster",
-    "year": [
-      "2019",
-      "2020"
-    ],
+    "year": ["2019", "2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Jeep Grand Cherokee 2016-18": {
@@ -1878,11 +1334,7 @@
     "make": "Jeep",
     "brand": "chrysler",
     "model": "Grand Cherokee",
-    "year": [
-      "2016",
-      "2017",
-      "2018"
-    ],
+    "year": ["2016", "2017", "2018"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Jeep Grand Cherokee 2019-21": {
@@ -1890,11 +1342,7 @@
     "make": "Jeep",
     "brand": "chrysler",
     "model": "Grand Cherokee",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Kia Carnival 2022-24": {
@@ -1902,11 +1350,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Carnival",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Carnival (China only) 2023": {
@@ -1914,9 +1358,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Carnival (China only)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Ceed 2019-21": {
@@ -1924,11 +1366,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Ceed",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Ceed Plug-in Hybrid Non-SCC 2022": {
@@ -1936,9 +1374,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Ceed Plug-in Hybrid Non-SCC",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "No Smart Cruise Control (Non-SCC)"
   },
   "Kia EV6 (Southeast Asia only) 2022-24": {
@@ -1946,11 +1382,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "EV6 (Southeast Asia only)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Kia EV6 (with HDA II) 2022-24": {
@@ -1958,11 +1390,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "EV6 (with HDA II)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Highway Driving Assist II"
   },
   "Kia EV6 (without HDA II) 2022-24": {
@@ -1970,11 +1398,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "EV6 (without HDA II)",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Highway Driving Assist"
   },
   "Kia Forte 2019-21": {
@@ -1982,11 +1406,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Forte",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Forte 2022-23": {
@@ -1994,10 +1414,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Forte",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Forte Non-SCC 2019": {
@@ -2005,9 +1422,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Forte Non-SCC",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "No Smart Cruise Control (Non-SCC)"
   },
   "Kia K5 2021-24": {
@@ -2015,12 +1430,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "K5",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2021", "2022", "2023", "2024"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia K5 Hybrid 2020-22": {
@@ -2028,11 +1438,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "K5 Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia K8 Hybrid (with HDA II) 2023": {
@@ -2040,9 +1446,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "K8 Hybrid (with HDA II)",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Highway Driving Assist II"
   },
   "Kia Niro EV 2019": {
@@ -2050,9 +1454,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "All"
   },
   "Kia Niro EV 2020": {
@@ -2060,9 +1462,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "All"
   },
   "Kia Niro EV 2021": {
@@ -2070,9 +1470,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Kia Niro EV 2022": {
@@ -2080,9 +1478,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Kia Niro EV (with HDA II) 2025": {
@@ -2090,9 +1486,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV (with HDA II)",
-    "year": [
-      "2025"
-    ],
+    "year": ["2025"],
     "package": "Highway Driving Assist II"
   },
   "Kia Niro EV (without HDA II) 2023-25": {
@@ -2100,11 +1494,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro EV (without HDA II)",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Kia Niro Hybrid 2018": {
@@ -2112,9 +1502,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Hybrid",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Hybrid 2021": {
@@ -2122,9 +1510,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Hybrid",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Hybrid 2022": {
@@ -2132,9 +1518,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Hybrid",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Hybrid 2023": {
@@ -2142,9 +1526,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Hybrid",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Plug-in Hybrid 2018-19": {
@@ -2152,10 +1534,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Plug-in Hybrid",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "All"
   },
   "Kia Niro Plug-in Hybrid 2020": {
@@ -2163,9 +1542,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Plug-in Hybrid",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Plug-in Hybrid 2021": {
@@ -2173,9 +1550,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Plug-in Hybrid",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Niro Plug-in Hybrid 2022": {
@@ -2183,9 +1558,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Niro Plug-in Hybrid",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Optima 2017": {
@@ -2193,9 +1566,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Optima",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "Advanced Smart Cruise Control"
   },
   "Kia Optima 2019-20": {
@@ -2203,10 +1574,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Optima",
-    "year": [
-      "2019",
-      "2020"
-    ],
+    "year": ["2019", "2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Optima Hybrid 2019": {
@@ -2214,9 +1582,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Optima Hybrid",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Seltos 2021": {
@@ -2224,9 +1590,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Seltos",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Sorento 2018": {
@@ -2234,9 +1598,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sorento",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "Advanced Smart Cruise Control & LKAS"
   },
   "Kia Sorento 2019": {
@@ -2244,9 +1606,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sorento",
-    "year": [
-      "2019"
-    ],
+    "year": ["2019"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Sorento 2021-23": {
@@ -2254,11 +1614,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sorento",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Sorento Hybrid 2021-23": {
@@ -2266,11 +1622,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sorento Hybrid",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "All"
   },
   "Kia Sorento Plug-in Hybrid 2022-23": {
@@ -2278,10 +1630,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sorento Plug-in Hybrid",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Kia Sportage 2023-24": {
@@ -2289,10 +1638,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sportage",
-    "year": [
-      "2023",
-      "2024"
-    ],
+    "year": ["2023", "2024"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Sportage Hybrid 2023": {
@@ -2300,9 +1646,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Sportage Hybrid",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Stinger 2018-20": {
@@ -2310,11 +1654,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Stinger",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "Smart Cruise Control (SCC)"
   },
   "Kia Stinger 2022-23": {
@@ -2322,10 +1662,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Stinger",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "All"
   },
   "Kia Telluride 2020-22": {
@@ -2333,11 +1670,7 @@
     "make": "Kia",
     "brand": "hyundai",
     "model": "Telluride",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Lexus CT Hybrid 2017-18": {
@@ -2345,10 +1678,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "CT Hybrid",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "Lexus Safety System+"
   },
   "Lexus ES 2017-18": {
@@ -2356,10 +1686,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "ES",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "All"
   },
   "Lexus ES 2019-25": {
@@ -2367,15 +1694,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "ES",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
     "package": "All"
   },
   "Lexus ES Hybrid 2017-18": {
@@ -2383,10 +1702,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "ES Hybrid",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "All"
   },
   "Lexus ES Hybrid 2019-25": {
@@ -2394,15 +1710,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "ES Hybrid",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024", "2025"],
     "package": "All"
   },
   "Lexus GS F 2016": {
@@ -2410,9 +1718,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "GS F",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "All"
   },
   "Lexus IS 2017-19": {
@@ -2420,11 +1726,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "IS",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Lexus IS 2022-24": {
@@ -2432,11 +1734,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "IS",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Lexus LC 2024-25": {
@@ -2444,10 +1742,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "LC",
-    "year": [
-      "2024",
-      "2025"
-    ],
+    "year": ["2024", "2025"],
     "package": "All"
   },
   "Lexus LS 2018": {
@@ -2455,9 +1750,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "LS",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All except Lexus Safety System+ A"
   },
   "Lexus NX 2018-19": {
@@ -2465,10 +1758,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "NX",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "All"
   },
   "Lexus NX 2020-21": {
@@ -2476,10 +1766,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "NX",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "All"
   },
   "Lexus NX Hybrid 2018-19": {
@@ -2487,10 +1774,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "NX Hybrid",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "All"
   },
   "Lexus NX Hybrid 2020-21": {
@@ -2498,10 +1782,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "NX Hybrid",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "All"
   },
   "Lexus RC 2018-20": {
@@ -2509,11 +1790,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RC",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "All"
   },
   "Lexus RC 2023": {
@@ -2521,9 +1798,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RC",
-    "year": [
-      "2023"
-    ],
+    "year": ["2023"],
     "package": "All"
   },
   "Lexus RX 2016": {
@@ -2531,9 +1806,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Lexus Safety System+"
   },
   "Lexus RX 2017-19": {
@@ -2541,11 +1814,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Lexus RX 2020-22": {
@@ -2553,11 +1822,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Lexus RX Hybrid 2016": {
@@ -2565,9 +1830,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX Hybrid",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Lexus Safety System+"
   },
   "Lexus RX Hybrid 2017-19": {
@@ -2575,11 +1838,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX Hybrid",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Lexus RX Hybrid 2020-22": {
@@ -2587,11 +1846,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "RX Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Lexus UX Hybrid 2019-24": {
@@ -2599,14 +1854,7 @@
     "make": "Lexus",
     "brand": "toyota",
     "model": "UX Hybrid",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "All"
   },
   "Lincoln Aviator 2020-24": {
@@ -2614,13 +1862,7 @@
     "make": "Lincoln",
     "brand": "ford",
     "model": "Aviator",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Co-Pilot360 Plus"
   },
   "Lincoln Aviator Plug-in Hybrid 2020-24": {
@@ -2628,13 +1870,7 @@
     "make": "Lincoln",
     "brand": "ford",
     "model": "Aviator Plug-in Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Co-Pilot360 Plus"
   },
   "MAN eTGE 2020-24": {
@@ -2642,13 +1878,7 @@
     "make": "MAN",
     "brand": "volkswagen",
     "model": "eTGE",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "MAN TGE 2017-24": {
@@ -2656,16 +1886,7 @@
     "make": "MAN",
     "brand": "volkswagen",
     "model": "TGE",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Mazda CX-5 2022-25": {
@@ -2673,12 +1894,7 @@
     "make": "Mazda",
     "brand": "mazda",
     "model": "CX-5",
-    "year": [
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2022", "2023", "2024", "2025"],
     "package": "All"
   },
   "Mazda CX-9 2021-23": {
@@ -2686,11 +1902,7 @@
     "make": "Mazda",
     "brand": "mazda",
     "model": "CX-9",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "All"
   },
   "Nissan Altima 2019-20, 2024": {
@@ -2698,11 +1910,7 @@
     "make": "Nissan",
     "brand": "nissan",
     "model": "Altima",
-    "year": [
-      "2019",
-      "2020",
-      "2024"
-    ],
+    "year": ["2019", "2020", "2024"],
     "package": "ProPILOT Assist"
   },
   "Nissan Leaf 2018-23": {
@@ -2710,14 +1918,7 @@
     "make": "Nissan",
     "brand": "nissan",
     "model": "Leaf",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "ProPILOT Assist"
   },
   "Nissan Rogue 2018-20": {
@@ -2725,11 +1926,7 @@
     "make": "Nissan",
     "brand": "nissan",
     "model": "Rogue",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "ProPILOT Assist"
   },
   "Nissan X-Trail 2017": {
@@ -2737,9 +1934,7 @@
     "make": "Nissan",
     "brand": "nissan",
     "model": "X-Trail",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "ProPILOT Assist"
   },
   "Ram 1500 2019-24": {
@@ -2747,14 +1942,7 @@
     "make": "Ram",
     "brand": "chrysler",
     "model": "1500",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Ram 2500 2020-24": {
@@ -2762,13 +1950,7 @@
     "make": "Ram",
     "brand": "chrysler",
     "model": "2500",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Ram 3500 2019-22": {
@@ -2776,12 +1958,7 @@
     "make": "Ram",
     "brand": "chrysler",
     "model": "3500",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC)"
   },
   "Rivian R1S 2022-24": {
@@ -2789,11 +1966,7 @@
     "make": "Rivian",
     "brand": "rivian",
     "model": "R1S",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "Rivian R1T 2022-24": {
@@ -2801,11 +1974,7 @@
     "make": "Rivian",
     "brand": "rivian",
     "model": "R1T",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "All"
   },
   "SEAT Ateca 2016-23": {
@@ -2813,16 +1982,7 @@
     "make": "SEAT",
     "brand": "volkswagen",
     "model": "Ateca",
-    "year": [
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "SEAT Leon 2014-20": {
@@ -2830,15 +1990,7 @@
     "make": "SEAT",
     "brand": "volkswagen",
     "model": "Leon",
-    "year": [
-      "2014",
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2014", "2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Subaru Ascent 2019-21": {
@@ -2846,11 +1998,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Ascent",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Subaru Crosstrek 2018-19": {
@@ -2858,10 +2006,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Crosstrek",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Crosstrek 2020-23": {
@@ -2869,12 +2014,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Crosstrek",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Forester 2017-18": {
@@ -2882,10 +2022,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Forester",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Forester 2019-21": {
@@ -2893,11 +2030,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Forester",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Subaru Impreza 2017-19": {
@@ -2905,11 +2038,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Impreza",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Impreza 2020-22": {
@@ -2917,11 +2046,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Impreza",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Legacy 2015-18": {
@@ -2929,12 +2054,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Legacy",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018"
-    ],
+    "year": ["2015", "2016", "2017", "2018"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Legacy 2020-22": {
@@ -2942,11 +2062,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Legacy",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Subaru Outback 2015-17": {
@@ -2954,11 +2070,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Outback",
-    "year": [
-      "2015",
-      "2016",
-      "2017"
-    ],
+    "year": ["2015", "2016", "2017"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Outback 2018-19": {
@@ -2966,10 +2078,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Outback",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru Outback 2020-22": {
@@ -2977,11 +2086,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "Outback",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Subaru XV 2018-19": {
@@ -2989,10 +2094,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "XV",
-    "year": [
-      "2018",
-      "2019"
-    ],
+    "year": ["2018", "2019"],
     "package": "EyeSight Driver Assistance"
   },
   "Subaru XV 2020-21": {
@@ -3000,10 +2102,7 @@
     "make": "Subaru",
     "brand": "subaru",
     "model": "XV",
-    "year": [
-      "2020",
-      "2021"
-    ],
+    "year": ["2020", "2021"],
     "package": "EyeSight Driver Assistance"
   },
   "Škoda Fabia 2022-23": {
@@ -3011,10 +2110,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Fabia",
-    "year": [
-      "2022",
-      "2023"
-    ],
+    "year": ["2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Kamiq 2021-23": {
@@ -3022,11 +2118,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Kamiq",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Karoq 2019-23": {
@@ -3034,13 +2126,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Karoq",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Kodiaq 2017-23": {
@@ -3048,15 +2134,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Kodiaq",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2017", "2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Octavia 2015-19": {
@@ -3064,13 +2142,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Octavia",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Octavia RS 2016": {
@@ -3078,9 +2150,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Octavia RS",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Octavia Scout 2017-19": {
@@ -3088,11 +2158,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Octavia Scout",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Scala 2020-23": {
@@ -3100,12 +2166,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Scala",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Škoda Superb 2015-22": {
@@ -3113,16 +2174,7 @@
     "make": "Škoda",
     "brand": "volkswagen",
     "model": "Superb",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Tesla Model 3 (with HW3) 2019-23": {
@@ -3130,13 +2182,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model 3 (with HW3)",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Tesla Model 3 (with HW4) 2024-25": {
@@ -3144,10 +2190,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model 3 (with HW4)",
-    "year": [
-      "2024",
-      "2025"
-    ],
+    "year": ["2024", "2025"],
     "package": "All"
   },
   "Tesla Model X (with HW4) 2024": {
@@ -3155,9 +2198,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model X (with HW4)",
-    "year": [
-      "2024"
-    ],
+    "year": ["2024"],
     "package": "All"
   },
   "Tesla Model Y (with HW3) 2020-23": {
@@ -3165,12 +2206,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model Y (with HW3)",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Tesla Model Y (with HW4) 2024-25": {
@@ -3178,10 +2214,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model Y (with HW4)",
-    "year": [
-      "2024",
-      "2025"
-    ],
+    "year": ["2024", "2025"],
     "package": "All"
   },
   "Toyota Alphard 2019-20": {
@@ -3189,10 +2222,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Alphard",
-    "year": [
-      "2019",
-      "2020"
-    ],
+    "year": ["2019", "2020"],
     "package": "All"
   },
   "Toyota Alphard Hybrid 2021": {
@@ -3200,9 +2230,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Alphard Hybrid",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Toyota Avalon 2016": {
@@ -3210,9 +2238,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Toyota Safety Sense P"
   },
   "Toyota Avalon 2017-18": {
@@ -3220,10 +2246,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "All"
   },
   "Toyota Avalon 2019-21": {
@@ -3231,11 +2254,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Toyota Avalon 2022": {
@@ -3243,9 +2262,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Toyota Avalon Hybrid 2019-21": {
@@ -3253,11 +2270,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon Hybrid",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Toyota Avalon Hybrid 2022": {
@@ -3265,9 +2278,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Avalon Hybrid",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Toyota C-HR 2017-20": {
@@ -3275,12 +2286,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "C-HR",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota C-HR 2021": {
@@ -3288,9 +2294,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "C-HR",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Toyota C-HR Hybrid 2017-20": {
@@ -3298,12 +2302,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "C-HR Hybrid",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota C-HR Hybrid 2021-22": {
@@ -3311,10 +2310,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "C-HR Hybrid",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "All"
   },
   "Toyota Camry 2018-20": {
@@ -3322,11 +2318,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Camry",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota Camry 2021-24": {
@@ -3334,12 +2326,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Camry",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2021", "2022", "2023", "2024"],
     "package": "All"
   },
   "Toyota Camry Hybrid 2018-20": {
@@ -3347,11 +2334,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Camry Hybrid",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota Camry Hybrid 2021-24": {
@@ -3359,12 +2342,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Camry Hybrid",
-    "year": [
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2021", "2022", "2023", "2024"],
     "package": "All"
   },
   "Toyota Corolla 2017-19": {
@@ -3372,11 +2350,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Toyota Corolla 2020-22": {
@@ -3384,11 +2358,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Toyota Corolla Cross (Non-US only) 2020-23": {
@@ -3396,12 +2366,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla Cross (Non-US only)",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Toyota Corolla Cross Hybrid (Non-US only) 2020-22": {
@@ -3409,11 +2374,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla Cross Hybrid (Non-US only)",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Toyota Corolla Hatchback 2019-22": {
@@ -3421,12 +2382,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla Hatchback",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2019", "2020", "2021", "2022"],
     "package": "All"
   },
   "Toyota Corolla Hybrid 2020-22": {
@@ -3434,11 +2390,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "All"
   },
   "Toyota Corolla Hybrid (South America only) 2020-23": {
@@ -3446,12 +2398,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Corolla Hybrid (South America only)",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Toyota Highlander 2017-19": {
@@ -3459,11 +2406,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Highlander",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Toyota Highlander 2020-23": {
@@ -3471,12 +2414,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Highlander",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Toyota Highlander Hybrid 2017-19": {
@@ -3484,11 +2422,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Highlander Hybrid",
-    "year": [
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2017", "2018", "2019"],
     "package": "All"
   },
   "Toyota Highlander Hybrid 2020-23": {
@@ -3496,12 +2430,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Highlander Hybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "All"
   },
   "Toyota Mirai 2021": {
@@ -3509,9 +2438,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Mirai",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "All"
   },
   "Toyota Prius 2016": {
@@ -3519,9 +2446,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Toyota Safety Sense P"
   },
   "Toyota Prius 2017-20": {
@@ -3529,12 +2454,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota Prius 2021-22": {
@@ -3542,10 +2462,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "All"
   },
   "Toyota Prius Prime 2017-20": {
@@ -3553,12 +2470,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius Prime",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2017", "2018", "2019", "2020"],
     "package": "All"
   },
   "Toyota Prius Prime 2021-22": {
@@ -3566,10 +2478,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius Prime",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "All"
   },
   "Toyota Prius v 2017": {
@@ -3577,9 +2486,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Prius v",
-    "year": [
-      "2017"
-    ],
+    "year": ["2017"],
     "package": "Toyota Safety Sense P"
   },
   "Toyota RAV4 2016": {
@@ -3587,9 +2494,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Toyota Safety Sense P"
   },
   "Toyota RAV4 2017-18": {
@@ -3597,10 +2502,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "All"
   },
   "Toyota RAV4 2019-21": {
@@ -3608,11 +2510,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Toyota RAV4 2022": {
@@ -3620,9 +2518,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Toyota RAV4 2023-25": {
@@ -3630,11 +2526,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Toyota RAV4 Hybrid 2016": {
@@ -3642,9 +2534,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4 Hybrid",
-    "year": [
-      "2016"
-    ],
+    "year": ["2016"],
     "package": "Toyota Safety Sense P"
   },
   "Toyota RAV4 Hybrid 2017-18": {
@@ -3652,10 +2542,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4 Hybrid",
-    "year": [
-      "2017",
-      "2018"
-    ],
+    "year": ["2017", "2018"],
     "package": "All"
   },
   "Toyota RAV4 Hybrid 2019-21": {
@@ -3663,11 +2550,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4 Hybrid",
-    "year": [
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2019", "2020", "2021"],
     "package": "All"
   },
   "Toyota RAV4 Hybrid 2022": {
@@ -3675,9 +2558,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4 Hybrid",
-    "year": [
-      "2022"
-    ],
+    "year": ["2022"],
     "package": "All"
   },
   "Toyota RAV4 Hybrid 2023-25": {
@@ -3685,11 +2566,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "RAV4 Hybrid",
-    "year": [
-      "2023",
-      "2024",
-      "2025"
-    ],
+    "year": ["2023", "2024", "2025"],
     "package": "All"
   },
   "Toyota Sienna 2018-20": {
@@ -3697,11 +2574,7 @@
     "make": "Toyota",
     "brand": "toyota",
     "model": "Sienna",
-    "year": [
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2018", "2019", "2020"],
     "package": "All"
   },
   "Volkswagen Arteon 2018-23": {
@@ -3709,14 +2582,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Arteon",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Arteon eHybrid 2020-23": {
@@ -3724,12 +2590,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Arteon eHybrid",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Arteon R 2020-23": {
@@ -3737,12 +2598,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Arteon R",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Arteon Shooting Brake 2020-23": {
@@ -3750,12 +2606,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Arteon Shooting Brake",
-    "year": [
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Atlas 2018-23": {
@@ -3763,14 +2614,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Atlas",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Atlas Cross Sport 2020-22": {
@@ -3778,11 +2622,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Atlas Cross Sport",
-    "year": [
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen California 2021-23": {
@@ -3790,11 +2630,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "California",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Caravelle 2020": {
@@ -3802,9 +2638,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Caravelle",
-    "year": [
-      "2020"
-    ],
+    "year": ["2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen CC 2018-22": {
@@ -3812,13 +2646,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "CC",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Crafter 2017-24": {
@@ -3826,16 +2654,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Crafter",
-    "year": [
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen e-Crafter 2018-24": {
@@ -3843,15 +2662,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "e-Crafter",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen e-Golf 2014-20": {
@@ -3859,15 +2670,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "e-Golf",
-    "year": [
-      "2014",
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2014", "2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf 2015-20": {
@@ -3875,14 +2678,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf Alltrack 2015-19": {
@@ -3890,13 +2686,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf Alltrack",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf GTD 2015-20": {
@@ -3904,14 +2694,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf GTD",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf GTE 2015-20": {
@@ -3919,14 +2702,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf GTE",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf GTI 2015-21": {
@@ -3934,15 +2710,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf GTI",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020", "2021"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf R 2015-19": {
@@ -3950,13 +2718,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf R",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Golf SportsVan 2015-20": {
@@ -3964,14 +2726,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Golf SportsVan",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Grand California 2019-24": {
@@ -3979,14 +2734,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Grand California",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Jetta 2019-23": {
@@ -3994,13 +2742,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Jetta",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Jetta GLI 2021-23": {
@@ -4008,11 +2750,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Jetta GLI",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Passat 2015-22": {
@@ -4020,16 +2758,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Passat",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Passat Alltrack 2015-22": {
@@ -4037,16 +2766,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Passat Alltrack",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Passat GTE 2015-22": {
@@ -4054,16 +2774,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Passat GTE",
-    "year": [
-      "2015",
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Polo 2018-23": {
@@ -4071,14 +2782,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Polo",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Polo GTI 2018-23": {
@@ -4086,14 +2790,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Polo GTI",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen T-Cross 2021": {
@@ -4101,9 +2798,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "T-Cross",
-    "year": [
-      "2021"
-    ],
+    "year": ["2021"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen T-Roc 2018-23": {
@@ -4111,14 +2806,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "T-Roc",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Taos 2022-24": {
@@ -4126,11 +2814,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Taos",
-    "year": [
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Teramont 2018-22": {
@@ -4138,13 +2822,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Teramont",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Teramont Cross Sport 2021-22": {
@@ -4152,10 +2830,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Teramont Cross Sport",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Teramont X 2021-22": {
@@ -4163,10 +2838,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Teramont X",
-    "year": [
-      "2021",
-      "2022"
-    ],
+    "year": ["2021", "2022"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Tiguan 2018-24": {
@@ -4174,15 +2846,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Tiguan",
-    "year": [
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024"
-    ],
+    "year": ["2018", "2019", "2020", "2021", "2022", "2023", "2024"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Tiguan eHybrid 2021-23": {
@@ -4190,11 +2854,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Tiguan eHybrid",
-    "year": [
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
   "Volkswagen Touran 2016-23": {
@@ -4202,16 +2862,7 @@
     "make": "Volkswagen",
     "brand": "volkswagen",
     "model": "Touran",
-    "year": [
-      "2016",
-      "2017",
-      "2018",
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023"
-    ],
+    "year": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   }
 }

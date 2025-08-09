@@ -64,11 +64,11 @@ check_remote() {
 
 # Function to fetch latest updates
 fetch_updates() {
-    print_status "Fetching latest updates from $REMOTE_NAME..."
-    if git fetch "$REMOTE_NAME"; then
-        print_success "Successfully fetched updates from $REMOTE_NAME"
+    print_status "Fetching $SOURCE_BRANCH from $REMOTE_NAME..."
+    if git fetch "$REMOTE_NAME" "$SOURCE_BRANCH"; then
+        print_success "Successfully fetched $SOURCE_BRANCH from $REMOTE_NAME"
     else
-        print_error "Failed to fetch updates from $REMOTE_NAME"
+        print_error "Failed to fetch $SOURCE_BRANCH from $REMOTE_NAME"
         exit 1
     fi
 }

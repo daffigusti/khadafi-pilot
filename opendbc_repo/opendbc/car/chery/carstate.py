@@ -68,23 +68,12 @@ class CarState(CarStateBase, MadsCarState):
     ret = structs.CarState()
     ret_sp = structs.CarStateSP()
     # car speed
-    # ret.wheelSpeeds = self.get_wheel_speeds(
-    #   cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FR"],
-    #   cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FL"],
-    #   cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RR"],
-    #   cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RL"],
-    # )
-
     self.parse_wheel_speeds(ret,
       cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FR"],
       cp.vl["WHEEL_SPEED_FRNT"]["WHEEL_SPEED_FL"],
       cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RR"],
       cp.vl["WHEEL_SPEED_REAR"]["WHEEL_SPEED_RL"],
     )
-
-    # ret.vEgoRaw = (ret.wheelSpeeds.fl + ret.wheelSpeeds.fr + ret.wheelSpeeds.rl + ret.wheelSpeeds.rr) / 4.
-    # ret.vEgo, ret.aEgo = self.update_speed_kf(ret.vEgoRaw)
-    # ret.vEgoCluster = ret.vEgo
     ret.standstill = ret.vEgoRaw < 1e-3
 
     self.acc_md = copy.copy(cp_cam.vl["ACC_CMD"])
@@ -93,14 +82,8 @@ class CarState(CarStateBase, MadsCarState):
     self.setting = copy.copy(cp_cam.vl["SETTING"])
     self.lkas_cmd = copy.copy(cp_cam.vl["LKAS_CAM_CMD_345"])
 
-    # steer_angle = cp.vl["STEER_SENSOR"]["ANGLE"]
-    # steer_angle_fraction = cp.vl["STEER_SENSOR"]["FRACTION"]
-
     # gas pedal
     self.gasPos = cp.vl["ENGINE_DATA"]["GAS"]
-    # ret.gas = 0 if self.gasPos >= 2559 or self.gasPos<=0 else self.gasPos
-    # ret.gas = self.gasPos
-    # ret.gasPressed = ret.gas > 1
     ret.gasPressed = (cp_cam.vl["ACC_CMD"]["GAS_PRESSED"]==1) if (cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0) else (self.gasPos > 1)
 
     # brake pedal
@@ -124,7 +107,6 @@ class CarState(CarStateBase, MadsCarState):
         self.direction = 1
       self.angleSensorLast = self.agleSensor
 
-    # ret.steeringAngleDeg = (int(steer_angle_fraction) << 8) + steer_angle - 2048
     ret.steeringAngleDeg = self.agleSensor
 
     ret.steeringTorque = cp.vl["STEER_SENSOR_2"]["TORQUE_DRIVER"] * self.direction
@@ -153,16 +135,12 @@ class CarState(CarStateBase, MadsCarState):
 
     self.button_events = self.create_button_events(cp, self.params.BUTTONS)
     # cruise state
-    # ret.cruiseState.available = cp_cam.vl["ACC_CMD"]["ACC_STATE"] != 1 or cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
-    # ret.cruiseState.available =  cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
     ret.cruiseState.available =  True
-    # ret.cruiseState.available = cam_csp.vl["ACC_CMD"]["ACC_STATE"] != 1 or cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0
     ret.cruiseState.enabled = cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0 or cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     self.lead_front  = (cp_cam.vl["LEAD_FRONT"]["LEAD_DISTANCE"]) if (cp_cam.vl["LEAD_FRONT"]["VALID_SIGNAL"] == 1)  else 0
 
     self.needResume = cp_cam.vl["ACC"]["ACC_ACTIVE"] == 0 and cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"] * CV.KPH_TO_MS
-    # ret.cruiseState.enabled = cp_cam.vl["LKAS_STATE"]["STATE"] != 0
     ret.cruiseState.standstill = ret.standstill
 
     self.cruise_decreased_previously = self.cruise_decreased
@@ -207,14 +185,6 @@ class CarState(CarStateBase, MadsCarState):
     self.mads_enabled = ret.cruiseState.available
 
     ret.buttonEvents = self.create_button_events(cp, self.params.BUTTONS)
-    # print('Steer Fraction: ', steer_angle_fraction)
-    # print('retsteeringTorque: ', ret.steeringTorque)
-    # print('brakePressed: ', ret.brakePressed)
-    # print('agle sensor 1: ', ret.steeringAngleDeg)
-    # print('agle sensor 2: ', self.agleSensor)
-    # print('Steer Sensor Torque: ', ret.steeringTorque)
-    # print('Engine: ', cp.vl["ENGINE_DATA"])
-    # print('Button', ret.buttonEvents)
 
     self.frame += 1
     return ret, ret_sp

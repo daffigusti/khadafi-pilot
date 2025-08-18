@@ -8,7 +8,7 @@ from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.chery.values import DBC, CarControllerParams
 from opendbc.car.interfaces import CarControllerBase
 from opendbc.car.vehicle_model import VehicleModel
-from opendbc.car.interfaces import CarControllerBase, ISO_LATERAL_ACCEL
+from opendbc.car.lateral import ISO_LATERAL_ACCEL
 
 VisualAlert = structs.CarControl.HUDControl.VisualAlert
 NetworkLocation = structs.CarParams.NetworkLocation

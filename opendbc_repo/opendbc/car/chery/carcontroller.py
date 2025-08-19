@@ -2,7 +2,8 @@ import math
 import numpy as np
 from opendbc.car.carlog import carlog
 from opendbc.can import CANPacker
-from opendbc.car import ACCELERATION_DUE_TO_GRAVITY, Bus, DT_CTRL, apply_std_steer_angle_limits, structs, AngleSteeringLimits, rate_limit
+from opendbc.car import ACCELERATION_DUE_TO_GRAVITY, Bus, DT_CTRL, structs
+from opendbc.car.lateral import apply_std_steer_angle_limits, AngleSteeringLimits, rate_limit
 from opendbc.car.chery import cherycan
 from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.chery.values import DBC, CarControllerParams
@@ -91,7 +92,7 @@ def apply_chery_steer_angle_limits2(apply_angle: float, apply_angle_last: float,
   return float(np.clip(new_apply_angle, -limits.STEER_ANGLE_MAX, limits.STEER_ANGLE_MAX))
 
 def get_safety_CP():
-  from opendbc.car.hyundai.interface import CarInterface
+  from opendbc.car.chery.interface import CarInterface
   return CarInterface.get_non_essential_params("CHERY_OMODA_E5")
 
 

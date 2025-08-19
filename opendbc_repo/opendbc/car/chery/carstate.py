@@ -11,7 +11,7 @@ ButtonType = structs.CarState.ButtonEvent.Type
 
 class CarState(CarStateBase, MadsCarState):
   def __init__(self, CP, CP_SP):
-    CarStateBase.__init__(self, CP, CP_SP)
+    super().__init__(CP, CP_SP)
     MadsCarState.__init__(self, CP, CP_SP)
     can_define = CANDefine(DBC[CP.carFingerprint]["pt"])
     self.params = CarControllerParams(CP)
@@ -185,6 +185,9 @@ class CarState(CarStateBase, MadsCarState):
     self.mads_enabled = ret.cruiseState.available
 
     ret.buttonEvents = self.create_button_events(cp, self.params.BUTTONS)
+    
+    # Update MADS button states
+    MadsCarState.update_mads(self, ret, can_parsers)
 
     self.frame += 1
     return ret, ret_sp

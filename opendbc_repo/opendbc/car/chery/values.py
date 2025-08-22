@@ -2,8 +2,10 @@ from dataclasses import dataclass, field
 from enum import Enum, IntFlag
 from collections import defaultdict, namedtuple
 
-from opendbc.car import AngleSteeringLimits, Bus, DT_CTRL, PlatformConfig, DbcDict, Platforms, CarSpecs, structs
+from opendbc.car import Bus, DT_CTRL, PlatformConfig, DbcDict, Platforms, CarSpecs, structs
 from opendbc.car.structs import CarParams
+from opendbc.car.lateral import AngleSteeringLimits
+
 from opendbc.car.docs_definitions import CarDocs, CarFootnote, CarHarness, CarParts, Column
 from opendbc.car.fw_query_definitions import FwQueryConfig, Request, StdQueries
 

@@ -36,8 +36,8 @@ void chery_rx_hook(const CANPacket_t *to_push)
     if (addr == CHERY_WHEEL_SENSOR)
     {
       // Get current speed and standstill
-      uint16_t right_rear = (GET_BYTE(to_push, 0) << 8) | (GET_BYTE(to_push, 1));
-      uint16_t left_rear = (GET_BYTE(to_push, 2) << 8) | (GET_BYTE(to_push, 3));
+      uint16_t right_rear = GET_BYTES(to_push, 0, 2);
+      uint16_t left_rear = GET_BYTES(to_push, 2, 2);
       vehicle_moving = (right_rear | left_rear) != 0U;
       UPDATE_VEHICLE_SPEED((right_rear + left_rear) / 2.0 * 0.00828 / 3.6);
     }
@@ -68,10 +68,10 @@ void chery_rx_hook(const CANPacket_t *to_push)
   {
     if (addr == CHERY_ACC_CMD)
     {
-      acc_main_on = ((GET_BYTE(to_push, 1) & 0x03) != 1U);
+      acc_main_on = ((GET_BYTES(to_push, 1, 1) & 0x03) != 1U);
       // bool stand_still = (GET_BYTE(to_push, 1) >> 2) & 0x01;
 
-      gas_pressed = (GET_BYTE(to_push, 5) & 0x80U) != 0U;
+      gas_pressed = (GET_BYTES(to_push, 5, 1) & 0x80U) != 0U;
     }
     if (addr == CHERY_ACC_DATA)
     {

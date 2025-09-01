@@ -1,4 +1,6 @@
 from opendbc.car import CanBusBase, structs
+from opendbc.car.carlog import carlog
+
 HUDControl = structs.CarControl.HUDControl
 
 class CanBus(CanBusBase):
@@ -64,9 +66,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
   values["CHECKSUM"] = crc
 
   if long_active:
-    print("Accel:",gas)
-  # print("Acc Ori:",acc)
-    # print("Send valud:",values)
+    carlog.debug(f"Accel: {gas}")
 
   return packer.make_can_msg("ACC_CMD", bus, values)
 
@@ -103,10 +103,9 @@ def create_steering_control_lkas(packer, bus: int, apply_steer, frame, lkas_enab
   crc = calculate_crc(dat[:-1], 0x1D, 0xA)
   values["CHECKSUM"] = crc
 
-  # print("Lkas:",lkas)
-  # print("Send valud:",values)
+  # Debug logging available if needed
   # if lkas_enable:
-  #   print("Applly Steer:",values['CMD'])
+  #   carlog.debug(f"Apply Steer: {values['CMD']}")
 
   # return to stock values if not enable
   if not lkas_enable:

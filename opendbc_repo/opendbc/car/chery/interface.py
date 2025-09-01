@@ -16,6 +16,10 @@ CRUISE_OVERRIDE_SPEED_MIN = 5 * CV.KPH_TO_MS
 class CarInterface(CarInterfaceBase):
   CarState = CarState
   CarController = CarController
+  
+  @staticmethod
+  def get_pid_accel_limits(CP, current_speed, cruise_speed):
+    return CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX
   @staticmethod
   def _get_params(ret: structs.CarParams, candidate, fingerprint, car_fw, alpha_long, is_release, docs) -> structs.CarParams:
     ret.brand = "chery"
@@ -23,15 +27,15 @@ class CarInterface(CarInterfaceBase):
     CAN = CanBus(fingerprint=fingerprint)
     cfgs = [get_safety_config(structs.CarParams.SafetyModel.cheryCanFd)]
     if CAN.main >= 4:
-      cfgs.insert(0, get_safety_config(structs.CarParams.SafetyModel.elm327))
+      cfgs.insert(0, get_safety_config(structs.CarParams.SafetyModel.noOutput))
     ret.safetyConfigs = cfgs
 
     ret.radarUnavailable = True
 
     ret.alphaLongitudinalAvailable = True
+    ret.openpilotLongitudinalControl = alpha_long
     if alpha_long:
       ret.safetyConfigs[-1].safetyParam |= CherySafetyFlags.LONG_CONTROL.value
-      ret.openpilotLongitudinalControl = True
 
     # ret.wheelbase = 2.63
     # ret.tireStiffnessFactor = 0.8

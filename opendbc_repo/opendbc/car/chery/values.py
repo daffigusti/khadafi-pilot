@@ -30,34 +30,13 @@ class CarControllerParams:
 
   # Temporary steer fault timeout
   STEER_TIMEOUT = 30 / DT_CTRL
-  # Maximum time to continuously read 0 torque from EPS
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 1.2, .1])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[1., 2.0, 0.2])
-
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.15])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.36, 0.26])
-
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.085])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.325, 0.09])
-
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.1, 0.081])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.125, 0.09])
-
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.3, 0.085])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.325, 0.09])
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.1, 0.095])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[5, 25], angle_v=[0.155, 0.1])
-  # ANGLE_RATE_LIMIT_UP = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[4., .8, .15])
-  # ANGLE_RATE_LIMIT_DOWN = AngleRateLimit(speed_bp=[0., 5., 15.], angle_v=[4., 1.5, 0.4])
 
   ANGLE_LIMITS: AngleSteeringLimits = AngleSteeringLimits(
     # When output steering Angle not within range -1311 and 1310,
     #   CANPacker packs wrong angle output to be decoded by panda
     300,  # deg, reasonable limit
-    # ([0., 5., 15.], [1.2, .8, .15]),
-    # ([0., 5., 15.], [1.8, 1, 0.3]),
-    ([],[]), #Tesla controls
-    ([],[]), #Tesla controls
+    ([], []),  # rate_up_bp, rate_up_v - handled by custom angle limits
+    ([], []),  # rate_down_bp, rate_down_v - handled by custom angle limits
   )
 
   ACCEL_MAX = 2.0               # m/s^2 max acceleration
@@ -72,8 +51,7 @@ class CarControllerParams:
   ACCEL_LOOKUP_BP = [ACCEL_MIN, 0, ACCEL_MAX]
   ACCEL_LOOKUP_V = [GAS_MIN, -24, GAS_MAX]
 
-   # More torque optimization
-  # The torque is calculated based on the curvature of the road and the speed of the car and it's a percentage of the maximum torque.
+  # Smoothing parameters for angle control based on vehicle speed
   SMOOTHING_ANGLE_VEGO_MATRIX = [0, 8.5, 11, 13.8, 22.22]
   SMOOTHING_ANGLE_ALPHA_MATRIX = [0.05, 0.1, 0.3, 0.6, 1]
 

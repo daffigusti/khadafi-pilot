@@ -15,11 +15,7 @@ FW_VERSIONS: dict[str, dict[tuple, list[bytes]]] = {
   CAR.CHERY_OMODA_E5: {
     (Ecu.engine, 0x7e0, None): [
       b'\xf1\x87133000052AA     \xf1\x82??????????',
-    ],
-    (Ecu.engine, 0x7e0, None): [
       b'00.02.12',
-    ],
-    (Ecu.engine, 0x7e0, None): [
       b'??????????',
     ],
   },

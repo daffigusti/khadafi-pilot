@@ -247,6 +247,14 @@
     "year": ["2018", "2019", "2020", "2021", "2022", "2023"],
     "package": "Adaptive Cruise Control (ACC) & Lane Assist"
   },
+  "Chery Omoda E5": {
+    "platform": "CHERY_OMODA_E5",
+    "make": "Chery",
+    "brand": "chery",
+    "model": "Omoda E5",
+    "year": ["2024"],
+    "package": "All"
+  },
   "Dodge Durango 2020-21": {
     "platform": "DODGE_DURANGO",
     "make": "Dodge",
@@ -875,7 +883,17 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Ridgeline",
-    "year": ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+    "year": [
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025"
+    ],
     "package": "Honda Sensing"
   },
   "Hyundai Azera 2022": {

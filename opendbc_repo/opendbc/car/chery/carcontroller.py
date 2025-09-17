@@ -91,7 +91,7 @@ def apply_chery_steer_angle_limits2(apply_angle: float, apply_angle_last: float,
   # prevent fault
   return float(np.clip(new_apply_angle, -limits.STEER_ANGLE_MAX, limits.STEER_ANGLE_MAX))
 
-def get_safety_CP():
+def get_baseline_safety_cp():
   from opendbc.car.chery.interface import CarInterface
   return CarInterface.get_non_essential_params("CHERY_OMODA_E5")
 
@@ -107,7 +107,8 @@ class CarController(CarControllerBase):
     self.frame = 0
 
       # Vehicle model used for lateral limiting
-    self.VM = VehicleModel(get_safety_CP())
+    self.VM = VehicleModel(CP)
+    self.BASELINE_VM = VehicleModel(get_baseline_safety_cp())
 
     self.start_time = 0.
     self.apply_steer_last = 0
@@ -139,7 +140,7 @@ class CarController(CarControllerBase):
     actuators = CC.actuators
     hud_control = CC.hudControl
     pcm_cancel_cmd = CC.cruiseControl.cancel
-    experimentalMode = True
+    experimentalMode = self.CP.openpilotLongitudinalControl
     # hud_control = CC.hudControl
     # hud_alert = hud_control.visualAlert
     # hud_v_cruise = hud_control.setSpeed
@@ -149,11 +150,11 @@ class CarController(CarControllerBase):
     resume = False
     if CC.cruiseControl.cancel and (self.frame % self.params.BUTTONS_STEP) == 0:
       # can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera,self.frame, CS.buttons_stock_values, cancel=True))
-      print('Send Cancel')
+      carlog.debug('Send Cancel')
 
     elif (CC.cruiseControl.resume and CS.acc_available == 3) and (self.frame % self.params.BUTTONS_STEP) == 0:
       can_sends.append(cherycan.create_button_msg(self.packer, self.CAN.camera, self.frame, CS.buttons_stock_values, resume=True))
-      print('Send Resume')
+      carlog.debug('Send Resume')
       resume = True
     else:
       self.brake_counter = 0
@@ -183,7 +184,7 @@ class CarController(CarControllerBase):
 
       # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
       if lat_active:
-        print(f"apply_angle: {apply_angle}")
+        carlog.debug(f"apply_angle: {apply_angle}")
       # apply_steer_req = CC.latActive and not CS.out.standstill
       # apply_steer_req = CC.latActive
 

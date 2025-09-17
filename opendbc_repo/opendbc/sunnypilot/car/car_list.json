@@ -692,10 +692,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Civic Hatchback Hybrid",
-    "year": [
-      "2025",
-      "2026"
-    ],
+    "year": ["2025", "2026"],
     "package": "All"
   },
   "Honda Civic Hatchback Hybrid (Europe only) 2023": {
@@ -815,9 +812,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "Inspire",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All"
   },
   "Honda N-Box 2018": {
@@ -825,9 +820,7 @@
     "make": "Honda",
     "brand": "honda",
     "model": "N-Box",
-    "year": [
-      "2018"
-    ],
+    "year": ["2018"],
     "package": "All"
   },
   "Honda Odyssey 2018-20": {
@@ -838,22 +831,7 @@
     "year": ["2018", "2019", "2020"],
     "package": "Honda Sensing"
   },
-  "Honda Passport 2019-25": {
-    "platform": "HONDA_PILOT",
-    "make": "Honda",
-    "brand": "honda",
-    "model": "Passport",
-    "year": [
-      "2019",
-      "2020",
-      "2021",
-      "2022",
-      "2023",
-      "2024",
-      "2025"
-    ],
-    "package": "All"
-  },
+
   "Honda Passport 2019-25": {
     "platform": "HONDA_PILOT",
     "make": "Honda",
@@ -2141,10 +2119,7 @@
     "make": "Tesla",
     "brand": "tesla",
     "model": "Model Y (with HW4)",
-    "year": [
-      "2024",
-      "2025"
-    ],
+    "year": ["2024", "2025"],
     "package": "All"
   },
   "Toyota Alphard 2019-20": {

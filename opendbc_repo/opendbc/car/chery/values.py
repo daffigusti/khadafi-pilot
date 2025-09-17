@@ -34,7 +34,7 @@ class CarControllerParams:
   ANGLE_LIMITS: AngleSteeringLimits = AngleSteeringLimits(
     # When output steering Angle not within range -1311 and 1310,
     #   CANPacker packs wrong angle output to be decoded by panda
-    300,  # deg, reasonable limit
+    STEER_ANGLE_MAX,  # deg, reasonable limit
     ([], []),  # rate_up_bp, rate_up_v - handled by custom angle limits
     ([], []),  # rate_down_bp, rate_down_v - handled by custom angle limits
   )
@@ -45,11 +45,14 @@ class CarControllerParams:
   MIN_GAS = -24
   INACTIVE_GAS = -24
 
+  # Steering angle limits (degrees)
+  STEER_ANGLE_MAX = 300
+
   GAS_MAX = 511
   GAS_MIN = -511
 
   ACCEL_LOOKUP_BP = [ACCEL_MIN, 0, ACCEL_MAX]
-  ACCEL_LOOKUP_V = [GAS_MIN, -24, GAS_MAX]
+  ACCEL_LOOKUP_V = [GAS_MIN, INACTIVE_GAS, GAS_MAX]
 
   # Smoothing parameters for angle control based on vehicle speed
   SMOOTHING_ANGLE_VEGO_MATRIX = [0, 8.5, 11, 13.8, 22.22]

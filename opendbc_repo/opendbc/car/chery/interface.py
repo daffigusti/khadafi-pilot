@@ -37,8 +37,6 @@ class CarInterface(CarInterfaceBase):
     if alpha_long:
       ret.safetyConfigs[-1].safetyParam |= CherySafetyFlags.LONG_CONTROL.value
 
-    # ret.wheelbase = 2.63
-    # ret.tireStiffnessFactor = 0.8
     ret.centerToFront = ret.wheelbase * 0.44
 
     ret.steerLimitTimer = 1.0

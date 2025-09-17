@@ -3,6 +3,12 @@ from opendbc.car.carlog import carlog
 
 HUDControl = structs.CarControl.HUDControl
 
+# Constants for steering control
+STEER_ANGLE_OFFSET = -392
+STEER_ANGLE_SCALE = 10
+STEER_ANGLE_MIN_ACTIVE = 2
+GAS_INACTIVE_VALUE = -24
+
 class CanBus(CanBusBase):
   def __init__(self, CP=None, fingerprint=None) -> None:
     super().__init__(CP, fingerprint)
@@ -32,7 +38,7 @@ def calculate_crc(data, poly, xor_output):
   return (crc ^ xor_output)
 
 def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas: float, accel: float, stopping: bool, full_stop : bool, resume : bool):
-  throtle = gas if long_active else -24
+  throtle = gas if long_active else GAS_INACTIVE_VALUE
   # if full stop cmd = 400, acc_state = 2, and stopped = 1
   acc_state = 2 if full_stop else 3 if long_active else acc['ACC_STATE']
   values = {
@@ -77,10 +83,10 @@ def create_longitudinal_controlBypass(packer, bus, acc, frame):
 
 def create_steering_control_lkas(packer, bus: int, apply_steer, frame, lkas_enable, lkas):
   # idx = (apply_steer) % 1000
-  apply_steer = int((apply_steer*10)-392)
+  apply_steer = int((apply_steer * STEER_ANGLE_SCALE) + STEER_ANGLE_OFFSET)
   # apply_steer = int((apply_steer+780)*10)
-  if apply_steer>= 0 and apply_steer <=2 :
-    apply_steer = 2
+  if apply_steer >= 0 and apply_steer <= STEER_ANGLE_MIN_ACTIVE:
+    apply_steer = STEER_ANGLE_MIN_ACTIVE
   values = {
       "CMD": apply_steer,
       "NEW_SIGNAL_3": 1 if (apply_steer)>1 else 0,

@@ -123,6 +123,9 @@ class CarController(CarControllerBase):
     self.smoothing_factor = 0.3
     self.last_override_frame = 0
 
+    # Enable angle smoothing (user configurable)
+    self.angle_enable_smoothing_factor = True
+
     self.lka_steering_cmd_counter = 0
     self.lka_steering_cmd_counter_last = -1
 
@@ -178,15 +181,33 @@ class CarController(CarControllerBase):
     apply_steer_req = False
     lat_active = CC.latActive and not self.steerDisableTemp
     if (self.frame  % self.params.STEER_STEP) == 0:
-      apply_angle = apply_chery_steer_angle_limits2(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw,
+      # Get desired angle with speed-limited smoothing
+      desired_angle = actuators.steeringAngleDeg
+
+      # Apply speed-limited smoothing (similar to Hyundai approach)
+      if self.angle_enable_smoothing_factor and abs(CS.out.vEgoRaw) < CarControllerParams.SMOOTHING_ANGLE_MAX_VEGO:
+        if abs(desired_angle - self.apply_angle_last) > 0.1:  # Only smooth if significant change
+          adjusted_alpha = np.interp(CS.out.vEgoRaw, CarControllerParams.SMOOTHING_ANGLE_VEGO_MATRIX, CarControllerParams.SMOOTHING_ANGLE_ALPHA_MATRIX)
+          adjusted_alpha_limited = float(min(float(adjusted_alpha), 1.0))
+          desired_angle = (desired_angle * adjusted_alpha_limited) + (self.apply_angle_last * (1 - adjusted_alpha_limited))
+
+      apply_angle = apply_chery_steer_angle_limits2(desired_angle, self.apply_angle_last, CS.out.vEgoRaw,
                                                                CS.out.steeringAngleDeg, lat_active,
                                                                CarControllerParams.ANGLE_LIMITS, self.VM, self.smoothing_factor, self.steerDisableTemp)
 
-      # apply_angle = apply_std_steer_angle_limits(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg, CC.latActive, CarControllerParams.ANGLE_LIMITS)
+      # Enhanced failsafe handling (similar to Hyundai approach)
+      if apply_angle is None:
+        carlog.warning("Angle control failsafe activated - angle is None")
+        apply_angle = CS.out.steeringAngleDeg
+        lat_active = False
+
+      # Sanity check for extreme angles
+      if abs(apply_angle) > CarControllerParams.STEER_ANGLE_MAX:
+        carlog.warning(f"Extreme angle detected: {apply_angle}, clamping to max")
+        apply_angle = np.clip(apply_angle, -CarControllerParams.STEER_ANGLE_MAX, CarControllerParams.STEER_ANGLE_MAX)
+
       if lat_active:
         carlog.debug(f"apply_angle: {apply_angle}")
-      # apply_steer_req = CC.latActive and not CS.out.standstill
-      # apply_steer_req = CC.latActive
 
       self.apply_angle_last = apply_angle
       self.last_steer_frame = self.frame
@@ -200,15 +221,25 @@ class CarController(CarControllerBase):
     # send acc msg at 50Hz
     if self.CP.openpilotLongitudinalControl and (self.frame % CarControllerParams.ACC_CONTROL_STEP) == 0:
       full_stop = CC.longActive and CS.out.standstill
-      self.accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
+
+      # Enhanced error handling for acceleration
+      try:
+        self.accel = int(round(np.interp(actuators.accel, self.params.ACCEL_LOOKUP_BP, self.params.ACCEL_LOOKUP_V)))
+      except (ValueError, TypeError) as e:
+        carlog.warning(f"Accel interpolation error: {e}, using safe value")
+        self.accel = CarControllerParams.INACTIVE_GAS
+
       gas = self.accel
+
+      # Sanity check for gas values
+      if gas < CarControllerParams.GAS_MIN or gas > CarControllerParams.GAS_MAX:
+        carlog.warning(f"Gas value out of range: {gas}, clamping")
+        gas = np.clip(gas, CarControllerParams.GAS_MIN, CarControllerParams.GAS_MAX)
 
       if gas > 0 and resume:
         full_stop = 0
 
       self.prev_gas = gas
-
-      # full_stop = 0
 
       if not CC.longActive:
         gas = CarControllerParams.INACTIVE_GAS

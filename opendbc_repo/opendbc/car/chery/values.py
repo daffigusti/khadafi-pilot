@@ -57,6 +57,7 @@ class CarControllerParams:
   # Smoothing parameters for angle control based on vehicle speed
   SMOOTHING_ANGLE_VEGO_MATRIX = [0, 8.5, 11, 13.8, 22.22]
   SMOOTHING_ANGLE_ALPHA_MATRIX = [0.05, 0.1, 0.3, 0.6, 1]
+  SMOOTHING_ANGLE_MAX_VEGO = 15.0  # m/s (~54 kph) - max speed for angle smoothing
 
   def __init__(self, CP):
     self.BUTTONS = [

@@ -30,6 +30,8 @@ class CarControllerParams:
 
   # Temporary steer fault timeout
   STEER_TIMEOUT = 30 / DT_CTRL
+  # Steering angle limits (degrees)
+  STEER_ANGLE_MAX = 300
 
   ANGLE_LIMITS: AngleSteeringLimits = AngleSteeringLimits(
     # When output steering Angle not within range -1311 and 1310,
@@ -45,8 +47,7 @@ class CarControllerParams:
   MIN_GAS = -24
   INACTIVE_GAS = -24
 
-  # Steering angle limits (degrees)
-  STEER_ANGLE_MAX = 300
+
 
   GAS_MAX = 511
   GAS_MIN = -511

@@ -96,6 +96,7 @@ class CarState(CarStateBase, MadsCarState):
     # button presses
     ret.leftBlinker = cp.vl["BCM_SIGNAL_1"]["SIGN_SIGNAL"] == 2
     ret.rightBlinker = cp.vl["BCM_SIGNAL_1"]["SIGN_SIGNAL"] == 1
+    ret.stockAeb = cp_cam.vl["ACC"]["AEB_ACTIVE"] == 1
 
     # steering wheel
     self.agleSensor = cp.vl["STEER_ANGLE_SENSOR"]["STEER_ANGLE"]
@@ -185,7 +186,7 @@ class CarState(CarStateBase, MadsCarState):
     self.mads_enabled = ret.cruiseState.available
 
     ret.buttonEvents = self.create_button_events(cp, self.params.BUTTONS)
-    
+
     # Update MADS button states
     MadsCarState.update_mads(self, ret, can_parsers)
 

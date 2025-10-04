@@ -235,7 +235,7 @@ BO_ 930 ACC_CMD: 8 XXX
 BO_ 933 ACC: 8 XXX
  SG_ NEW_SIGNAL_10 : 2|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_7 : 3|1@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_8 : 5|2@1+ (1,0) [0|3] "" XXX
+ SG_ AEB_ACTIVE_1 : 5|2@1+ (1,0) [0|3] "" XXX
  SG_ NEW_SIGNAL_11 : 8|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_6 : 10|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_9 : 15|1@0+ (1,0) [0|1] "" XXX
@@ -243,10 +243,10 @@ BO_ 933 ACC: 8 XXX
  SG_ ACC_ACTIVE : 20|1@0+ (1,0) [0|1] "" XXX
  SG_ GAS_PRESSED : 21|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_4 : 22|1@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_5 : 23|1@0+ (1,0) [0|1] "" XXX
+ SG_ AEB_ACTIVE_2 : 23|1@0+ (1,0) [0|1] "" XXX
  SG_ NEW_SIGNAL_2 : 44|1@0+ (1,0) [0|1] "" XXX
  SG_ AEB_ACTIVE : 46|1@0+ (1,0) [0|1] "" XXX
- SG_ NEW_SIGNAL_12 : 47|1@0+ (1,0) [0|1] "" XXX
+ SG_ AEB_ACTIVE_3 : 47|1@0+ (1,0) [0|1] "" XXX
  SG_ COUNTER : 48|4@1+ (1,0) [0|15] "" XXX
  SG_ CHECKSUM : 56|8@1+ (1,0) [0|255] "" XXX
 

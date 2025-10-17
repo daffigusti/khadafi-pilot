@@ -25,6 +25,10 @@ class CanBus(CanBusBase):
   def camera(self) -> int:
     return self.offset + 2
 
+  @property
+  def loopback(self) -> int:
+    return 128
+
 def calculate_crc(data, poly, xor_output):
   crc = 0
   for byte in data:

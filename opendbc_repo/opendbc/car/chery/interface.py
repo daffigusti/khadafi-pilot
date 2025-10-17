@@ -74,3 +74,13 @@ class CarInterface(CarInterfaceBase):
     stock_cp.enableBsm = True
 
     return ret
+
+  @staticmethod
+  def init(CP, CP_SP, can_recv, can_send):
+    """Initialize Chery-specific ECUs if needed"""
+    pass
+
+  @staticmethod
+  def deinit(CP, can_recv, can_send):
+    """Deinitialize Chery-specific ECUs if needed"""
+    pass

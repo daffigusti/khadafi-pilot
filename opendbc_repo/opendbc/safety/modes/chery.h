@@ -50,8 +50,9 @@
 #define CHERY_CAM 2
 
 bool chery_longitudinal = false;
-// GCOV_EXCL_START
-// Unreachable by design (doesn't define any rx msgs)
+
+// RX hook processes incoming CAN messages for safety-critical signals
+// Monitors: wheel speed, brake, gas, steering torque, steering angle, ACC status
 void chery_rx_hook(const CANPacket_t *to_push)
 {
   const int bus = GET_BUS(to_push);
@@ -60,13 +61,22 @@ void chery_rx_hook(const CANPacket_t *to_push)
   if (bus == CHERY_MAIN)
   {
 
+    // Wheel speed from WHEEL_SPEED_FRNT (0x316 / 790 decimal)
+    // DBC: SG_ WHEEL_SPEED_FR : 7|16@0- (0.00829,0) - Front Right
+    //      SG_ WHEEL_SPEED_FL : 23|16@0- (0.00829,0) - Front Left
     if (addr == CHERY_WHEEL_SENSOR)
     {
-      // Get current speed and standstill
-      uint16_t right_rear = GET_BYTES(to_push, 0, 2);
-      uint16_t left_rear = GET_BYTES(to_push, 2, 2);
-      vehicle_moving = (right_rear | left_rear) != 0U;
-      UPDATE_VEHICLE_SPEED((right_rear + left_rear) / 2.0 * 0.00828 / 3.6);
+      // Extract front right wheel speed (16-bit signed starting at bit 7)
+      int16_t front_right_raw = (GET_BYTES(to_push, 0, 3) >> 7) & 0xFFFF;
+      // Extract front left wheel speed (16-bit signed starting at bit 23)
+      int16_t front_left_raw = (GET_BYTES(to_push, 2, 3) >> 7) & 0xFFFF;
+
+      // Check if vehicle is moving (any wheel speed > 0)
+      vehicle_moving = (front_right_raw > 0) || (front_left_raw > 0);
+
+      // Average both front wheels and convert to m/s
+      // Scale: 0.00829 km/h per unit, convert to m/s: / 3.6
+      UPDATE_VEHICLE_SPEED((front_right_raw + front_left_raw) / 2.0 * 0.00829 / 3.6);
     }
 
     // Driver torque monitoring for enhanced safety and driver override detection
@@ -109,9 +119,11 @@ void chery_rx_hook(const CANPacket_t *to_push)
     //   gas_pressed = (GET_BYTE(to_push, 4) || (GET_BYTE(to_push, 5) & 0xF0U));
     // }
 
+    // Brake pedal detection from ENGINE_DATA (CANFD 48-byte message)
+    // DBC: SG_ BRAKE_PRESS : 220|1@0+ (bit 220 in 48-byte message)
     if (addr == CHERY_ENGINE)
     {
-      brake_pressed = ((GET_BYTES(to_push, 0, 27) >> 4) & 0x01) != 0U;
+      brake_pressed = GET_BIT(to_push, 220U);
     }
   }
   else if (bus == CHERY_CAM)

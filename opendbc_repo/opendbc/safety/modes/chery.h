@@ -41,6 +41,8 @@
 #define CHERY_WHEEL_SENSOR 0x316 // RX for vehicle speed
 #define CHERY_ACC_DATA 0x3A5
 #define CHERY_STEER_BUTTON 0x360
+#define CHERY_STEER_SENSOR_2 0x394 // 916 decimal - driver torque sensor
+#define CHERY_STEER_ANGLE_SENSOR 0x1D3 // 467 decimal - steering angle measurement
 
 // CAN bus numbers
 #define CHERY_MAIN 0
@@ -67,11 +69,34 @@ void chery_rx_hook(const CANPacket_t *to_push)
       UPDATE_VEHICLE_SPEED((right_rear + left_rear) / 2.0 * 0.00828 / 3.6);
     }
 
-    // if (addr == CHERY_STEER_TORQUE) {
-    //   int torque_driver_new = GET_BYTE(to_push, 0) - 127U;
-    //   // update array of samples
-    //   update_sample(&torque_driver, torque_driver_new);
-    // }
+    // Driver torque monitoring for enhanced safety and driver override detection
+    // Message: STEER_SENSOR_2 (0x394), Signal: TORQUE_DRIVER
+    // DBC: SG_ TORQUE_DRIVER : 7|12@0- (0.24,0) - 12-bit signed, scale 0.24
+    // Note: carstate.py multiplies by direction for sign handling
+    if (addr == CHERY_STEER_SENSOR_2) {
+      // Extract 12-bit signed value starting at bit 7
+      int torque_raw = (GET_BYTES(to_push, 0, 2) >> 7) & 0xFFF;  // 12 bits
+      // Sign extend from 12-bit to 16-bit
+      if (torque_raw & 0x800) {  // If bit 11 is set (negative)
+        torque_raw |= 0xF000;  // Set upper 4 bits
+      }
+      // Apply scale factor: 0.24 Nm per unit
+      // For safety checks, keep in scaled units (multiply by ~4 to approximate integer Nm)
+      int torque_driver_new = (torque_raw * 24) / 100;  // Convert to deciNewtons (0.1 Nm)
+      update_sample(&torque_driver, torque_driver_new);
+    }
+
+    // Steering angle measurement for angle validation
+    // Message: STEER_ANGLE_SENSOR (0x1D3), Signal: STEER_ANGLE
+    // DBC: SG_ STEER_ANGLE : 7|14@0+ (0.1,-780) - 14-bit unsigned, scale 0.1, offset -780
+    if (addr == CHERY_STEER_ANGLE_SENSOR) {
+      // Extract 14-bit value starting at bit 7
+      int angle_raw = (GET_BYTES(to_push, 0, 2) >> 7) & 0x3FFF;  // 14 bits
+      // Apply scale (0.1) and offset (-780): angle_deg = raw * 0.1 - 780
+      // For safety, convert to integer: angle_deg * 10 = raw - 7800
+      int angle_meas_new = angle_raw - 7800;  // Now in units of 0.1 degrees
+      update_sample(&angle_meas, angle_meas_new);
+    }
 
     // // enter controls on rising edge of ACC, exit controls on ACC off
     // if (addr == CHERY_CRZ_CTRL) {
@@ -105,7 +130,17 @@ void chery_rx_hook(const CANPacket_t *to_push)
       pcm_cruise_check(cruise_engaged);
     }
   }
-  controls_allowed = true;
+
+  // Safety: Disengage controls on brake or gas press
+  // This provides a critical safety fallback
+  if (brake_pressed || gas_pressed) {
+    controls_allowed = false;
+  }
+
+  // Safety: Require ACC main switch to be on
+  if (!acc_main_on) {
+    controls_allowed = false;
+  }
 }
 
 static safety_config chery_init(uint16_t param)
@@ -128,12 +163,21 @@ static safety_config chery_init(uint16_t param)
       {CHERY_STEER_BUTTON, 2, 6, .check_relay = false},
   };
 
+  // Safety-critical message validation
+  // These messages must be received at expected frequencies for safe operation
   static RxCheck chery_rx_checks[] = {
-      // {.msg = {{CHERY_WHEEL_SENSOR, 0, 8, .ignore_checksum = true, .ignore_counter = true, .ignore_quality_flag = true, .frequency = 50U}, {0}, {0}}},
-      // {.msg = {{CHERY_WHEEL_SENSOR, CHERY_MAIN, 8, .ignore_checksum = true, .ignore_counter = true, .frequency = 50U}, {0}, {0}}},
-      // {.msg = {{CHERY_ENGINE, CHERY_MAIN, 8, .ignore_checksum = true, .ignore_counter = true, .ignore_quality_flag = true, .frequency = 100U}, {0}, {0}}},
-      // {.msg = {{CHERY_BRAKE, CHERY_MAIN, 8, .ignore_checksum = true, .ignore_counter = true, .frequency = 50U}, {0}, {0}}},
-      // {.msg = {{CHERY_BRAKE_SENSOR, CHERY_MAIN, 8, .ignore_checksum = true, .ignore_counter = true, .frequency = 10U}, {0}, {0}}},
+      // Wheel speed (vehicle motion detection and speed measurement)
+      {.msg = {{CHERY_WHEEL_SENSOR, CHERY_MAIN, 8, 50U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
+      // Engine/brake status (brake pedal detection)
+      {.msg = {{CHERY_ENGINE, CHERY_MAIN, 8, 100U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
+      // Driver steering torque (driver override detection)
+      {.msg = {{CHERY_STEER_SENSOR_2, CHERY_MAIN, 8, 59U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
+      // Steering angle measurement (angle validation)
+      {.msg = {{CHERY_STEER_ANGLE_SENSOR, CHERY_MAIN, 8, 100U, .max_counter = 31U}, {0}, {0}}},
+      // ACC engagement status (cruise control state)
+      {.msg = {{CHERY_ACC_DATA, CHERY_CAM, 8, 50U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
+      // ACC command (gas pedal and ACC main status)
+      {.msg = {{CHERY_ACC_CMD, CHERY_CAM, 8, 50U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
   };
   // Enables passthrough mode where relay is open and bus 0 gets forwarded to bus 2 and vice versa
 
@@ -204,8 +248,45 @@ static bool chery_tx_hook(const CANPacket_t *to_send)
 
   // Safety check for longitudinal control commands (ACC) if enabled
   if (chery_longitudinal && (bus == CHERY_MAIN) && (addr == CHERY_ACC_CMD)) {
-    // TODO: Add longitudinal safety checks if needed
-    // For now, longitudinal control is passthrough
+    // Longitudinal limits (matching carcontroller.py)
+    // CMD range is -511 to 511 (from GAS_MIN/GAS_MAX)
+    // These map to acceleration via ACCEL_LOOKUP in carcontroller.py
+    const LongitudinalLimits CHERY_LONG_LIMITS = {
+      .max_accel = 511,     // GAS_MAX (corresponds to 2.0 m/s²)
+      .min_accel = -511,    // GAS_MIN (corresponds to -3.5 m/s²)
+      .inactive_accel = -24,  // INACTIVE_GAS
+    };
+
+    // Extract CMD signal from ACC_CMD
+    // DBC: SG_ CMD : 6|10@0- (1,0) - 10-bit signed starting at bit 6
+    int16_t cmd_raw = (GET_BYTES(to_send, 0, 2) >> 6) & 0x3FF;  // 10 bits
+    // Sign extend from 10-bit to 16-bit
+    if (cmd_raw & 0x200) {  // If bit 9 is set (negative)
+      cmd_raw |= 0xFC00;  // Set upper 6 bits
+    }
+
+    int desired_accel = cmd_raw;  // CMD is the gas/brake command value
+
+    // Validate acceleration limits
+    if (longitudinal_accel_checks(desired_accel, CHERY_LONG_LIMITS)) {
+      tx = false;
+    }
+  }
+
+  // FORCE CANCEL: Block resume/set buttons when controls are not allowed
+  // This prevents unintended engagement while still allowing cancel
+  if ((addr == CHERY_STEER_BUTTON) && !controls_allowed) {
+    // Extract button signals from DBC (STEER_BUTTON message):
+    // ACC (bit 24) - Cancel button - ALLOWED
+    // RES_PLUS (bit 30) - Resume/accel button - BLOCKED
+    // RES_MINUS (bit 32) - Set/decel button - BLOCKED
+    bool res_plus = GET_BIT(to_send, 30U);
+    bool res_minus = GET_BIT(to_send, 32U);
+
+    // Block resume and set buttons, allow only cancel
+    if (res_plus || res_minus) {
+      tx = false;
+    }
   }
 
   return tx;

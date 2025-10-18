@@ -2,6 +2,31 @@
 
 #include "opendbc/safety/safety_declarations.h"
 
+/*
+ * Chery Safety Mode
+ *
+ * This safety mode implements vehicle model (VM) based angle safety checks for Chery vehicles.
+ * It validates steering commands using physics-based lateral acceleration and jerk limits.
+ *
+ * Key Features:
+ * - VM-based angle limiting (similar to VW, Nissan implementations)
+ * - ISO 11270 lateral acceleration/jerk compliance
+ * - Road roll compensation for banked curves
+ * - Hardware-level safety as last line of defense
+ *
+ * Vehicle Parameters (Chery Omoda E5):
+ * - Mass: 1785 kg
+ * - Wheelbase: 2.63 m
+ * - Steer Ratio: 17.5
+ * - Max Steering Angle: 300° (±150° from center)
+ * - Control Frequency: 50 Hz (100Hz / STEER_STEP=2)
+ *
+ * Safety Limits:
+ * - Max Lateral Accel: ~3.6 m/s² (ISO 3.0 + road roll compensation)
+ * - Max Lateral Jerk: ~3.6 m/s³ (3.0 + road roll compensation)
+ * - Max Angle Rate: 5°/frame (enforced by openpilot layer)
+ */
+
 // CAN msgs we care about
 #define CHERY_ACC_CMD 0x3A2
 #define CHERY_ACC_STATUS 0x3A5
@@ -124,8 +149,66 @@ static safety_config chery_init(uint16_t param)
 
 static bool chery_tx_hook(const CANPacket_t *to_send)
 {
-  UNUSED(to_send);
-  return true;
+  const int bus = GET_BUS(to_send);
+  const int addr = GET_ADDR(to_send);
+
+  // Vehicle Model parameters for angle safety checks
+  // Based on Chery Omoda E5 specs: wheelbase=2.63m, steer_ratio=17.5, mass=1785kg
+  static const AngleSteeringLimits CHERY_STEERING_LIMITS = {
+    .max_angle = 30000,  // 300 deg * 100 (from STEER_ANGLE_MAX in values.py)
+    .angle_deg_to_can = 100,  // Matches STEER_ANGLE_SCALE * 10 from cherycan.py
+    .frequency = 50U,  // STEER_STEP = 2, so 100Hz / 2 = 50Hz
+  };
+
+  static const AngleSteeringParams CHERY_STEERING_PARAMS = {
+    // slip_factor = m * (cF * aF - cR * aR) / (l^2 * cF * cR)
+    // Calculated from: mass=1785kg, wheelbase=2.63m, aF=1.1572m, aR=1.4728m
+    // tire_stiffness_front=192150 N/rad, tire_stiffness_rear=202500 N/rad
+    .slip_factor = -0.000503295541,
+    .steer_ratio = 17.5,  // From CheryCarSpecs in values.py
+    .wheelbase = 2.63,    // From CheryCarSpecs in values.py
+  };
+
+  bool tx = true;
+
+  // Safety check for lateral control commands (LKAS)
+  if ((bus == CHERY_MAIN) && (addr == CHERY_LKAS_CMD)) {
+    // Extract steering angle command from CAN message
+    // DBC: SG_ CMD : 6|13@0- (1,0) - starts at bit 6, 13 bits, little-endian, signed
+    // cherycan.py: apply_steer = int((apply_steer_deg * STEER_ANGLE_SCALE) + STEER_ANGLE_OFFSET)
+    //              where STEER_ANGLE_SCALE = 10, STEER_ANGLE_OFFSET = -392
+
+    // Extract 13-bit signed value starting at bit 6
+    int16_t can_angle_raw = ((GET_BYTES(to_send, 0, 2) >> 6) & 0x1FFF);
+    // Sign extend from 13-bit to 16-bit
+    if (can_angle_raw & 0x1000) {
+      can_angle_raw |= 0xE000;  // Set upper bits to 1 for negative values
+    }
+
+    // Convert from CAN representation to degrees
+    // Reverse: desired_angle_deg = (can_angle_raw - STEER_ANGLE_OFFSET) / STEER_ANGLE_SCALE
+    //                             = (can_angle_raw - (-392)) / 10
+    //                             = (can_angle_raw + 392) / 10
+    // For safety check (deg * 100): multiply by 100
+    int desired_angle = ((can_angle_raw + 392) * 10);  // Now in deg * 100 format
+
+    // Extract LKA_ACTIVE flag
+    // DBC: SG_ LKA_ACTIVE : 9|1@0+ - bit 9 (byte 1, bit 1)
+    bool lka_active = (GET_BIT(to_send, 9U) != 0U);
+
+    // Perform VM-based safety checks
+    if (steer_angle_cmd_checks_vm(desired_angle, lka_active, CHERY_STEERING_LIMITS, CHERY_STEERING_PARAMS)) {
+      tx = false;
+    }
+  }
+
+  // Safety check for longitudinal control commands (ACC) if enabled
+  if (chery_longitudinal && (bus == CHERY_MAIN) && (addr == CHERY_ACC_CMD)) {
+    // TODO: Add longitudinal safety checks if needed
+    // For now, longitudinal control is passthrough
+  }
+
+  return tx;
 }
 
 const safety_hooks chery_hooks = {

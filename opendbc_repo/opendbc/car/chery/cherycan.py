@@ -63,7 +63,7 @@ def create_longitudinal_control(packer, bus, acc, frame, long_active: bool, gas:
       "NEW_SIGNAL_10": acc['NEW_SIGNAL_10'],
       "NEW_SIGNAL_3": acc['NEW_SIGNAL_3'],
       "NEW_SIGNAL_4": acc['NEW_SIGNAL_4'],
-      "NEW_SIGNAL_11": acc['NEW_SIGNAL_11'],
+      "AEB_REQ_STOP": acc['AEB_REQ_STOP'],
       "GAS_PRESSED": 1 if resume else 0,  # gas pressed
       "COUNTER": (frame) % 0x0f,
       # "STEER_REQUEST": steer_req,

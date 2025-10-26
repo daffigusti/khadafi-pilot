@@ -180,8 +180,8 @@ static safety_config chery_init(uint16_t param)
   static RxCheck chery_rx_checks[] = {
       // Wheel speed (vehicle motion detection and speed measurement)
       {.msg = {{CHERY_WHEEL_SENSOR, CHERY_MAIN, 8, 50U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
-      // Engine/brake status (brake pedal detection)
-      {.msg = {{CHERY_ENGINE, CHERY_MAIN, 8, 100U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
+      // Engine/brake status (brake pedal detection) - CANFD 48-byte message
+      {.msg = {{CHERY_ENGINE, CHERY_MAIN, 48, 100U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
       // Driver steering torque (driver override detection)
       {.msg = {{CHERY_STEER_SENSOR_2, CHERY_MAIN, 8, 59U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
       // Steering angle measurement (angle validation)

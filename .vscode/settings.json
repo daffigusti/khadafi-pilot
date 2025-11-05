@@ -28,6 +28,7 @@
     "*.js": "javascriptreact",
     "*.edge": "edge",
     "*.module": "php",
-    "chery.h": "c"
+    "chery.h": "c",
+    "random": "c"
   }
 }

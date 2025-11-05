@@ -181,12 +181,12 @@ static safety_config chery_init(uint16_t param)
   };
 
   // RxCheck disabled temporarily to resolve safetyRxChecksInvalid
-  // TODO: Debug why RxCheck validation fails and re-enable
-  // Original RxCheck attempts (all failed):
-  // static RxCheck chery_rx_checks[] = {
-  //     {.msg = {{CHERY_WHEEL_SENSOR, CHERY_MAIN, 8, 50U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
-  //     {.msg = {{CHERY_ENGINE, CHERY_MAIN, 48, 100U, .ignore_checksum = true, .ignore_counter = true}, {0}, {0}}},
-  // };
+  // Empty array allows BUILD_SAFETY_CFG to work without validation
+  // TODO: Debug why message validation fails and re-enable
+  static RxCheck chery_rx_checks[] = {
+      // Empty - no RX message validation
+      // All attempts with actual messages failed, investigating root cause
+  };
 
   // Enables passthrough mode where relay is open and bus 0 gets forwarded to bus 2 and vice versa
 
@@ -195,21 +195,110 @@ static safety_config chery_init(uint16_t param)
   chery_longitudinal = GET_FLAG(param, CHERY_PARAM_LONGITUDINAL);
 #endif
 
-  // Return safety_config with NO RxCheck validation (NULL, 0)
-  // This matches alloutput/nooutput modes in defaults.h
   safety_config ret;
-  if (chery_longitudinal) {
-    ret = (safety_config){NULL, 0, CHERY_LONG_TX_MSGS, ARRAY_SIZE(CHERY_LONG_TX_MSGS), false};
-  } else {
-    ret = (safety_config){NULL, 0, CHERY_TX_MSGS, ARRAY_SIZE(CHERY_TX_MSGS), false};
-  }
+  ret = chery_longitudinal ? BUILD_SAFETY_CFG(chery_rx_checks, CHERY_LONG_TX_MSGS) : BUILD_SAFETY_CFG(chery_rx_checks, CHERY_TX_MSGS);
   return ret;
 }
 
 static bool chery_tx_hook(const CANPacket_t *to_send)
 {
-  UNUSED(to_send);
-  return true;
+  const int bus = GET_BUS(to_send);
+  const int addr = GET_ADDR(to_send);
+
+  // Vehicle Model parameters for angle safety checks
+  // Based on Chery Omoda E5 specs: wheelbase=2.63m, steer_ratio=17.5, mass=1785kg
+  static const AngleSteeringLimits CHERY_STEERING_LIMITS = {
+    .max_angle = 30000,  // 300 deg * 100 (from STEER_ANGLE_MAX in values.py)
+    .angle_deg_to_can = 100,  // Matches STEER_ANGLE_SCALE * 10 from cherycan.py
+    .frequency = 50U,  // STEER_STEP = 2, so 100Hz / 2 = 50Hz
+  };
+
+  static const AngleSteeringParams CHERY_STEERING_PARAMS = {
+    // slip_factor = m * (cF * aF - cR * aR) / (l^2 * cF * cR)
+    // Calculated from: mass=1785kg, wheelbase=2.63m, aF=1.1572m, aR=1.4728m
+    // tire_stiffness_front=192150 N/rad, tire_stiffness_rear=202500 N/rad
+    .slip_factor = -0.000503295541,
+    .steer_ratio = 17.5,  // From CheryCarSpecs in values.py
+    .wheelbase = 2.63,    // From CheryCarSpecs in values.py
+  };
+
+  bool tx = true;
+
+  // Safety check for lateral control commands (LKAS)
+  if ((bus == CHERY_MAIN) && (addr == CHERY_LKAS_CMD)) {
+    // Extract steering angle command from CAN message
+    // DBC: SG_ CMD : 6|13@0- (1,0) - starts at bit 6, 13 bits, little-endian, signed
+    // cherycan.py: apply_steer = int((apply_steer_deg * STEER_ANGLE_SCALE) + STEER_ANGLE_OFFSET)
+    //              where STEER_ANGLE_SCALE = 10, STEER_ANGLE_OFFSET = -392
+
+    // Extract 13-bit signed value starting at bit 6
+    int16_t can_angle_raw = ((GET_BYTES(to_send, 0, 2) >> 6) & 0x1FFF);
+    // Sign extend from 13-bit to 16-bit
+    if (can_angle_raw & 0x1000) {
+      can_angle_raw |= 0xE000;  // Set upper bits to 1 for negative values
+    }
+
+    // Convert from CAN representation to degrees
+    // Reverse: desired_angle_deg = (can_angle_raw - STEER_ANGLE_OFFSET) / STEER_ANGLE_SCALE
+    //                             = (can_angle_raw - (-392)) / 10
+    //                             = (can_angle_raw + 392) / 10
+    // For safety check (deg * 100): multiply by 100
+    int desired_angle = ((can_angle_raw + 392) * 10);  // Now in deg * 100 format
+
+    // Extract LKA_ACTIVE flag
+    // DBC: SG_ LKA_ACTIVE : 9|1@0+ - bit 9 (byte 1, bit 1)
+    bool lka_active = (GET_BIT(to_send, 9U) != 0U);
+
+    // Perform VM-based safety checks
+    if (steer_angle_cmd_checks_vm(desired_angle, lka_active, CHERY_STEERING_LIMITS, CHERY_STEERING_PARAMS)) {
+      tx = false;
+    }
+  }
+
+  // Safety check for longitudinal control commands (ACC) if enabled
+  if (chery_longitudinal && (bus == CHERY_MAIN) && (addr == CHERY_ACC_CMD)) {
+    // Longitudinal limits (matching carcontroller.py)
+    // CMD range is -511 to 511 (from GAS_MIN/GAS_MAX)
+    // These map to acceleration via ACCEL_LOOKUP in carcontroller.py
+    const LongitudinalLimits CHERY_LONG_LIMITS = {
+      .max_accel = 511,     // GAS_MAX (corresponds to 2.0 m/s²)
+      .min_accel = -511,    // GAS_MIN (corresponds to -3.5 m/s²)
+      .inactive_accel = -24,  // INACTIVE_GAS
+    };
+
+    // Extract CMD signal from ACC_CMD
+    // DBC: SG_ CMD : 6|10@0- (1,0) - 10-bit signed starting at bit 6
+    int16_t cmd_raw = (GET_BYTES(to_send, 0, 2) >> 6) & 0x3FF;  // 10 bits
+    // Sign extend from 10-bit to 16-bit
+    if (cmd_raw & 0x200) {  // If bit 9 is set (negative)
+      cmd_raw |= 0xFC00;  // Set upper 6 bits
+    }
+
+    int desired_accel = cmd_raw;  // CMD is the gas/brake command value
+
+    // Validate acceleration limits
+    if (longitudinal_accel_checks(desired_accel, CHERY_LONG_LIMITS)) {
+      tx = false;
+    }
+  }
+
+  // FORCE CANCEL: Block resume/set buttons when controls are not allowed
+  // This prevents unintended engagement while still allowing cancel
+  if ((addr == CHERY_STEER_BUTTON) && !controls_allowed) {
+    // Extract button signals from DBC (STEER_BUTTON message):
+    // ACC (bit 24) - Cancel button - ALLOWED
+    // RES_PLUS (bit 30) - Resume/accel button - BLOCKED
+    // RES_MINUS (bit 32) - Set/decel button - BLOCKED
+    bool res_plus = GET_BIT(to_send, 30U);
+    bool res_minus = GET_BIT(to_send, 32U);
+
+    // Block resume and set buttons, allow only cancel
+    if (res_plus || res_minus) {
+      tx = false;
+    }
+  }
+
+  return tx;
 }
 
 const safety_hooks chery_hooks = {

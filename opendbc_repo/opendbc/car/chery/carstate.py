@@ -99,16 +99,16 @@ class CarState(CarStateBase, MadsCarState):
     ret.stockAeb = cp_cam.vl["ACC"]["AEB_ACTIVE"] == 1
 
     # steering wheel
-    self.agleSensor = cp.vl["STEER_ANGLE_SENSOR"]["STEER_ANGLE"]
+    self.angleSensor = cp.vl["STEER_ANGLE_SENSOR"]["STEER_ANGLE"]
 
-    if  (self.frame  % 10) == 0:
-      if(self.agleSensor<self.angleSensorLast):
+    if (self.frame % 10) == 0:
+      if self.angleSensor < self.angleSensorLast:
         self.direction = -1
       else:
         self.direction = 1
-      self.angleSensorLast = self.agleSensor
+      self.angleSensorLast = self.angleSensor
 
-    ret.steeringAngleDeg = self.agleSensor
+    ret.steeringAngleDeg = self.angleSensor
 
     ret.steeringTorque = cp.vl["STEER_SENSOR_2"]["TORQUE_DRIVER"] * self.direction
 
@@ -116,12 +116,12 @@ class CarState(CarStateBase, MadsCarState):
 
     ret.steeringPressed = abs(ret.steeringTorque) > CarControllerParams.STEER_THRESHOLD
 
-    self.steerTemporaryUnvailable = False
+    self.steerTemporaryUnavailable = False
     self.lkas_status_before = self.lkas_status
     self.lkas_status = cp.vl["LKAS"]['NEW_SIGNAL_1']
 
     if ret.cruiseState.enabled and ret.vEgo > self.CP.minSteerSpeed:
-       # Reset counter on entry
+      # Reset counter on entry
       if self.cruiseState_enabled_prev != ret.cruiseState.enabled:
         self.eps_torque_timer = 0
       # Count up when no torque from servo detected.
@@ -134,11 +134,10 @@ class CarState(CarStateBase, MadsCarState):
 
     self.cruiseState_enabled_prev = ret.cruiseState.enabled
 
-    self.button_events = self.create_button_events(cp, self.params.BUTTONS)
     # cruise state
-    ret.cruiseState.available =  True
+    ret.cruiseState.available = True
     ret.cruiseState.enabled = cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0 or cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
-    self.lead_front  = (cp_cam.vl["LEAD_FRONT"]["LEAD_DISTANCE"]) if (cp_cam.vl["LEAD_FRONT"]["VALID_SIGNAL"] == 1)  else 0
+    self.lead_front = (cp_cam.vl["LEAD_FRONT"]["LEAD_DISTANCE"]) if (cp_cam.vl["LEAD_FRONT"]["VALID_SIGNAL"] == 1) else 0
 
     self.needResume = cp_cam.vl["ACC"]["ACC_ACTIVE"] == 0 and cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"] * CV.KPH_TO_MS

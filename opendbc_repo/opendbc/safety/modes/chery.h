@@ -49,11 +49,11 @@
 #define CHERY_AUX 1
 #define CHERY_CAM 2
 
-bool chery_longitudinal = false;
+static bool chery_longitudinal = false;
 
 // RX hook processes incoming CAN messages for safety-critical signals
 // Monitors: wheel speed, brake, gas, steering torque, steering angle, ACC status
-void chery_rx_hook(const CANPacket_t *to_push)
+static void chery_rx_hook(const CANPacket_t *to_push)
 {
   const int bus = to_push->bus;
   const int addr = to_push->addr;

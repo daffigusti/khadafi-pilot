@@ -55,8 +55,8 @@ bool chery_longitudinal = false;
 // Monitors: wheel speed, brake, gas, steering torque, steering angle, ACC status
 void chery_rx_hook(const CANPacket_t *to_push)
 {
-  const int bus = GET_BUS(to_push);
-  const int addr = GET_ADDR(to_push);
+  const int bus = to_push->bus;
+  const int addr = to_push->addr;
 
   if (bus == CHERY_MAIN)
   {
@@ -202,8 +202,8 @@ static safety_config chery_init(uint16_t param)
 
 static bool chery_tx_hook(const CANPacket_t *to_send)
 {
-  const int bus = GET_BUS(to_send);
-  const int addr = GET_ADDR(to_send);
+  const int bus = to_send->bus;
+  const int addr = to_send->addr;
 
   // Vehicle Model parameters for angle safety checks
   // Based on Chery Omoda E5 specs: wheelbase=2.63m, steer_ratio=17.5, mass=1785kg

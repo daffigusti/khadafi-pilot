@@ -21,7 +21,7 @@ class CarState(CarStateBase, MadsCarState):
 
     self.frame = 0
     self.angleSensorLast = 0
-    self.direction= 1
+    self.direction = 1
     self.prev_distance_button = 0
     self.distance_button = 0
     self.cruise_decreased = 0

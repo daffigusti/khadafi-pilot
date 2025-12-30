@@ -106,7 +106,7 @@ class CarController(CarControllerBase):
     self.params = CarControllerParams(self.CP)
     self.frame = 0
 
-      # Vehicle model used for lateral limiting
+    # Vehicle model used for lateral limiting
     self.VM = VehicleModel(CP)
     self.BASELINE_VM = VehicleModel(get_baseline_safety_cp())
 

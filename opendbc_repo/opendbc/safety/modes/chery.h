@@ -301,8 +301,39 @@ static bool chery_tx_hook(const CANPacket_t *to_send)
   return tx;
 }
 
+// Forwarding hook: controls which messages are blocked from forwarding between buses
+// Returns true to BLOCK a message, false to allow forwarding
+static bool chery_fwd_hook(int bus_num, int addr) {
+  bool block_msg = false;
+
+  // Block messages from bus 0 (main) to bus 2 (camera)
+  // openpilot sends LKAS commands on bus 0, don't forward back to camera
+  if (bus_num == 0) {
+    // Block LKAS_CMD and LKAS_HUD from main->camera (we replace these)
+    if ((addr == CHERY_LKAS_CMD) || (addr == CHERY_LKAS_HUD)) {
+      block_msg = true;
+    }
+    // Block ACC_CMD if longitudinal control is enabled
+    if (chery_longitudinal && (addr == CHERY_ACC_CMD)) {
+      block_msg = true;
+    }
+  }
+
+  // Block messages from bus 2 (camera) to bus 0 (main)
+  // Stock camera's LKAS_STATE should not go to main bus (would trigger relay check)
+  if (bus_num == 2) {
+    // Block stock camera's LKAS messages from camera->main
+    if ((addr == CHERY_LKAS_CMD) || (addr == CHERY_LKAS_HUD)) {
+      block_msg = true;
+    }
+  }
+
+  return block_msg;
+}
+
 const safety_hooks chery_hooks = {
     .init = chery_init,
     .rx = chery_rx_hook,
     .tx = chery_tx_hook,
+    .fwd = chery_fwd_hook,
 };

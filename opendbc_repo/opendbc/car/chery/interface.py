@@ -16,7 +16,7 @@ CRUISE_OVERRIDE_SPEED_MIN = 5 * CV.KPH_TO_MS
 class CarInterface(CarInterfaceBase):
   CarState = CarState
   CarController = CarController
-  
+
   @staticmethod
   def get_pid_accel_limits(CP, CP_SP, current_speed, cruise_speed):
     return CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX

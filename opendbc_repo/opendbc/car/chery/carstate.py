@@ -4,7 +4,8 @@ from opendbc.car.common.conversions import Conversions as CV
 from opendbc.can import CANDefine, CANParser
 from opendbc.car import Bus, create_button_events, structs
 from opendbc.car.interfaces import CarStateBase
-from opendbc.car.chery.values import DBC, CarControllerParams, CanBus
+from opendbc.car.chery.values import DBC, CarControllerParams
+from opendbc.car.chery.cherycan import CanBus
 from opendbc.sunnypilot.car.chery.mads import MadsCarState
 
 ButtonType = structs.CarState.ButtonEvent.Type
@@ -225,9 +226,11 @@ class CarState(CarStateBase, MadsCarState):
     loopback_messages = [
       ("LKAS_STATE", 0),
     ]
+
+    can_bus = CanBus(CP)
     return {
-      Bus.pt: CANParser(DBC[CP.carFingerprint][Bus.pt], pt_messages, CanBus.main),
-      Bus.cam: CANParser(DBC[CP.carFingerprint][Bus.pt], cam_messages, CanBus.camera),
-      Bus.loopback: CANParser(DBC[CP.carFingerprint][Bus.pt], loopback_messages, CanBus.loopback),
+      Bus.pt: CANParser(DBC[CP.carFingerprint][Bus.pt], pt_messages, can_bus.main),
+      Bus.cam: CANParser(DBC[CP.carFingerprint][Bus.pt], cam_messages, can_bus.camera),
+      Bus.loopback: CANParser(DBC[CP.carFingerprint][Bus.pt], loopback_messages, can_bus.loopback),
     }
 

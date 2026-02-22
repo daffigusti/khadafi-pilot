@@ -79,9 +79,50 @@ class CarState(CarStateBase, MadsCarState):
 
     self.acc_md = copy.copy(cp_cam.vl["ACC_CMD"])
     self.lkas = copy.copy(cp.vl["LKAS"])
-    self.lkas_state = copy.copy(cp_cam.vl["LKAS_STATE"])
+    self.lkas_state = copy.copy(cp_cam.vl["LKAS_STATE"])  # Read from camera bus (stock ECU)
     self.setting = copy.copy(cp_cam.vl["SETTING"])
     self.lkas_cmd = copy.copy(cp_cam.vl["LKAS_CAM_CMD_345"])
+
+
+    # Debug: List all camera bus messages (print once at frame 100)
+    if self.frame == 100:
+      print(f"[CHERY DEBUG] Frame {self.frame}: ACC_CMD={self.acc_md}, LKAS={self.lkas}, LKAS_STATE={self.lkas_state}, SETTING={self.setting}, LKAS_CAM_CMD_345={self.lkas_cmd}")
+      print(f"[CHERY DEBUG] === Camera bus (bus 2) messages received ===")
+      print(f"[CHERY DEBUG] message_states keys type: {type(list(cp_cam.message_states.keys())[0]) if cp_cam.message_states else 'empty'}")
+      print(f"[CHERY DEBUG] Total message_states: {len(cp_cam.message_states)}")
+      for msg_name, state in cp_cam.message_states.items():
+        if state.timestamps:
+          print(f"[CHERY DEBUG]   ✓ '{msg_name}' (type={type(msg_name).__name__}): {len(state.timestamps)} msgs, freq={state.frequency:.1f}Hz")
+        else:
+          print(f"[CHERY DEBUG]   ✗ '{msg_name}': NEVER received")
+
+      # Check specifically for LKAS_STATE by name
+      print(f"[CHERY DEBUG] Checking 'LKAS_STATE' directly: {cp_cam.message_states.get('LKAS_STATE')}")
+      print(f"[CHERY DEBUG] Checking '775' by ID: {cp_cam.message_states.get('775')}")
+      print(f"[CHERY DEBUG] Checking 775 (int): {cp_cam.message_states.get(775)}")
+
+    # Debug: Check LKAS_STATE message validity from CAMERA BUS (print every 100 frames to reduce spam)
+    if self.frame % 100 == 0:
+      # message_states is keyed by ID (int), not name (str)
+      lkas_state_valid = cp_cam.message_states.get(775)  # Use ID 775, not name
+      if lkas_state_valid:
+        print(f"[CHERY DEBUG] Frame {self.frame}: LKAS_STATE (775) valid={lkas_state_valid.valid(cp_cam._last_update_nanos, cp_cam.bus_timeout)}, "
+              f"freq={lkas_state_valid.frequency:.1f}Hz, "
+              f"LKA_ACTIVE={self.lkas_state.get('LKA_ACTIVE', 'N/A')}")
+      else:
+        print(f"[CHERY DEBUG] Frame {self.frame}: LKAS_STATE (775) message_states not found!")
+
+      # Verify vl["LKAS_STATE"] works for accessing values
+      try:
+        lka_val = cp_cam.vl["LKAS_STATE"]["LKA_ACTIVE"]
+        print(f"[CHERY DEBUG] Frame {self.frame}: vl['LKAS_STATE']['LKA_ACTIVE'] = {lka_val} ✅")
+      except Exception as e:
+        print(f"[CHERY DEBUG] Frame {self.frame}: vl['LKAS_STATE'] ERROR: {e}")
+
+      # Debug: Check ACC_ACTIVE bit that should set controls_allowed in panda
+      acc_active = cp_cam.vl["ACC"]["ACC_ACTIVE"]
+      print(f"[CHERY DEBUG] Frame {self.frame}: ACC['ACC_ACTIVE'] bit (should trigger controls_allowed in panda) = {acc_active}")
+      print(f"[CHERY DEBUG] Frame {self.frame}: CANParser camera valid={cp_cam.can_valid}, bus_timeout={cp_cam.bus_timeout}")
 
     # gas pedal
     self.gasPos = cp.vl["ENGINE_DATA"]["GAS"]
@@ -140,6 +181,10 @@ class CarState(CarStateBase, MadsCarState):
     ret.cruiseState.enabled = cp_cam.vl["ACC"]["ACC_ACTIVE"] != 0 or cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     self.lead_front = (cp_cam.vl["LEAD_FRONT"]["LEAD_DISTANCE"]) if (cp_cam.vl["LEAD_FRONT"]["VALID_SIGNAL"] == 1) else 0
 
+    # Debug: Check final cruiseState after calculation (every 100 frames)
+    if self.frame % 100 == 0:
+      print(f"[CHERY DEBUG] Frame {self.frame}: AFTER calc - cruiseState.enabled = {ret.cruiseState.enabled}, ACC_ACTIVE={cp_cam.vl['ACC']['ACC_ACTIVE']}, STOPPED={cp_cam.vl['ACC_CMD']['STOPPED']}")
+
     self.needResume = cp_cam.vl["ACC"]["ACC_ACTIVE"] == 0 and cp_cam.vl["ACC_CMD"]["STOPPED"] == 1
     ret.cruiseState.speed = cp_cam.vl["SETTING"]["CC_SPEED"] * CV.KPH_TO_MS
     ret.cruiseState.standstill = ret.standstill
@@ -157,7 +202,7 @@ class CarState(CarStateBase, MadsCarState):
     self.buttons_stock_values = cp.vl["STEER_BUTTON"]
     # FrogPilot CarState functions
     self.lkas_previously_enabled = self.lkas_enabled
-    self.lkas_enabled = cp_cam.vl["LKAS_STATE"]["LKA_ACTIVE"] != 0
+    self.lkas_enabled = cp_cam.vl["LKAS_STATE"]["LKA_ACTIVE"] != 0  # Read from camera bus (stock ECU)
     self.lkas_active =  cp.vl["LKAS"]['LKAS_CMD']
     self.acc_available = cp_cam.vl["SETTING"]["ACC_AVAILABLE"]
 
@@ -219,15 +264,21 @@ class CarState(CarStateBase, MadsCarState):
       ("ACC_CMD", 50),
       ("ACC", 50),
       ("LKAS_CAM_CMD_345", 50),
-      ("LKAS_STATE", 20),
+      ("LKAS_STATE", 20),  # Stock ECU camera sends at ~20 Hz
       ("SETTING", 20),
       ("LEAD_FRONT", 20),
     ]
     loopback_messages = [
-      ("LKAS_STATE", 0),
+      ("LKAS_STATE", 0),  # Keep loopback for debugging (frequency 0 = no timeout)
     ]
 
     can_bus = CanBus(CP)
+
+    # Debug: Print bus numbers to verify offset calculation
+    print(f"[CHERY DEBUG] Bus offset: {can_bus.offset}")
+    print(f"[CHERY DEBUG] Bus numbers - main: {can_bus.main}, camera: {can_bus.camera}, loopback: {can_bus.loopback}")
+    print(f"[CHERY DEBUG] Safety configs count: {len(CP.safetyConfigs) if hasattr(CP, 'safetyConfigs') else 'N/A'}")
+
     return {
       Bus.pt: CANParser(DBC[CP.carFingerprint][Bus.pt], pt_messages, can_bus.main),
       Bus.cam: CANParser(DBC[CP.carFingerprint][Bus.pt], cam_messages, can_bus.camera),

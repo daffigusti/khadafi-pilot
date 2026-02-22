@@ -142,6 +142,10 @@ class CarController(CarControllerBase):
     can_sends = []
     actuators = CC.actuators
     hud_control = CC.hudControl
+
+    # Debug: Verify update() is being called
+    if self.frame % 100 == 0:
+      print(f"[CHERY DEBUG CONTROLLER] Frame {self.frame}: update() called, enabled={CC.enabled}, latActive={CC.latActive}")
     pcm_cancel_cmd = CC.cruiseControl.cancel
     experimentalMode = self.CP.openpilotLongitudinalControl
     # hud_control = CC.hudControl
@@ -214,6 +218,10 @@ class CarController(CarControllerBase):
 
       can_sends.append(cherycan.create_steering_control_lkas(self.packer, self.CAN.main, apply_angle, self.frame, lat_active, CS.lkas_cmd))
 
+      # Debug: Log steering command transmission (every 100 frames to reduce spam)
+      if self.frame % 100 == 0:
+        print(f"[CHERY DEBUG CONTROLLER] Frame {self.frame}: Sending LKAS_CMD (0x345) angle={apply_angle:.1f}°, lat_active={lat_active}, controls_allowed should be checked by safety")
+
     # if  (self.frame  % self.params.LKAS_HUD_STEP) == 0:
     #   can_sends.append(cherycan.create_lkas_state(self.packer, 0, self.frame, CC.latActive, CS.lkas_state))
 
@@ -250,10 +258,10 @@ class CarController(CarControllerBase):
       else:
         can_sends.append(cherycan.create_longitudinal_controlBypass(self.packer, self.CAN.main, CS.acc_md, self.frame))
 
-    if self.frame % 20 == 0:
-      # ldw = CC.hudControl.visualAlert == VisualAlert.ldw
-      # steer_required = CC.hudControl.visualAlert == VisualAlert.steerRequired
-      can_sends.append(cherycan.create_lkas_state_hud(self.packer, self.CAN.main, self.frame, CS.lkas_state, lat_active))
+    # LKAS_STATE (HUD/status) removed from TX - let stock ECU camera handle it entirely
+    # openpilot only sends LKAS_CMD (actual steering commands)
+    # if self.frame % 20 == 0:
+    #   can_sends.append(cherycan.create_lkas_state_hud(self.packer, self.CAN.main, self.frame, CS.lkas_state, lat_active))
 
     new_actuators = CC.actuators.as_builder()
     new_actuators.steeringAngleDeg = self.apply_angle_last
